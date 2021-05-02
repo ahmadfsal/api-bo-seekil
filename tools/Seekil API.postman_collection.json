@@ -1,0 +1,696 @@
+{
+	"info": {
+		"_postman_id": "1bd97117-30ae-40a6-bfa2-94d42ae2a679",
+		"name": "Seekil API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Master",
+			"item": [
+				{
+					"name": "Type",
+					"item": [
+						{
+							"name": "Get Type",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/master/type",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"type"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Type",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"description\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/type",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"type"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Type",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"description\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/type1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"type1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Type",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/master/type1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"type1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Promo",
+					"item": [
+						{
+							"name": "Get Promo",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/master/promo",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"promo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Promo",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Promo Member CISC Cirebon\",\n    \"code\": \"SEECISCCRB\",\n    \"discount\": 20.0,\n    \"description\": \"Nikmati diskon 20% untuk setiap order di SEEKIL, khusus untuk member CISC Cirebon\",\n    \"start_date\": \"2021-05-02\",\n    \"end_date\": \"2021-09-02\",\n    \"status\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/promo",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"promo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Promo",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Promo Member CISC Cirebon\",\n    \"code\": \"SEECISCCRB\",\n    \"discount\": 20.0,\n    \"description\": \"Nikmati diskon 20% untuk setiap order di SEEKIL, khusus untuk member CISC Cirebon\",\n    \"start_date\": \"2021-05-02\",\n    \"end_date\": \"2021-09-02\",\n    \"status\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/promo",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"promo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Promo",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/master/promo",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"promo"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Status",
+					"item": [
+						{
+							"name": "Get Status",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/master/status",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Status",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"description\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/status",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Status",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"description\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/status/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"status",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Status",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/master/status/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"status",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Services",
+					"item": [
+						{
+							"name": "Get Services",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/master/service",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"service"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Services",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"estimate\": \"\",\n    \"price\": null,\n    \"description\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/service",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"service"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Services",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"estimate\": \"\",\n    \"price\": null,\n    \"description\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/service/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"service",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Services",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/master/service/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"service",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Partnership",
+					"item": [
+						{
+							"name": "Get Partnership",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/master/partnership",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"partnership"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "Get Customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/customer",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Customer By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/customer/id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"customer",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Items",
+					"item": [
+						{
+							"name": "Services",
+							"item": [
+								{
+									"name": "Get Services By Item ID",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/order/item/b4581e3d-ac82-4d20-b584-26a7e641f91d/services",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"order",
+												"item",
+												"b4581e3d-ac82-4d20-b584-26a7e641f91d",
+												"services"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get All Services",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/order/item/services",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"order",
+												"item",
+												"services"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Ger Services By Service ID",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": ""
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get Items By Order ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/order-item/SO210127A8I386",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"order-item",
+										"SO210127A8I386"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Items",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/order-item",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"order-item"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customer_name\": \"Ittang\",\n    \"whatsapp\": \"9090909090\",\n    \"order_type_id\": 3,\n    \"store_id\": null,\n    \"pickup_address\": null,\n    \"partnership_id\": 1,\n    \"order_status_id\": 1,\n    \"promo_id\": null,\n    \"pickup_delivery_price\": null,\n    \"potongan\": null,\n    \"qty\": 3,\n    \"total\": 100000,\n    \"items\": [\n        {\n            \"item_name\": \"Nike Air Jordan\",\n            \"services_id\": [2, 18, 19],\n            \"subtotal\": 25000,\n            \"note\": null\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/order",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order"
+							]
+						},
+						"description": "#### === BODY DESCRIPTION ===\n\n(customer_name)     = <i>_string | null_</i><br/>\n(whatsapp)          = <i>_string | null_</i><br/>\n(order_type_id)     = <i>_number | null_</i><br/>\n(store_id)          = <i>_number | null_</i><br/>\n(pickup_address)    = <i>_string | null_</i><br/>\n(partnership_id)    = <i>_number | null_</i><br/>\n(order_status_id)   = <i>_number | null_</i><br/>\n(qty)               = <i>_number | null_</i><br/>\n(total)             = <i>_number | null_</i><br/>\n(items)             = <i>null | array([</i>\n    <ul>\n        <li>(item_name)         = <i>string | null</i></li>\n        <li>(services_id)       = <i>number | null</i></li>\n        <li>(subtotal)          = <i>number | null</i></li>\n        <li>(note)              = <i>string | null</i></li>\n    </ul>\n<i>])</i>\n\n#### === NOTES ===\n\n(qty)               = <i>total items length</i><br/>\n(total)             = <i>count subtotal all items</i><br/>"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/order",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "customer_name",
+									"value": "john doe",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order By Order ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/order/SO2105020G3BB2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order",
+								"SO2105020G3BB2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"order_id\": \"\",\n    \"customer_name\": \"\",\n    \"whatsapp\": \"\",\n    \"order_type_id\": \"\",\n    \"store_id\": \"\",\n    \"pickup_address\": \"\",\n    \"partnership_id\": \"\",\n    \"total\": \"\",\n    \"items\": [\n        {\n            \"order_id\": \"\",\n            \"item_name\": \"\",\n            \"services_id\": \"\",\n            \"topping\": [\"Repell Protection\"],\n            \"subtotal\": \"\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/order/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Order",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/order/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
