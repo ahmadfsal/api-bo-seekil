@@ -26,6 +26,7 @@ db.sequelize = sequelize
 db.order = require('./order/order')(sequelize, Sequileze)
 db.order_item = require('./order/order-item')(sequelize, Sequileze)
 db.order_item_services = require('./order/order-item-services')(sequelize, Sequileze)
+db.order_tracker = require('./order/order-tracker')(sequelize, Sequileze)
 db.master_type = require('./master/master-type')(sequelize, Sequileze)
 db.master_status = require('./master/master-status')(sequelize, Sequileze)
 db.master_partnership = require('./master/master-partnership')(sequelize, Sequileze)

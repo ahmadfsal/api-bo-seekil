@@ -5,7 +5,7 @@ const cors = require('cors')
 const app = express()
 
 let corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'http://localhost:3001'],
     Headers: {
         'Access-Control-Allow-Origin': '*'
     }
@@ -35,6 +35,7 @@ app.get('/', (req, res) => {
 require('./src/routes/order/order')(app)
 require('./src/routes/order/order-item')(app)
 require('./src/routes/order/order-item-services')(app)
+require('./src/routes/order/order-tracker')(app)
 require('./src/routes/master/master-status')(app)
 require('./src/routes/master/master-type')(app)
 require('./src/routes/master/master-products')(app)

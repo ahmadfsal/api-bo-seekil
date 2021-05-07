@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 02, 2021 at 04:50 PM
+-- Generation Time: May 07, 2021 at 09:03 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.34
 
@@ -160,9 +160,9 @@ INSERT INTO `master_status` (`id`, `name`, `description`, `createdAt`, `updatedA
 (1, 'New', 'Order baru masuk ke sistem', '2021-04-29 13:31:29', '2021-04-29 08:43:07'),
 (2, 'Waiting List', 'Menunggu antrian untuk dicuci', '2021-04-29 13:31:33', '2021-04-29 08:43:19'),
 (3, 'In Progress', 'Sedang dicuci', '2021-04-29 13:31:36', '2021-04-29 08:43:32'),
-(4, 'Ready to Shipment', 'Siap dikirim ke pelanggan, untuk jenis order Pickup & Delivery', '2021-04-29 13:31:38', '2021-04-29 08:44:03'),
+(4, 'Ready to Shipment', 'Siap dikirim ke alamat pelanggan', '2021-05-06 22:05:25', '2021-05-06 22:05:25'),
 (5, 'Ready to Pickup', 'Siap diambil', '2021-04-29 13:31:41', '2021-04-29 08:44:18'),
-(6, 'Cancel', 'Batal', '2021-04-29 13:31:44', '2021-04-29 08:44:26'),
+(6, 'Cancel', 'Order telah dibatalkan', '2021-05-06 22:05:16', '2021-05-06 22:05:16'),
 (7, 'Done', 'Cucian selesai', '2021-05-02 14:19:50', '2021-05-02 07:52:59');
 
 -- --------------------------------------------------------
@@ -245,7 +245,7 @@ CREATE TABLE `order` (
 
 INSERT INTO `order` (`id`, `order_id`, `order_type_id`, `order_status_id`, `store_id`, `partnership_id`, `order_date`, `customer_name`, `whatsapp`, `pickup_address`, `qty`, `total`, `createdAt`, `updatedAt`, `promo_id`, `pickup_delivery_price`, `potongan`) VALUES
 (19, 'SO210502ED85DD', 2, 1, NULL, NULL, '2021-05-02 14:03:03', 'Ahmad Faisal', '89666438807', 'TEST', 1, 40000, '2021-05-02 14:03:03', '2021-05-02 14:03:03', 1, NULL, 8000),
-(20, 'SO210502E3A12B', 2, 1, NULL, NULL, '2021-05-02 14:04:05', 'Ahmad Faisal', '89666438807', 'TEST', 1, 25000, '2021-05-02 14:04:05', '2021-05-02 14:04:05', NULL, NULL, NULL);
+(20, 'SO210502E3A12B', 2, 6, NULL, NULL, '2021-05-02 14:04:05', 'Ahmad Faisal', '89666438807', 'TEST', 1, 25000, '2021-05-06 21:54:45', '2021-05-06 21:54:45', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -293,6 +293,34 @@ CREATE TABLE `order_item_services` (
 INSERT INTO `order_item_services` (`id`, `item_id`, `service_id`, `createdAt`, `updatedAt`) VALUES
 (1330, '75219e85-ae61-440f-8ede-4abcce815afb', 2, '2021-05-02 14:03:03', '2021-05-02 14:03:03'),
 (1331, '1b8f84a5-cfce-4e06-a67e-8c19d87ece90', 1, '2021-05-02 14:04:05', '2021-05-02 14:04:05');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_tracker`
+--
+
+CREATE TABLE `order_tracker` (
+  `id` int(11) NOT NULL,
+  `order_id` varchar(15) DEFAULT NULL,
+  `order_status_id` int(11) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updatedAt` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `order_tracker`
+--
+
+INSERT INTO `order_tracker` (`id`, `order_id`, `order_status_id`, `description`, `createdAt`, `updatedAt`) VALUES
+(1, 'SO210502E3A12B', 2, '', '2021-05-06 12:59:51', '2021-05-06 12:59:51'),
+(3, 'SO210502E3A12B', 3, '', '2021-05-06 13:02:25', '2021-05-06 13:02:25'),
+(6, 'SO210502E3A12B', 7, '', '2021-05-06 21:35:19', '2021-05-06 21:35:19'),
+(9, 'SO210502E3A12B', 1, '', '2021-05-06 21:51:39', '2021-05-06 21:51:39'),
+(10, 'SO210502E3A12B', 4, '', '2021-05-06 21:52:23', '2021-05-06 21:52:23'),
+(11, 'SO210502E3A12B', 5, '', '2021-05-06 21:52:48', '2021-05-06 21:52:48'),
+(12, 'SO210502E3A12B', 6, '', '2021-05-06 21:54:45', '2021-05-06 21:54:45');
 
 --
 -- Indexes for dumped tables
@@ -365,6 +393,12 @@ ALTER TABLE `order_item_services`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `order_tracker`
+--
+ALTER TABLE `order_tracker`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -433,6 +467,12 @@ ALTER TABLE `order_item`
 --
 ALTER TABLE `order_item_services`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1332;
+
+--
+-- AUTO_INCREMENT for table `order_tracker`
+--
+ALTER TABLE `order_tracker`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

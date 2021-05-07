@@ -567,6 +567,42 @@
 					]
 				},
 				{
+					"name": "Tracker",
+					"item": [
+						{
+							"name": "Tracking Order by Order ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/order/SO210502E3A12B/tracker",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"order",
+										"SO210502E3A12B",
+										"tracker"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Create Order",
 					"request": {
 						"method": "POST",
@@ -633,13 +669,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}/order/SO2105020G3BB2",
+							"raw": "{{BASE_URL}}/order/SO210502E3A12B",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"order",
-								"SO2105020G3BB2"
+								"SO210502E3A12B"
 							]
 						}
 					},

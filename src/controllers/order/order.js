@@ -7,6 +7,7 @@ const createOrder = require('../../helper/create-order');
 const Order = db.order;
 const OrderItem = db.order_item;
 const OrderItemServices = db.order_item_services;
+const OrderTracker = db.order_tracker;
 const MasterType = db.master_type;
 const MasterStatus = db.master_status;
 const MasterPromo = db.master_promo;
@@ -140,7 +141,7 @@ exports.findByOrderId = (req, res) => {
             {
                 model: MasterPromo,
                 required: false
-            },
+            }
         ]
     })
         .then((data) => {
@@ -182,9 +183,23 @@ exports.update = (req, res) => {
                     })
                         .then((resultOrder) => {
                             if (resultOrder[0] === 1) {
-                                res.status(200).send({
-                                    message: 'Yay!'
+                                OrderTracker.create({
+                                    order_id: order_id,
+                                    order_status_id: req.body.order_status_id,
+                                    description: ''
                                 })
+                                    .then((resultOrderTracker) => {
+                                        if (resultOrderTracker.dataValues) {
+                                            res.status(200).send({
+                                                message: `Success update order : ${order_id}`
+                                            });
+                                        }
+                                    })
+                                    .catch((err) =>
+                                        res
+                                            .status(500)
+                                            .send({ message: `error: ${err}` })
+                                    );
                                 // const bodyItems = req.body.items;
                                 // const arr = bodyItems.map((item) => {
                                 //     return {
@@ -229,7 +244,7 @@ exports.update = (req, res) => {
                             }
                         })
                         .catch((err) => {
-                            console.log(`error while updating order: ${err}`)
+                            console.log(`error while updating order: ${err}`);
                         });
                 } else {
                     res.send(404).send({
