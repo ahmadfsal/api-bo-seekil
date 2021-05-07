@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 
 const app = express()
+const PORT = process.env.PORT || 8080
 
 let corsOptions = {
     origin: ['http://localhost:3000', 'http://localhost:3001'],
@@ -45,6 +46,6 @@ require('./src/routes/master/master-promo')(app)
 require('./src/routes/customer')(app)
 
 // set port, listen for request
-app.listen(8080, () => {
+app.listen(PORT, () => {
     console.log('Server is running on port: 8080')
 })
