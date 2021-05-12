@@ -14,7 +14,7 @@ let corsOptions = {
     origin: [
         'http://localhost:3000',
         'http://localhost:3001',
-        'https://glacial-journey-79187.herokuapp.com/master/type'
+        'https://glacial-journey-79187.herokuapp.com'
     ],
     Headers: {
         'Access-Control-Allow-Origin': '*'
@@ -28,15 +28,6 @@ db.sequelize.sync();
 // db.sequelize.sync({ force: true }).then(() => {
 //     console.log('Drop and re-sync db.')
 // })
-
-if (process.env.NODE_ENV === 'production') {
-    //set static folder
-    app.use(express.static('client/build'));
-}
-
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-});
 
 app.use(bodyParser.json());
 
