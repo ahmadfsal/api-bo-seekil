@@ -14,7 +14,7 @@ let corsOptions = {
     origin: [
         'http://localhost:3000',
         'http://localhost:3001',
-        'https://glacial-journey-79187.herokuapp.com'
+        'https://ahmadfsal.github.io'
     ],
     Headers: {
         'Access-Control-Allow-Origin': '*'

@@ -49,6 +49,7 @@ exports.findByOrderId = (req, res) => {
         where: {
             order_id: order_id
         },
+        order: [['updatedAt', 'DESC']],
         include: [
             {
                 attributes: { exclude: ['id', 'createdAt'] },
