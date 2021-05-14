@@ -16,9 +16,6 @@ module.exports = (sequelize, Sequelize) => {
                 key: 'id',
             }
         },
-        description: {
-            type: Sequelize.STRING(255)
-        },
     });
 
     return OrderTracker;

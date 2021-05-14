@@ -1,3 +1,3 @@
 module.exports = (responseCode, res, obj) => {
-    return res.sendStatus(responseCode).send(obj)
-}
+    return res.status(responseCode).send(obj);
+};

@@ -1,3 +1,5 @@
+const authenticateToken = require('../../middleware/authenticate-token')
+
 module.exports = (app) => {
     const services = require('../../controllers/master/master-services')
 
@@ -10,5 +12,5 @@ module.exports = (app) => {
     router.delete('/:id', services.delete)
     router.delete('/', services.deleteAll)
 
-    app.use('/master/service', router)
+    app.use('/master/service', authenticateToken, router)
 }

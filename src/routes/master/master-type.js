@@ -1,14 +1,16 @@
+const authenticateToken = require('../../middleware/authenticate-token');
+
 module.exports = (app) => {
-    const orderType = require('../../controllers/master/master-type')
+    const orderType = require('../../controllers/master/master-type');
 
-    let router = require('express').Router()
+    let router = require('express').Router();
 
-    router.post('/', orderType.create)
-    router.get('/', orderType.findAll)
-    router.get('/:id', orderType.findOne)
-    router.put('/:id', orderType.update)
-    router.delete('/:id', orderType.delete)
-    router.delete('/', orderType.deleteAll)
+    router.post('/', orderType.create);
+    router.get('/', orderType.findAll);
+    router.get('/:id', orderType.findOne);
+    router.put('/:id', orderType.update);
+    router.delete('/:id', orderType.delete);
+    router.delete('/', orderType.deleteAll);
 
-    app.use('/master/type', router)
-}
+    app.use('/master/type', authenticateToken, router);
+};

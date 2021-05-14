@@ -51,6 +51,12 @@ exports.create = (req, res) => {
                 res,
                 data
             );
+            OrderTracker.create({
+                order_id: data.dataValues.order_id,
+                order_status_id: data.dataValues.order_status_id
+            })
+                .then(() => {})
+                .catch(() => {});
         })
         .catch((err) => {
             res.send(err);
@@ -185,8 +191,7 @@ exports.update = (req, res) => {
                             if (resultOrder[0] === 1) {
                                 OrderTracker.create({
                                     order_id: order_id,
-                                    order_status_id: req.body.order_status_id,
-                                    description: ''
+                                    order_status_id: req.body.order_status_id
                                 })
                                     .then((resultOrderTracker) => {
                                         if (resultOrderTracker.dataValues) {

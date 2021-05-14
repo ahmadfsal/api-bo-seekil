@@ -4,7 +4,8 @@ const createOrder = (model, req, res, data) => {
     const { Customer, OrderItem, OrderItemServices } = model;
 
     const insertCustomer = (req) => {
-        const { customer_id, customer_name, whatsapp, pickup_address } = req.body
+        const { customer_id, customer_name, whatsapp, pickup_address } =
+            req.body;
 
         Customer.upsert({
             id: customer_id,
@@ -12,8 +13,8 @@ const createOrder = (model, req, res, data) => {
             whatsapp: whatsapp,
             address: pickup_address
         })
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+            .then(() => {})
+            .catch(() => {});
     };
 
     const insertItems = (req, res, data) => {
@@ -84,7 +85,7 @@ const createOrder = (model, req, res, data) => {
 
     return {
         doCreateCustomer: insertCustomer(req),
-        doCreateItem: insertItems(req, res, data)
+        doCreateItem: insertItems(req, res, data),
     };
 };
 

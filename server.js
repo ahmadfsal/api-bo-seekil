@@ -50,6 +50,7 @@ require('./src/routes/master/master-services')(app);
 require('./src/routes/master/master-partnership')(app);
 require('./src/routes/master/master-promo')(app);
 require('./src/routes/customer')(app);
+require('./src/routes/auth')(app);
 
 // set port, listen for request
 app.listen(PORT, () => {

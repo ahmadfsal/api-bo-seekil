@@ -1,5 +1,5 @@
-const dbConfig = require('../config/db.config')
-const Sequileze = require('sequelize')
+const dbConfig = require('../config/db.config');
+const Sequileze = require('sequelize');
 
 const sequelize = new Sequileze(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     freezeTableName: true,
@@ -16,23 +16,30 @@ const sequelize = new Sequileze(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
         idle: dbConfig.pool.idle,
         acquire: dbConfig.pool.acquire
     }
-})
+});
 
-const db = {}
+const db = {};
 
-db.Sequileze = Sequileze
-db.sequelize = sequelize
+db.Sequileze = Sequileze;
+db.sequelize = sequelize;
 
-db.order = require('./order/order')(sequelize, Sequileze)
-db.order_item = require('./order/order-item')(sequelize, Sequileze)
-db.order_item_services = require('./order/order-item-services')(sequelize, Sequileze)
-db.order_tracker = require('./order/order-tracker')(sequelize, Sequileze)
-db.master_type = require('./master/master-type')(sequelize, Sequileze)
-db.master_status = require('./master/master-status')(sequelize, Sequileze)
-db.master_partnership = require('./master/master-partnership')(sequelize, Sequileze)
-db.master_products = require('./master/master-products')(sequelize, Sequileze)
-db.master_services = require('./master/master-services')(sequelize, Sequileze)
-db.master_promo = require('./master/master-promo')(sequelize, Sequileze)
-db.customer = require('./customer')(sequelize, Sequileze)
+db.order = require('./order/order')(sequelize, Sequileze);
+db.order_item = require('./order/order-item')(sequelize, Sequileze);
+db.order_item_services = require('./order/order-item-services')(
+    sequelize,
+    Sequileze
+);
+db.order_tracker = require('./order/order-tracker')(sequelize, Sequileze);
+db.master_type = require('./master/master-type')(sequelize, Sequileze);
+db.master_status = require('./master/master-status')(sequelize, Sequileze);
+db.master_partnership = require('./master/master-partnership')(
+    sequelize,
+    Sequileze
+);
+db.master_products = require('./master/master-products')(sequelize, Sequileze);
+db.master_services = require('./master/master-services')(sequelize, Sequileze);
+db.master_promo = require('./master/master-promo')(sequelize, Sequileze);
+db.customer = require('./customer')(sequelize, Sequileze);
+db.auth = require('./auth')(sequelize, Sequileze);
 
-module.exports = db
+module.exports = db;

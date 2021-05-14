@@ -1,3 +1,5 @@
+const authenticateToken = require('../../middleware/authenticate-token')
+
 module.exports = (app) => {
     const orderItem = require('../../controllers/order/order-item')
 
@@ -10,5 +12,5 @@ module.exports = (app) => {
     router.delete('/item/:id', orderItem.delete)
     router.delete('/item', orderItem.deleteAll)
 
-    app.use('/order', router)
+    app.use('/order', authenticateToken, router)
 }

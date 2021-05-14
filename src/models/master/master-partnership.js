@@ -8,8 +8,29 @@ module.exports = (sequelize, Sequelize) => {
         name: {
             type: Sequelize.STRING(255)
         },
+        whatsapp: {
+            type: Sequelize.STRING(15)
+        },
         address: {
             type: Sequelize.STRING(255)
+        },
+        latitude: {
+            type: Sequelize.FLOAT()
+        },
+        longitude: {
+            type: Sequelize.FLOAT()
+        },
+        potongan: {
+            type: Sequelize.DOUBLE()
+        },
+        drop_zone: {
+            type: Sequelize.INTEGER()
+        },
+        start_date: {
+            type: Sequelize.DATE()
+        },
+        end_date: {
+            type: Sequelize.DATE()
         },
     })
 

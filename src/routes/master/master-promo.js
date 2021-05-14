@@ -1,3 +1,5 @@
+const authenticateToken = require('../../middleware/authenticate-token')
+
 module.exports = (app) => {
     const promo = require('../../controllers/master/master-promo')
 
@@ -10,5 +12,5 @@ module.exports = (app) => {
     router.delete('/:id', promo.delete)
     router.delete('/', promo.deleteAll)
 
-    app.use('/master/promo', router)
+    app.use('/master/promo', authenticateToken, router)
 }
