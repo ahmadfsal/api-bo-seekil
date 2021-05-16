@@ -1,16 +1,12 @@
-const authenticateToken = require('../../middleware/authenticate-token');
+const partnership = require('../../controllers/master/master-partnership');
+const router = require('express').Router();
 
-module.exports = (app) => {
-    const partnership = require('../../controllers/master/master-partnership')
+router
+    .post('/', partnership.create)
+    .get('/', partnership.findAll)
+    .get('/:id', partnership.findOne)
+    .put('/:id', partnership.update)
+    .delete('/:id', partnership.delete)
+    .delete('/', partnership.deleteAll);
 
-    let router = require('express').Router()
-
-    router.post('/', partnership.create)
-    router.get('/', partnership.findAll)
-    router.get('/:id', partnership.findOne)
-    router.put('/:id', partnership.update)
-    router.delete('/:id', partnership.delete)
-    router.delete('/', partnership.deleteAll)
-
-    app.use('/master/partnership', authenticateToken, router)
-}
+module.exports = router;

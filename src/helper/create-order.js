@@ -1,23 +1,31 @@
 const { v4: uuidv4 } = require('uuid');
+const callback = require('../presenter/callback');
+const moment = require('moment');
+const randomStringGenerator = require('../utils/random-string-generator');
 
-const createOrder = (model, req, res, data) => {
-    const { Customer, OrderItem, OrderItemServices } = model;
+module.exports = (model, req, res, customerId) => {
+    const { Order, OrderTracker, OrderItem, OrderItemServices } = model;
 
-    const insertCustomer = (req) => {
-        const { customer_id, customer_name, whatsapp, pickup_address } =
-            req.body;
-
-        Customer.upsert({
-            id: customer_id,
-            name: customer_name,
-            whatsapp: whatsapp,
-            address: pickup_address
-        })
-            .then(() => {})
-            .catch(() => {});
+    const body = {
+        order_id: `SO${moment
+            .utc()
+            .format('YYMMDD')}${randomStringGenerator()}`,
+        customer_id: customerId,
+        order_type_id: req.body.order_type_id,
+        store_id: req.body.store_id,
+        payment_method_id: req.body.payment_method_id,
+        payment_status: req.body.payment_status,
+        partnership_id: req.body.partnership_id,
+        promo_id: req.body.promo_id,
+        pickup_delivery_price: req.body.pickup_delivery_price,
+        potongan: req.body.potongan,
+        order_date: Date.now(),
+        order_status_id: req.body.order_status_id,
+        qty: req.body.qty,
+        total: req.body.total
     };
 
-    const insertItems = (req, res, data) => {
+    Order.create(body).then((data) => {
         if (req.body.items && req.body.items.length > 0) {
             const arrItems = req.body.items.map((item) => {
                 return {
@@ -44,49 +52,27 @@ const createOrder = (model, req, res, data) => {
 
                     OrderItemServices.bulkCreate(arrServices)
                         .then((dataServices) => {
-                            res.send({
-                                data: {
-                                    ...data.dataValues,
-                                    item: dataItems.map((item) => {
-                                        return {
-                                            ...item.dataValues,
-                                            service: dataServices
-                                        };
-                                    })
-                                },
-                                meta: {
-                                    status: 200,
-                                    message: 'Success'
-                                }
+                            callback.single(200, res, {
+                                ...data.dataValues,
+                                item: dataItems.map((item) => {
+                                    return {
+                                        ...item.dataValues,
+                                        service: dataServices
+                                    };
+                                })
                             });
                         })
-                        .catch((err) => {
-                            console.log(`err insert service: ${err}`);
-                            res.status(500).send({
-                                message: err.message || error_message
-                            });
-                        });
+                        .catch((err) => callback.error(500, err.message));
                 })
-                .catch((err) => {
-                    res.status(500).send({
-                        message: err.message || error_message
-                    });
-                });
+                .catch((err) => callback.error(500, err.message));
         } else {
-            return res.send({
-                data: data,
-                meta: {
-                    status: 200,
-                    message: 'Success'
-                }
-            });
+            callback.single(200, res, data);
         }
-    };
-
-    return {
-        doCreateCustomer: insertCustomer(req),
-        doCreateItem: insertItems(req, res, data),
-    };
+        OrderTracker.create({
+            order_id: data.dataValues.order_id,
+            order_status_id: data.dataValues.order_status_id
+        })
+            .then(() => {})
+            .catch(() => {});
+    });
 };
-
-module.exports = createOrder;

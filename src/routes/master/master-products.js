@@ -1,16 +1,12 @@
-const authenticateToken = require('../../middleware/authenticate-token');
+const products = require('../../controllers/master/master-products');
+const router = require('express').Router();
 
-module.exports = (app) => {
-    const products = require('../../controllers/master/master-products');
+router
+    .post('/', products.create)
+    .get('/', products.findAll)
+    .get('/:id', products.findOne)
+    .put('/:id', products.update)
+    .delete('/:id', products.delete)
+    .delete('/', products.deleteAll);
 
-    let router = require('express').Router();
-
-    router.post('/', products.create);
-    router.get('/', products.findAll);
-    router.get('/:id', products.findOne);
-    router.put('/:id', products.update);
-    router.delete('/:id', products.delete);
-    router.delete('/', products.deleteAll);
-
-    app.use('/master/product', authenticateToken, router);
-};
+module.exports = router;

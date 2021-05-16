@@ -1,16 +1,12 @@
-const authenticateToken = require('../../middleware/authenticate-token')
+const promo = require('../../controllers/master/master-promo');
+const router = require('express').Router();
 
-module.exports = (app) => {
-    const promo = require('../../controllers/master/master-promo')
+router
+    .post('/', promo.create)
+    .get('/', promo.findAll)
+    .get('/:id', promo.findOne)
+    .put('/:id', promo.update)
+    .delete('/:id', promo.delete)
+    .delete('/', promo.deleteAll);
 
-    let router = require('express').Router()
-
-    router.post('/', promo.create)
-    router.get('/', promo.findAll)
-    router.get('/:id', promo.findOne)
-    router.put('/:id', promo.update)
-    router.delete('/:id', promo.delete)
-    router.delete('/', promo.deleteAll)
-
-    app.use('/master/promo', authenticateToken, router)
-}
+module.exports = router;

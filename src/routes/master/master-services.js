@@ -1,16 +1,12 @@
-const authenticateToken = require('../../middleware/authenticate-token')
+const services = require('../../controllers/master/master-services');
+const router = require('express').Router();
 
-module.exports = (app) => {
-    const services = require('../../controllers/master/master-services')
+router
+    .post('/', services.create)
+    .get('/', services.findAll)
+    .get('/:id', services.findOne)
+    .put('/:id', services.update)
+    .delete('/:id', services.delete)
+    .delete('/', services.deleteAll);
 
-    let router = require('express').Router()
-
-    router.post('/', services.create)
-    router.get('/', services.findAll)
-    router.get('/:id', services.findOne)
-    router.put('/:id', services.update)
-    router.delete('/:id', services.delete)
-    router.delete('/', services.deleteAll)
-
-    app.use('/master/service', authenticateToken, router)
-}
+module.exports = router;

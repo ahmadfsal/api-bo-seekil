@@ -9,14 +9,8 @@ module.exports = (sequelize, Sequelize) => {
         order_id: {
             type: Sequelize.STRING(100)
         },
-        // customer_id: {
-        //     type: Sequelize.INTEGER()
-        // },
-        customer_name: {
-            type: Sequelize.STRING(100)
-        },
-        whatsapp: {
-            type: Sequelize.STRING(15)
+        customer_id: {
+            type: Sequelize.INTEGER()
         },
         order_type_id: {
             type: Sequelize.INTEGER(11),
@@ -26,10 +20,21 @@ module.exports = (sequelize, Sequelize) => {
             }
         },
         store_id: {
-            type: Sequelize.INTEGER(11)
+            type: Sequelize.INTEGER(11),
+            references: {
+                model: 'master_store',
+                key: 'id'
+            }
         },
-        pickup_address: {
-            type: Sequelize.STRING(255)
+        payment_method_id: {
+            type: Sequelize.INTEGER(11),
+            references: {
+                model: 'master_payment_method',
+                key: 'id'
+            }
+        },
+        payment_status: {
+            type: Sequelize.STRING(20),
         },
         partnership_id: {
             type: Sequelize.INTEGER(11)

@@ -14,12 +14,6 @@ module.exports = (sequelize, Sequelize) => {
         address: {
             type: Sequelize.STRING(255)
         },
-        latitude: {
-            type: Sequelize.FLOAT()
-        },
-        longitude: {
-            type: Sequelize.FLOAT()
-        },
         potongan: {
             type: Sequelize.DOUBLE()
         },

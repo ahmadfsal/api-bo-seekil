@@ -1,6 +1,5 @@
 const db = require('../../models/db');
-const { v4: uuidv4 } = require('uuid');
-const OrderItem = db.order_item;
+const PaymentMethod = db.master_payment_method;
 const callback = require('../../presenter/callback');
 
 module.exports = {
@@ -10,15 +9,7 @@ module.exports = {
             return;
         }
 
-        const body = {
-            item_id: uuidv4(),
-            order_id: req.body.order_id,
-            item_name: req.body.item_name,
-            subtotal: req.body.subtotal,
-            note: req.body.note
-        };
-
-        OrderItem.create(body)
+        PaymentMethod.create(req.body)
             .then((data) => {
                 if (data) callback.create(200, res, 'success', data);
             })
@@ -26,23 +17,23 @@ module.exports = {
     },
 
     findAll: (req, res) => {
-        OrderItem.findAll()
+        PaymentMethod.findAll()
             .then((data) => callback.list(200, req, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },
 
-    findByOrderId: (req, res) => {
-        const { order_id } = req.params;
+    findOne: (req, res) => {
+        const id = req.params.id;
 
-        OrderItem.findAll({ where: { order_id: order_id } })
-            .then((data) => callback.list(200, req, res, data))
+        PaymentMethod.findByPk(id)
+            .then((data) => callback.single(200, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },
 
     update: (req, res) => {
         const id = req.params.id;
 
-        OrderItem.update(req.body, { where: { id: id } })
+        PaymentMethod.update(req.body, { where: { id: id } })
             .then((num) => {
                 if (num == 1) callback.update(200, res, 'success', id);
                 else callback.update(200, res, 'failed', id);
@@ -53,7 +44,7 @@ module.exports = {
     delete: (req, res) => {
         const id = req.params.id;
 
-        OrderItem.destroy({ where: { id: id } })
+        PaymentMethod.destroy({ where: { id: id } })
             .then((num) => {
                 if (num == 1) callback.delete(200, res, 'success', id);
                 else callback.delete(200, res, 'failed', id);
@@ -62,7 +53,7 @@ module.exports = {
     },
 
     deleteAll: (req, res) => {
-        OrderItem.destroy({
+        PaymentMethod.destroy({
             where: {},
             truncate: false
         })

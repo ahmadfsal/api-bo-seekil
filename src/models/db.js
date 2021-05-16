@@ -23,6 +23,7 @@ const db = {};
 db.Sequileze = Sequileze;
 db.sequelize = sequelize;
 
+// Order
 db.order = require('./order/order')(sequelize, Sequileze);
 db.order_item = require('./order/order-item')(sequelize, Sequileze);
 db.order_item_services = require('./order/order-item-services')(
@@ -30,6 +31,7 @@ db.order_item_services = require('./order/order-item-services')(
     Sequileze
 );
 db.order_tracker = require('./order/order-tracker')(sequelize, Sequileze);
+// Master
 db.master_type = require('./master/master-type')(sequelize, Sequileze);
 db.master_status = require('./master/master-status')(sequelize, Sequileze);
 db.master_partnership = require('./master/master-partnership')(
@@ -39,7 +41,13 @@ db.master_partnership = require('./master/master-partnership')(
 db.master_products = require('./master/master-products')(sequelize, Sequileze);
 db.master_services = require('./master/master-services')(sequelize, Sequileze);
 db.master_promo = require('./master/master-promo')(sequelize, Sequileze);
+db.master_store = require('./master/master-store')(sequelize, Sequileze);
+db.master_payment_method = require('./master/master-payment-method')(sequelize, Sequileze);
+
+// Customer
 db.customer = require('./customer')(sequelize, Sequileze);
+
+//Auth
 db.auth = require('./auth')(sequelize, Sequileze);
 
 module.exports = db;

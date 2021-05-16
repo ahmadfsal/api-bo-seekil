@@ -1,4 +1,5 @@
 const path = require('path');
+
 require('dotenv').config({
     path: path.resolve(__dirname, `.env.${process.env.NODE_ENV}`)
 });
@@ -6,6 +7,14 @@ require('dotenv').config({
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+
+const db = require('./src/models/db');
+const authenticateToken = require('./src/middleware/authenticate-token');
+// Routes
+const masterRoutes = require('./src/routes/master');
+const customerRoutes = require('./src/routes/customer');
+const authRoutes = require('./src/routes/auth');
+const orderRoutes = require('./src/routes/order');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -23,36 +32,32 @@ let corsOptions = {
 
 app.use(cors(corsOptions));
 
-const db = require('./src/models/db');
 db.sequelize.sync();
-// db.sequelize.sync({ force: true }).then(() => {
-//     console.log('Drop and re-sync db.')
-// })
 
 app.use(bodyParser.json());
-
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.get('/', (req, res) => {
-    res.json({
-        message: 'Server is already running...'
-    });
+app.get('/', async (req, res) => {
+    res.send({ meesage: `Server is running on port: ${PORT}` });
 });
 
-require('./src/routes/order/order')(app);
-require('./src/routes/order/order-item')(app);
-require('./src/routes/order/order-item-services')(app);
-require('./src/routes/order/order-tracker')(app);
-require('./src/routes/master/master-status')(app);
-require('./src/routes/master/master-type')(app);
-require('./src/routes/master/master-products')(app);
-require('./src/routes/master/master-services')(app);
-require('./src/routes/master/master-partnership')(app);
-require('./src/routes/master/master-promo')(app);
-require('./src/routes/customer')(app);
-require('./src/routes/auth')(app);
+app.use('/order', authenticateToken, orderRoutes.order);
+app.use('/order', authenticateToken, orderRoutes.orderItem)
+app.use('/order', authenticateToken, orderRoutes.orderItemServices)
+app.use('/order', authenticateToken, orderRoutes.orderTracker)
+app.use('/invoice', authenticateToken, orderRoutes.invoice)
 
-// set port, listen for request
+app.use('/master/partnership', authenticateToken, masterRoutes.partnership);
+app.use('/master/product', authenticateToken, masterRoutes.product);
+app.use('/master/promo', authenticateToken, masterRoutes.promo);
+app.use('/master/service', authenticateToken, masterRoutes.services);
+app.use('/master/status', authenticateToken, masterRoutes.status);
+app.use('/master/store', authenticateToken, masterRoutes.store);
+app.use('/master/type', authenticateToken, masterRoutes.type);
+app.use('/master/payment-method', authenticateToken, masterRoutes.paymentMethod);
+
+app.use('/customer', authenticateToken, customerRoutes);
+app.use('/auth', authRoutes);
+
 app.listen(PORT, () => {
     console.log('Server is running on port: 8080');
 });

@@ -1,9 +1,6 @@
-module.exports = (app) => {
-    const auth = require('../../controllers/auth');
+const auth = require('../../controllers/auth');
+const router = require('express').Router();
 
-    let router = require('express').Router();
+router.post('/token', auth.token);
 
-    router.post('/token', auth.token);
-
-    app.use('/auth', router);
-};
+module.exports = router;

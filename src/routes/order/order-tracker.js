@@ -1,15 +1,11 @@
-const authenticateToken = require('../../middleware/authenticate-token')
+const orderTracker = require('../../controllers/order/order-tracker');
+const router = require('express').Router();
 
-module.exports = (app) => {
-    const orderTracker = require('../../controllers/order/order-tracker')
+router
+    .get('/tracker', orderTracker.findAll)
+    .get('/:order_id/tracker', orderTracker.findByOrderId)
+    .put('/:order_id/tracker', orderTracker.update)
+    .delete('/:order_id/tracker', orderTracker.delete)
+    .delete('/tracker/all', orderTracker.deleteAll);
 
-    let router = require('express').Router()
-
-    router.get('/tracker', orderTracker.findAll)
-    router.get('/:order_id/tracker', orderTracker.findByOrderId)
-    router.put('/:order_id/tracker', orderTracker.update)
-    router.delete('/:order_/idtracker', orderTracker.delete)
-    router.delete('/tracker', orderTracker.deleteAll)
-
-    app.use('/order', authenticateToken, router)
-}
+module.exports = router;
