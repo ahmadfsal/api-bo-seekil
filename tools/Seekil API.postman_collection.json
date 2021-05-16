@@ -1,0 +1,1566 @@
+{
+	"info": {
+		"_postman_id": "1bd97117-30ae-40a6-bfa2-94d42ae2a679",
+		"name": "Seekil API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Master",
+			"item": [
+				{
+					"name": "Type",
+					"item": [
+						{
+							"name": "Get Type",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/master/type",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"type"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Type",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"description\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/type",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"type"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Type",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"description\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/type1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"type1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Type",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/master/type1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"type1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Store",
+					"item": [
+						{
+							"name": "Get All Store",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/master/store",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"store"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Store",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"description\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/type",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"type"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Store By Id",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"description\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/type1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"type1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Store By Id",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/master/type1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"type1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Payment Method",
+					"item": [
+						{
+							"name": "Get All Payment Method",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/master/payment-method",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"payment-method"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Payment Method",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"description\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/payment-method",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"payment-method"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Payment Method By Id",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"description\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/payment-method",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"payment-method"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Payment Method By Id",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/master/payment-method",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"payment-method"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Promo",
+					"item": [
+						{
+							"name": "Get Promo",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/master/promo",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"promo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Promo",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Promo Member CISC Cirebon\",\n    \"code\": \"SEECISCCRB\",\n    \"discount\": 20.0,\n    \"description\": \"Nikmati diskon 20% untuk setiap order di SEEKIL, khusus untuk member CISC Cirebon\",\n    \"start_date\": \"2021-05-02\",\n    \"end_date\": \"2021-09-02\",\n    \"status\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/promo",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"promo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Promo",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Promo Member CISC Cirebon\",\n    \"code\": \"SEECISCCRB\",\n    \"discount\": 20.0,\n    \"description\": \"Nikmati diskon 20% untuk setiap order di SEEKIL, khusus untuk member CISC Cirebon\",\n    \"start_date\": \"2021-05-02\",\n    \"end_date\": \"2021-09-02\",\n    \"status\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/promo",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"promo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Promo",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/master/promo",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"promo"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Status",
+					"item": [
+						{
+							"name": "Get Status",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/master/status",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Status",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"description\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/status",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Status",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"description\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/status/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"status",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Status",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/master/status/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"status",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Services",
+					"item": [
+						{
+							"name": "Get Services",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/master/service",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"service"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Services",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"estimate\": \"\",\n    \"price\": null,\n    \"description\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/service",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"service"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Services",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"\",\n    \"estimate\": \"\",\n    \"price\": null,\n    \"description\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/service/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"service",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Services",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/master/service/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"service",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Partnership",
+					"item": [
+						{
+							"name": "Get Partnership",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/master/partnership",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"partnership"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Partnership",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Etnik Barbershop\",\n    \"whatsapp\": \"0888888888\",\n    \"address\": \"Kecomberan, Talun, Kab. Cirebon\",\n    \"latitude\": null,\n    \"longitude\": null,\n    \"potongan\": 20,\n    \"drop_zone\": 1,\n    \"start_date\": \"2021-06-01\",\n    \"end_date\": \"2021-12-01\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/partnership",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"partnership"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Partnership",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/master/partnership/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"partnership",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Partnership",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Etnik Barbershop\",\n    \"whatsapp\": \"0888888888\",\n    \"address\": \"Kecomberan, Talun, Kab. Cirebon\",\n    \"latitude\": null,\n    \"longitude\": null,\n    \"potongan\": 50,\n    \"drop_zone\": 0,\n    \"start_date\": \"2021-06-01\",\n    \"end_date\": \"2021-12-01\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/partnership/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"partnership",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Product",
+					"item": [
+						{
+							"name": "Get Product",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/master/product",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"product"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Product",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Etnik Barbershop\",\n    \"whatsapp\": \"0888888888\",\n    \"address\": \"Kecomberan, Talun, Kab. Cirebon\",\n    \"latitude\": null,\n    \"longitude\": null,\n    \"potongan\": 20,\n    \"drop_zone\": 1,\n    \"start_date\": \"2021-06-01\",\n    \"end_date\": \"2021-12-01\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/product",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"product"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Product",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/master/product/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"product",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Product",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "{{TOKEN}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Etnik Barbershop\",\n    \"whatsapp\": \"0888888888\",\n    \"address\": \"Kecomberan, Talun, Kab. Cirebon\",\n    \"latitude\": null,\n    \"longitude\": null,\n    \"potongan\": 50,\n    \"drop_zone\": 0,\n    \"start_date\": \"2021-06-01\",\n    \"end_date\": \"2021-12-01\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/master/product/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"master",
+										"product",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "Get Customer",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/customer",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Customer By Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/customer/4",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"customer",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Customer",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Customer By Id",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete All Customer",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/customer",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"customer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Items",
+					"item": [
+						{
+							"name": "Services",
+							"item": [
+								{
+									"name": "Get Services By Item ID",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{BASE_URL}}/order/item/b4581e3d-ac82-4d20-b584-26a7e641f91d/services",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"order",
+												"item",
+												"b4581e3d-ac82-4d20-b584-26a7e641f91d",
+												"services"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get All Services",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{BASE_URL}}/order/item/services",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"order",
+												"item",
+												"services"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Ger Services By Service ID",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": ""
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete All Services",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{TOKEN}}"
+											}
+										],
+										"url": {
+											"raw": "{{BASE_URL}}/order/item/delete-all/services",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"order",
+												"item",
+												"delete-all",
+												"services"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get Items By Order ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/order/item/SO21051576ED1I",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"order",
+										"item",
+										"SO21051576ED1I"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Items",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/order/item",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"order",
+										"item"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete All Items",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/order/delete-all/item",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"order",
+										"delete-all",
+										"item"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Tracker",
+					"item": [
+						{
+							"name": "Tracking Order by Order ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/order/SO2105169HF6FH/tracker",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"order",
+										"SO2105169HF6FH",
+										"tracker"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete All Tracker",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/order/tracker/all",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"order",
+										"tracker",
+										"all"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customer_name\": \"Ittang\",\n    \"whatsapp\": \"9090909090\",\n    \"order_type_id\": 3,\n    \"store_id\": null,\n    \"pickup_address\": null,\n    \"partnership_id\": 1,\n    \"payment_method_id\": 1,\n    \"payment_status\": 1,\n    \"order_status_id\": 1,\n    \"promo_id\": null,\n    \"pickup_delivery_price\": null,\n    \"potongan\": null,\n    \"qty\": 3,\n    \"total\": 100000,\n    \"items\": [\n        {\n            \"item_name\": \"Nike Air Jordan\",\n            \"services_id\": [2, 18, 19],\n            \"subtotal\": 25000,\n            \"note\": null\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/order",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order"
+							]
+						},
+						"description": "#### === BODY DESCRIPTION ===\n\n(customer_name)     = <i>_string | null_</i><br/>\n(whatsapp)          = <i>_string | null_</i><br/>\n(order_type_id)     = <i>_number | null_</i><br/>\n(store_id)          = <i>_number | null_</i><br/>\n(pickup_address)    = <i>_string | null_</i><br/>\n(partnership_id)    = <i>_number | null_</i><br/>\n(order_status_id)   = <i>_number | null_</i><br/>\n(qty)               = <i>_number | null_</i><br/>\n(total)             = <i>_number | null_</i><br/>\n(items)             = <i>null | array([</i>\n    <ul>\n        <li>(item_name)         = <i>string | null</i></li>\n        <li>(services_id)       = <i>number | null</i></li>\n        <li>(subtotal)          = <i>number | null</i></li>\n        <li>(note)              = <i>string | null</i></li>\n    </ul>\n<i>])</i>\n\n#### === NOTES ===\n\n(qty)               = <i>total items length</i><br/>\n(total)             = <i>count subtotal all items</i><br/>"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/order",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "customer_name",
+									"value": "john doe",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order By Order ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/order/SO210516G7HF0E",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order",
+								"SO210516G7HF0E"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Order",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customer_name\": \"Ahmad Faisal\",\n    \"whatsapp\": \"89666438807\",\n    \"order_type_id\": 2,\n    \"store_id\": null,\n    \"pickup_address\": \"Blok Kavling Karanganyar Jamblang, Cirebon\",\n    \"partnership_id\": null,\n    \"payment_method_id\": 1,\n    \"payment_status\": 1,\n    \"order_status_id\": 3,\n    \"promo_id\": 1,\n    \"pickup_delivery_price\": null,\n    \"potongan\": 8000,\n    \"qty\": 1,\n    \"total\": 40000,\n    \"items\": [\n        {\n            \"id\": 1,\n            \"order_id\": \"SO210515C6A4CE\",\n            \"item_id\": \"da207167-0c44-4674-8d1a-439cba9f633c\",\n            \"item_name\": \"Compass\",\n            \"services_id\": [\n                {\n                    \"value\": 2,\n                    \"label\": \"Deep Cleaning\",\n                    \"price\": 40000\n                }\n            ],\n            \"subtotal\": 40000,\n            \"note\": \"BW, 41\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/order/SO210515C6A4CE",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order",
+								"SO210515C6A4CE"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Order",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/order/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete All Order",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/order",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Invoice",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/invoice/SO210516D028BA",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"invoice",
+								"SO210516D028BA"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"it.min\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/token",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
