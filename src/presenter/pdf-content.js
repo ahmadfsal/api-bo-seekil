@@ -272,7 +272,7 @@ module.exports = (values) => {
                                     {
                                         text: `${moment(
                                             values.createdAt
-                                        ).format('HH:mm:ss')} WIB`,
+                                        ).tz('Asia/Bangkok').format('HH:mm:ss')} WIB`,
                                         bold: true,
                                         fontSize: 12,
                                         alignment: 'right',
