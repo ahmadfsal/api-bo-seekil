@@ -23,7 +23,7 @@ let corsOptions = {
     origin: [
         'http://localhost:3000',
         'http://localhost:3001',
-        'https://ahmadfsal.github.io'
+        'https://seekil.id'
     ],
     Headers: {
         'Access-Control-Allow-Origin': '*'
