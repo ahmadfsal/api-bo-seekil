@@ -49,7 +49,10 @@ module.exports = {
                 `SELECT * FROM order_item WHERE createdAt >= '${formattedFirstDay}' AND createdAt <= '${formattedLastDay}'`,
                 { type: sequelize.QueryTypes.SELECT }
             );
-            const total_order = result.reduce((acc, curr) => acc + curr['subtotal'], 0);
+            const total_order = result.reduce(
+                (acc, curr) => acc + curr['subtotal'],
+                0
+            );
             return res.status(200).send({
                 total_order,
                 list: result,
@@ -86,7 +89,28 @@ module.exports = {
         const { order_id } = req.params;
 
         OrderItem.findAndCountAll({ where: { order_id: order_id } })
-            .then((data) => callback.list(200, req, res, data))
+            .then((data) => {
+                const total_order = data.rows.reduce(
+                    (acc, curr) => acc + curr['subtotal'],
+                    0
+                );
+                return res.status(200).send({
+                    total_order,
+                    list: data.rows,
+                    pagination: {
+                        current_page: parseInt(req.query.page),
+                        limit: parseInt(req.query.limit),
+                        total_page:
+                            (parseInt(req.query.page) - 1) *
+                            parseInt(req.query.limit),
+                        total_row: data.count
+                    },
+                    meta: {
+                        code: 200,
+                        status: 'OK'
+                    }
+                });
+            })
             .catch((err) => callback.error(500, res, err.message));
     },
 
