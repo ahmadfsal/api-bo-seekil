@@ -71,8 +71,6 @@ module.exports = (model, req, res, customerId) => {
         OrderTracker.create({
             order_id: data.dataValues.order_id,
             order_status_id: data.dataValues.order_status_id
-        })
-            .then(() => {})
-            .catch(() => {});
+        });
     });
 };

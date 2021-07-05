@@ -17,7 +17,7 @@ module.exports = {
     },
 
     findAll: (req, res) => {
-        Services.findAll({
+        Services.findAndCountAll({
             // limit: 10,
             // offset: 1,
             order: [['name', 'ASC']]

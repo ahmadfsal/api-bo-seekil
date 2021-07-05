@@ -16,7 +16,7 @@ module.exports = {
             .catch((err) => callback.create(200, res, 'failed', data));
     },
     findAll: (req, res) => {
-        MasterStore.findAll()
+        MasterStore.findAndCountAll()
             .then((data) => callback.list(200, req, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },

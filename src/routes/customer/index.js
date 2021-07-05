@@ -1,12 +1,5 @@
-const customer = require('../../controllers/customer');
-const router = require('express').Router();
+const customer = require('./customer');
 
-router
-    .post('/', customer.create)
-    .get('/', customer.findAll)
-    .get('/:id', customer.findOne)
-    .put('/:id', customer.update)
-    .delete('/:id', customer.delete)
-    .delete('/', customer.deleteAll);
-
-module.exports = router;
+module.exports = {
+    customer
+};

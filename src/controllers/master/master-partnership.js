@@ -17,7 +17,7 @@ module.exports = {
     },
 
     findAll: (req, res) => {
-        Partnership.findAll()
+        Partnership.findAndCountAll()
             .then((data) => callback.list(200, req, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },

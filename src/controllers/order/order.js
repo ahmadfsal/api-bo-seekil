@@ -1,6 +1,9 @@
 const db = require('../../models/db');
 const createOrder = require('../../helper/create-order');
 const callback = require('../../presenter/callback');
+const queryString = require('querystring');
+const url = require('url');
+const { ORDER_STATUS_DONE } = require('../../constants/general.constant');
 
 const Order = db.order;
 const OrderItem = db.order_item;
@@ -25,12 +28,19 @@ module.exports = {
             id: req.body.customer_id,
             name: req.body.customer_name,
             whatsapp: req.body.whatsapp,
+            gender: req.body.gender,
+            birthday: req.body.birthday,
             address: req.body.pickup_address
         };
 
         const doCreate = (customerId) => {
             return createOrder(
-                { Order, OrderTracker, OrderItem, OrderItemServices },
+                {
+                    Order,
+                    OrderTracker,
+                    OrderItem,
+                    OrderItemServices
+                },
                 req,
                 res,
                 customerId
@@ -53,26 +63,32 @@ module.exports = {
     },
 
     findAll: (req, res) => {
-        const queryParam = () => {
-            delete req.query['limit'];
-            delete req.query['page'];
-
-            return req.query;
-        };
-
         Order.belongsTo(MasterType, { foreignKey: 'order_type_id' });
         Order.belongsTo(MasterStatus, { foreignKey: 'order_status_id' });
         Order.belongsTo(MasterPartnership, { foreignKey: 'partnership_id' });
         Order.belongsTo(MasterStore, { foreignKey: 'store_id' });
         Order.belongsTo(MasterPromo, { foreignKey: 'promo_id' });
-        Order.belongsTo(MasterPaymentMethod, { foreignKey: 'payment_method_id' });
+        Order.belongsTo(MasterPaymentMethod, {
+            foreignKey: 'payment_method_id'
+        });
         Order.belongsTo(Customer, { foreignKey: 'customer_id' });
 
-        Order.findAll({
-            offset: req.query.page ? parseInt(req.query.page) : null,
-            limit: req.query.limit ? parseInt(req.query.limit) : null,
+        // const fullUrl =
+        //     req.protocol + '://' + req.get('host') + req.originalUrl;
+        // const rawUrl = url.parse(fullUrl);
+        // const queryStrObj = queryString.parse(rawUrl.query);
+
+        // const whereParam = () => {
+        //     delete queryStrObj.page;
+        //     delete queryStrObj.limit;
+        //     return queryStrObj;
+        // };
+
+        Order.findAndCountAll({
+            // offset: queryStrObj.page ? parseInt(queryStrObj.page) : 1,
+            // limit: queryStrObj.limit ? parseInt(queryStrObj.limit) : 10,
             order: [['order_date', 'DESC']],
-            where: queryParam(),
+            where: {...req.query},
             include: [
                 {
                     attributes: {
@@ -147,7 +163,24 @@ module.exports = {
                 }
             ]
         })
-            .then((data) => callback.list(200, req, res, data))
+            .then((data) => {
+                // callback.list(200, req, res, data)
+                const total_order = data.rows.reduce((acc, curr) => acc + curr['total'], 0);
+                res.status(200).send({
+                    total_order,
+                    list: data.rows,
+                    pagination: {
+                        current_page: parseInt(req.query.page),
+                        limit: parseInt(req.query.limit),
+                        total_page: (parseInt(req.query.page) - 1) * parseInt(req.query.limit),
+                        total_row: data.count
+                    },
+                    meta: {
+                        code: 200,
+                        status: 'OK'
+                    }
+                });
+            })
             .catch((err) => callback.error(500, res, err.message));
     },
 
@@ -159,7 +192,9 @@ module.exports = {
         Order.belongsTo(MasterPartnership, { foreignKey: 'partnership_id' });
         Order.belongsTo(MasterStore, { foreignKey: 'store_id' });
         Order.belongsTo(MasterPromo, { foreignKey: 'promo_id' });
-        Order.belongsTo(MasterPaymentMethod, { foreignKey: 'payment_method_id' });
+        Order.belongsTo(MasterPaymentMethod, {
+            foreignKey: 'payment_method_id'
+        });
         Order.belongsTo(Customer, { foreignKey: 'customer_id' });
 
         Order.findOne({
@@ -239,6 +274,125 @@ module.exports = {
             ]
         })
             .then((data) => callback.single(200, res, data))
+            .catch((err) => callback.error(500, res, err.message));
+    },
+
+    findByCustomerId: (req, res) => {
+        Order.belongsTo(MasterType, { foreignKey: 'order_type_id' });
+        Order.belongsTo(MasterStatus, { foreignKey: 'order_status_id' });
+        Order.belongsTo(MasterPartnership, { foreignKey: 'partnership_id' });
+        Order.belongsTo(MasterStore, { foreignKey: 'store_id' });
+        Order.belongsTo(MasterPromo, { foreignKey: 'promo_id' });
+        Order.belongsTo(MasterPaymentMethod, {
+            foreignKey: 'payment_method_id'
+        });
+        Order.belongsTo(Customer, { foreignKey: 'customer_id' });
+
+        const { customer_id } = req.params;
+
+        const getQueryString = () => {
+            if (Object.keys(req.query).length > 0) {
+                delete req.query.limit;
+                return {
+                    customer_id: customer_id,
+                    ...req.query
+                };
+            } else {
+                return {
+                    customer_id: customer_id
+                };
+            }
+        };
+
+        Order.findAndCountAll({
+            limit: req.query.limit ? parseInt(req.query.limit) : 10,
+            where: getQueryString(),
+            include: [
+                {
+                    attributes: {
+                        exclude: ['id', 'createdAt', 'updatedAt']
+                    },
+                    model: MasterPaymentMethod,
+                    required: false
+                },
+                {
+                    attributes: {
+                        exclude: ['id', 'description', 'createdAt', 'updatedAt']
+                    },
+                    model: MasterType,
+                    required: false
+                },
+                {
+                    attributes: {
+                        exclude: ['id', 'createdAt', 'updatedAt']
+                    },
+                    model: MasterStore,
+                    required: false
+                },
+                {
+                    attributes: {
+                        exclude: ['id', 'description', 'createdAt', 'updatedAt']
+                    },
+                    model: MasterStatus,
+                    required: false
+                },
+                {
+                    attributes: {
+                        exclude: [
+                            'id',
+                            'whatsapp',
+                            'address',
+                            'latitude',
+                            'longitude',
+                            'potongan',
+                            'drop_zone',
+                            'start_date',
+                            'end_date',
+                            'createdAt',
+                            'updatedAt'
+                        ]
+                    },
+                    model: MasterPartnership,
+                    required: false
+                },
+                {
+                    attributes: {
+                        exclude: [
+                            'id',
+                            // 'name',
+                            'discount',
+                            // 'description',
+                            'status',
+                            'start_date',
+                            'end_date',
+                            'createdAt',
+                            'updatedAt'
+                        ]
+                    },
+                    model: MasterPromo,
+                    required: false
+                },
+                {
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    },
+                    model: Customer,
+                    required: false
+                }
+            ]
+        })
+            .then((data) => {
+                if (req.query) {
+                    if (req.query.order_status_id !== ORDER_STATUS_DONE) {
+                        const filter = data.rows.filter(
+                            (el) => el.order_status_id !== ORDER_STATUS_DONE
+                        )
+                        return callback.list(200, req, res, {...data, rows: filter})
+                    }
+                    return callback.list(200, req, res, data)
+                }
+                return callback.list(200, req, res, data)
+            })
             .catch((err) => callback.error(500, res, err.message));
     },
 
@@ -348,12 +502,12 @@ module.exports = {
     },
 
     delete: (req, res) => {
-        const id = req.params.id;
+        const order_id = req.params.order_id;
 
-        Order.destroy({ where: { id: id } })
+        Order.destroy({ where: { order_id: order_id } })
             .then((num) => {
-                if (num == 1) callback.delete(200, res, 'success', id);
-                else callback.delete(200, res, 'failed', id);
+                if (num == 1) callback.delete(200, res, 'success', order_id);
+                else callback.delete(200, res, 'failed', order_id);
             })
             .catch((err) => callback.error(500, res, err.message));
     },

@@ -12,6 +12,12 @@ module.exports = (sequelize, Sequelize) => {
         whatsapp: {
             type: Sequelize.STRING(15)
         },
+        gender: {
+            type: Sequelize.STRING(20)
+        },
+        birthday: {
+            type: Sequelize.DATE()
+        },
         address: {
             type: Sequelize.STRING(255)
         }

@@ -21,7 +21,7 @@ module.exports = {
             .catch((err) => callback.error(500, res, err.message));
     },
     findAll: (req, res) => {
-        Customer.findAll({
+        Customer.findAndCountAll({
             order: [['createdAt', 'DESC']]
         })
             .then((data) => callback.list(200, req, res, data))

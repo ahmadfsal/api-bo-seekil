@@ -18,7 +18,7 @@ module.exports = {
     },
 
     findAll: (req, res) => {
-        OrderItemServices.findAll()
+        OrderItemServices.findAndCountAll()
             .then((data) => callback.list(200, req, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },
@@ -30,7 +30,7 @@ module.exports = {
             foreignKey: 'service_id'
         });
 
-        OrderItemServices.findAll({
+        OrderItemServices.findAndCountAll({
             where: { item_id: item_id },
             include: [
                 {

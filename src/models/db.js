@@ -42,10 +42,13 @@ db.master_products = require('./master/master-products')(sequelize, Sequileze);
 db.master_services = require('./master/master-services')(sequelize, Sequileze);
 db.master_promo = require('./master/master-promo')(sequelize, Sequileze);
 db.master_store = require('./master/master-store')(sequelize, Sequileze);
-db.master_payment_method = require('./master/master-payment-method')(sequelize, Sequileze);
+db.master_payment_method = require('./master/master-payment-method')(
+    sequelize,
+    Sequileze
+);
 
 // Customer
-db.customer = require('./customer')(sequelize, Sequileze);
+db.customer = require('./customer/customer')(sequelize, Sequileze);
 
 //Auth
 db.auth = require('./auth')(sequelize, Sequileze);

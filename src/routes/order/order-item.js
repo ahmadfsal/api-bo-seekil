@@ -3,7 +3,8 @@ const router = require('express').Router();
 
 router
     .post('/item', orderItem.create)
-    .get('/item', orderItem.findAll)
+    .get('/item/all', orderItem.findAll)
+    .get('/item/current-month', orderItem.findCurrentMonth)
     .get('/item/:order_id', orderItem.findByOrderId)
     .put('/item/:id', orderItem.update)
     .delete('/item/:id', orderItem.delete)

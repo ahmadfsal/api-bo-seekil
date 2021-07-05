@@ -5,7 +5,7 @@ const callback = require('../../presenter/callback');
 
 module.exports = {
     findAll: (req, res) => {
-        OrderTracker.findAll()
+        OrderTracker.findAndCountAll()
             .then((data) => callback.list(200, req, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },
@@ -15,7 +15,7 @@ module.exports = {
 
         OrderTracker.belongsTo(MasterStatus, { foreignKey: 'order_status_id' });
 
-        OrderTracker.findAll({
+        OrderTracker.findAndCountAll({
             where: { order_id: order_id },
             order: [['updatedAt', 'DESC']],
             include: [

@@ -10,11 +10,13 @@ module.exports = {
     },
     list: (responseCode, req, res, data) => {
         return res.status(responseCode).send({
-            list: data,
+            list: data.rows,
             pagination: {
-                current_page: req.query.page ? parseInt(req.query.page) : null,
-                limit: req.query.limit ? parseInt(req.query.limit) : null,
-                total_row: data.length
+                current_page: parseInt(req.query.page),
+                limit: parseInt(req.query.limit),
+                total_page:
+                    (parseInt(req.query.page) - 1) * parseInt(req.query.limit),
+                total_row: data.count
             },
             meta: {
                 code: responseCode,
