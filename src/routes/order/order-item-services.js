@@ -6,6 +6,7 @@ router
     .get('/item/services', OrderItemServices.findAll)
     .get('/item/:item_id/services', OrderItemServices.findByItemId)
     .get('/item/services/:service_id', OrderItemServices.findByServiceId)
+    .get('/item/services/s/top', OrderItemServices.findTopServices)
     .put('/item/services/:id', OrderItemServices.update)
     .delete('/item/services/:id', OrderItemServices.delete)
     .delete('/item/delete-all/services', OrderItemServices.deleteAll);

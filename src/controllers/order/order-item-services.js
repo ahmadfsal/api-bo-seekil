@@ -17,6 +17,50 @@ module.exports = {
             .catch((err) => callback.create(200, res, 'failed', data));
     },
 
+    findTopServices: (req, res) => {
+        OrderItemServices.belongsTo(MasterServices, {
+            foreignKey: 'service_id'
+        });
+
+        OrderItemServices.findAll({
+            limit: 3,
+            raw: true,
+            attributes: [
+                [
+                    db.sequelize.fn('count', db.sequelize.col('service_id')),
+                    'total'
+                ]
+            ],
+            group: ['service_id'],
+            order: [[db.sequelize.literal('total'), 'DESC']],
+            include: [
+                {
+                    attributes: {
+                        exclude: [
+                            'estimate',
+                            'price',
+                            'description',
+                            'createdAt',
+                            'updatedAt'
+                        ]
+                    },
+                    model: MasterServices,
+                    required: false
+                }
+            ]
+        })
+            .then((data) => {
+                res.status(200).send({
+                    list: data,
+                    meta: {
+                        code: 200,
+                        status: 'OK'
+                    }
+                });
+            })
+            .catch((err) => callback.error(500, res, err.message));
+    },
+
     findAll: (req, res) => {
         OrderItemServices.findAndCountAll()
             .then((data) => callback.list(200, req, res, data))

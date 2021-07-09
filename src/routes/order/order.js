@@ -6,6 +6,7 @@ router
     .get('/', order.findAll)
     .get('/:order_id', order.findByOrderId)
     .get('/customer/:customer_id', order.findByCustomerId)
+    .get('/customer/s/top', order.findTopCustomers)
     .put('/:order_id', order.update)
     .delete('/:order_id', order.delete)
     .delete('/', order.deleteAll);

@@ -88,7 +88,7 @@ module.exports = {
             // offset: queryStrObj.page ? parseInt(queryStrObj.page) : 1,
             // limit: queryStrObj.limit ? parseInt(queryStrObj.limit) : 10,
             order: [['order_date', 'DESC']],
-            where: {...req.query},
+            where: { ...req.query },
             include: [
                 {
                     attributes: {
@@ -165,14 +165,19 @@ module.exports = {
         })
             .then((data) => {
                 // callback.list(200, req, res, data)
-                const total_order = data.rows.reduce((acc, curr) => acc + curr['total'], 0);
+                const total_order = data.rows.reduce(
+                    (acc, curr) => acc + curr['total'],
+                    0
+                );
                 res.status(200).send({
                     total_order,
                     list: data.rows,
                     pagination: {
                         current_page: parseInt(req.query.page),
                         limit: parseInt(req.query.limit),
-                        total_page: (parseInt(req.query.page) - 1) * parseInt(req.query.limit),
+                        total_page:
+                            (parseInt(req.query.page) - 1) *
+                            parseInt(req.query.limit),
                         total_row: data.count
                     },
                     meta: {
@@ -386,12 +391,56 @@ module.exports = {
                     if (req.query.order_status_id !== ORDER_STATUS_DONE) {
                         const filter = data.rows.filter(
                             (el) => el.order_status_id !== ORDER_STATUS_DONE
-                        )
-                        return callback.list(200, req, res, {...data, rows: filter})
+                        );
+                        return callback.list(200, req, res, {
+                            ...data,
+                            rows: filter
+                        });
                     }
-                    return callback.list(200, req, res, data)
+                    return callback.list(200, req, res, data);
                 }
-                return callback.list(200, req, res, data)
+                return callback.list(200, req, res, data);
+            })
+            .catch((err) => callback.error(500, res, err.message));
+    },
+
+    findTopCustomers: (req, res) => {
+        Order.belongsTo(Customer, { foreignKey: 'customer_id' });
+        Order.findAll({
+            limit: 3,
+            raw: true,
+            attributes: [
+                [
+                    db.sequelize.fn('count', db.sequelize.col('customer_id')),
+                    'total_order'
+                ]
+            ],
+            group: ['customer_id'],
+            order: [[db.sequelize.literal('total_order'), 'DESC']],
+            include: [
+                {
+                    attributes: {
+                        exclude: [
+                            'gender',
+                            'birthday',
+                            'address',
+                            'createdAt',
+                            'updatedAt'
+                        ]
+                    },
+                    model: Customer,
+                    required: false
+                }
+            ]
+        })
+            .then((data) => {
+                res.status(200).send({
+                    list: data,
+                    meta: {
+                        code: 200,
+                        status: 'OK'
+                    }
+                });
             })
             .catch((err) => callback.error(500, res, err.message));
     },
