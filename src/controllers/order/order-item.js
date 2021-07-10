@@ -45,24 +45,28 @@ module.exports = {
         const formattedLastDay = moment(lastDay).format(format);
 
         try {
-            const result = await sequelize.query(
+            const itemsResult = await sequelize.query(
                 `SELECT * FROM order_item WHERE createdAt >= '${formattedFirstDay}' AND createdAt <= '${formattedLastDay}'`,
                 { type: sequelize.QueryTypes.SELECT }
             );
-            const total_order = result.reduce(
-                (acc, curr) => acc + curr['subtotal'],
+            const orders = await sequelize.query(
+                `SELECT * FROM order WHERE createdAt >= '${formattedFirstDay}' AND createdAt <= '${formattedLastDay}'`,
+                { type: sequelize.QueryTypes.SELECT }
+            );
+            const total_order = orders.reduce(
+                (acc, curr) => acc + curr['total'],
                 0
             );
             return res.status(200).send({
                 total_order,
-                list: result,
+                list: itemsResult,
                 pagination: {
                     current_page: parseInt(req.query.page),
                     limit: parseInt(req.query.limit),
                     total_page:
                         (parseInt(req.query.page) - 1) *
                         parseInt(req.query.limit),
-                    total_row: result.length
+                    total_row: itemsResult.length
                 },
                 meta: {
                     code: 200,

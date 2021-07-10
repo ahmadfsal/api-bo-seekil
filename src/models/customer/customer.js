@@ -18,6 +18,9 @@ module.exports = (sequelize, Sequelize) => {
         birthday: {
             type: Sequelize.DATE()
         },
+        points: {
+            type: Sequelize.DOUBLE()
+        },
         address: {
             type: Sequelize.STRING(255)
         }
