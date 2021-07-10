@@ -10,6 +10,18 @@ const sequelize = new Sequileze(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
         freezeTableName: true,
         timestamps: true
     },
+    dialectOptions: {
+        useUTC: false, // for reading from database
+        dateStrings: true,
+        typeCast(field, next) {
+            // for reading from database
+            if (field.type === 'DATETIME') {
+                return field.string();
+            }
+            return next();
+        }
+    },
+    timezone: 'Asia/Jakarta',
     pool: {
         max: dbConfig.pool.max,
         min: dbConfig.pool.min,

@@ -19,7 +19,7 @@ module.exports = (model, req, res, customerId) => {
         promo_id: req.body.promo_id,
         pickup_delivery_price: req.body.pickup_delivery_price,
         potongan: req.body.potongan,
-        order_date: Date.now(),
+        order_date: moment().tz('Asia/Jakarta'),
         order_status_id: req.body.order_status_id,
         qty: req.body.qty,
         total: req.body.total

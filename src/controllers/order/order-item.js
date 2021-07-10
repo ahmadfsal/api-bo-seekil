@@ -50,7 +50,7 @@ module.exports = {
                 { type: sequelize.QueryTypes.SELECT }
             );
             const orders = await sequelize.query(
-                "SELECT * FROM `order` WHERE createdAt >= '" +formattedFirstDay + "' AND createdAt <= '" +formattedLastDay+ "'",
+                "SELECT * FROM `order` WHERE order_date >= '" +formattedFirstDay + "' AND order_date <= '" +formattedLastDay+ "'",
                 { type: sequelize.QueryTypes.SELECT }
             );
             const total_order = orders.reduce(
