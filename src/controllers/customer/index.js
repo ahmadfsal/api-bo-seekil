@@ -1,6 +1,7 @@
 const db = require('../../models/db');
 const Customer = db.customer;
 const callback = require('../../presenter/callback');
+const generateAccessToken = require('../../middleware/generate-access-token');
 
 module.exports = {
     create: (req, res) => {
@@ -13,7 +14,8 @@ module.exports = {
 
         const body = {
             name: req.body.name,
-            whatsapp: req.body.whatsapp
+            email: req.body.email,
+            password: req.body.password
         };
 
         Customer.create(body)
@@ -22,7 +24,7 @@ module.exports = {
     },
     findAll: (req, res) => {
         Customer.findAndCountAll({
-            order: [['name', 'DESC']]
+            order: [['name', 'ASC']]
         })
             .then((data) => callback.list(200, req, res, data))
             .catch((err) => callback.error(500, res, err.message));
@@ -68,5 +70,5 @@ module.exports = {
                 res.send({ message: `${nums} were deleted successfully!` })
             )
             .catch((err) => callback.error(500, res, err.message));
-    }
+    },
 };

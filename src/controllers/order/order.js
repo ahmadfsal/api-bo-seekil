@@ -3,7 +3,9 @@ const createOrder = require('../../helper/create-order');
 const callback = require('../../presenter/callback');
 const queryString = require('querystring');
 const url = require('url');
+const moment = require('moment');
 const { ORDER_STATUS_DONE } = require('../../constants/general.constant');
+const { Op } = require('sequelize');
 
 const Order = db.order;
 const OrderItem = db.order_item;
@@ -30,7 +32,8 @@ module.exports = {
             whatsapp: req.body.whatsapp,
             gender: req.body.gender,
             birthday: req.body.birthday,
-            address: req.body.pickup_address
+            address: req.body.pickup_address,
+            points: req.body.points
         };
 
         const doCreate = (customerId) => {
@@ -73,20 +76,7 @@ module.exports = {
         });
         Order.belongsTo(Customer, { foreignKey: 'customer_id' });
 
-        // const fullUrl =
-        //     req.protocol + '://' + req.get('host') + req.originalUrl;
-        // const rawUrl = url.parse(fullUrl);
-        // const queryStrObj = queryString.parse(rawUrl.query);
-
-        // const whereParam = () => {
-        //     delete queryStrObj.page;
-        //     delete queryStrObj.limit;
-        //     return queryStrObj;
-        // };
-
         Order.findAndCountAll({
-            // offset: queryStrObj.page ? parseInt(queryStrObj.page) : 1,
-            // limit: queryStrObj.limit ? parseInt(queryStrObj.limit) : 10,
             order: [['order_date', 'DESC']],
             where: { ...req.query },
             include: [
@@ -312,6 +302,7 @@ module.exports = {
         Order.findAndCountAll({
             limit: req.query.limit ? parseInt(req.query.limit) : 10,
             where: getQueryString(),
+            order: [['order_date', 'DESC']],
             include: [
                 {
                     attributes: {

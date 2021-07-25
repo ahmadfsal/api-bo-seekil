@@ -13,6 +13,7 @@ const sequelize = new Sequileze(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     dialectOptions: {
         useUTC: false, // for reading from database
         dateStrings: true,
+        timezone: 'local',
         typeCast(field, next) {
             // for reading from database
             if (field.type === 'DATETIME') {

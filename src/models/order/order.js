@@ -47,10 +47,10 @@ module.exports = (sequelize, Sequelize) => {
             }
         },
         pickup_delivery_price: {
-            type: Sequelize.DOUBLE
+            type: Sequelize.DOUBLE()
         },
         potongan: {
-            type: Sequelize.DOUBLE
+            type: Sequelize.DOUBLE()
         },
         order_date: {
             type: Sequelize.DATE
@@ -66,8 +66,14 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER(11)
         },
         total: {
-            type: Sequelize.DOUBLE
-        }
+            type: Sequelize.DOUBLE()
+        },
+        start_date: {
+            type: Sequelize.DATE
+        },
+        end_date: {
+            type: Sequelize.DATE
+        },
     });
 
     return Order;

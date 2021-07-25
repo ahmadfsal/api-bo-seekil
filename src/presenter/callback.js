@@ -1,10 +1,11 @@
 module.exports = {
-    single: (responseCode, res, data) => {
+    single: (responseCode, res, data, message) => {
         return res.status(responseCode).send({
             data: data,
             meta: {
                 code: responseCode,
-                status: 'OK'
+                status: 'OK',
+                message: data !== null ? 'Data found' : message
             }
         });
     },
@@ -89,7 +90,8 @@ module.exports = {
         return res.status(responseCode).send({
             meta: {
                 code: responseCode,
-                message: message
+                message: message,
+                status: 'FAIL'
             }
         });
     }
