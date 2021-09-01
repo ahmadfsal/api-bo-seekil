@@ -133,7 +133,7 @@ module.exports = (values) => {
                 },
                 layout: 'headerLineOnly'
             },
-            'Blok Kavling Karanganyar, Jamblang, Kab.Cirebon',
+            'Ruko Hijau No. 3, Jl. Pangeran Cakra Buana, Kecomberan, Kec. Talun, Kab.Cirebon',
             'Instagram: @seekil.id',
             'Telepon/Whatsapp: 0821-2705-1607',
             'Email: seekilshoescleanandcare@gmail.com',
