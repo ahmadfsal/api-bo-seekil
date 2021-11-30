@@ -69,6 +69,14 @@ module.exports = {
                     total_paid_orders: totalPaidOrders,
                     total_unpaid_orders: totalUnpaidOrders,
                     list: data,
+                    pagination: {
+                        current_page: parseInt(req.query.page),
+                        limit: parseInt(req.query.limit),
+                        total_page:
+                            (parseInt(req.query.page) - 1) *
+                            parseInt(req.query.limit),
+                        total_row: data.length
+                    },
                     meta: {
                         code: 200,
                         status: 'OK'
