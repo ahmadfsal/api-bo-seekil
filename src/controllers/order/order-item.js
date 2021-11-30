@@ -53,13 +53,21 @@ module.exports = {
             }
         })
             .then((data) => {
-                console.log(data);
                 const total_order = data.reduce(
                     (acc, curr) => acc + curr['total'],
                     0
                 );
+                const totalPaidOrders = data
+                    .filter((e) => e['payment_status'] === 'lunas')
+                    .reduce((acc, curr) => acc + curr['total'], 0);
+                const totalUnpaidOrders = data
+                    .filter((e) => e['payment_status'] === 'belum_lunas')
+                    .reduce((acc, curr) => acc + curr['total'], 0);
+
                 return res.status(200).send({
                     total_order,
+                    total_paid_orders: totalPaidOrders,
+                    total_unpaid_orders: totalUnpaidOrders,
                     list: data,
                     meta: {
                         code: 200,
