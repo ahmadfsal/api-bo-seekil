@@ -4,7 +4,9 @@ const moment = require('moment');
 const OrderItem = db.order_item;
 const Order = db.order;
 const callback = require('../../presenter/callback');
+const { Sequileze } = require('../../models/db');
 const sequelize = db.sequelize;
+const Op = Sequileze.Op;
 
 module.exports = {
     create: (req, res) => {
@@ -45,8 +47,8 @@ module.exports = {
         Order.findAll({
             where: {
                 order_date: {
-                    $gte: firstDay,
-                    $lte: lastDay
+                    [Op.gte]: firstDay,
+                    [Op.lte]: lastDay
                 }
             }
         })
