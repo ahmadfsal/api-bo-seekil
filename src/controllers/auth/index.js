@@ -30,13 +30,13 @@ module.exports = {
     customerLogin: async (req, res) => {
         if (!req.body) {
             res.status(400).send({
-                message: 'Email or Passowrd cannot be empty'
+                message: 'Username or Passowrd cannot be empty'
             });
             return;
         }
 
         Customer.findOne({
-            where: { email: req.body.email, password: req.body.password }
+            where: { username: req.body.username, password: req.body.password }
         })
             .then((data) => {
                 if (data) {
