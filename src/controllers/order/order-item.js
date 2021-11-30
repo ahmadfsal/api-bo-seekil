@@ -57,8 +57,10 @@ module.exports = {
             );
             Order.findAll({
                 where: {
-                    gte: formattedFirstDay,
-                    lte: formattedLastDay
+                    createdAt: {
+                        $gte: formattedFirstDay,
+                        $lte: formattedLastDay
+                    }
                 }
             })
                 .then((data) => {
