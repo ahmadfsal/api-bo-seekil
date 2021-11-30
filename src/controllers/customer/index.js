@@ -36,6 +36,12 @@ module.exports = {
             .then((data) => callback.single(200, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },
+    findByCustomerAndPassword: (req, res) => {
+        const { username, password } = req.params;
+        Customer.findOne({ where: { username: username, password: password } })
+            .then((data) => callback.single(200, res, data))
+            .catch((err) => callback.error(500, res, err.message));
+    },
     update: (req, res) => {
         const id = req.params.id;
 
@@ -70,5 +76,5 @@ module.exports = {
                 res.send({ message: `${nums} were deleted successfully!` })
             )
             .catch((err) => callback.error(500, res, err.message));
-    },
+    }
 };
