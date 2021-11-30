@@ -35,21 +35,18 @@ module.exports = {
     },
 
     findCurrentMonth: async (req, res) => {
-        const date = new Date(),
-            y = date.getFullYear(),
-            m = date.getMonth();
-        const firstDay = new Date(y, m, 1);
-        const lastDay = new Date(y, m + 1, 0);
-
-        const format = 'YYYY-MM-DD';
-        const formattedFirstDay = `${moment(firstDay).format(format)} 00:00:00`;
-        const formattedLastDay = `${moment(lastDay).format(format)} 23:59:59`;
+        const firstDay = `${moment()
+            .startOf('month')
+            .format('YYYY-DD-MM')} 00:00:00`;
+        const lastDay = `${moment()
+            .endOf('month')
+            .format('YYYY-DD-MM')} 23:59:59`;
 
         Order.findAll({
             where: {
                 order_date: {
-                    $gte: formattedFirstDay,
-                    $lte: formattedLastDay
+                    $gte: firstDay,
+                    $lte: lastDay
                 }
             }
         })
