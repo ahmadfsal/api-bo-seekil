@@ -50,11 +50,7 @@ module.exports = {
                 { type: sequelize.QueryTypes.SELECT }
             );
             const orders = await sequelize.query(
-                "SELECT * FROM `order` WHERE order_date >= '" +
-                    formattedFirstDay +
-                    "' AND order_date <= '" +
-                    formattedLastDay +
-                    "'",
+                `SELECT * FROM order WHERE createdAt >= '${formattedFirstDay}' AND createdAt <= '${formattedLastDay}'`,
                 { type: sequelize.QueryTypes.SELECT }
             );
             const total_order = orders.reduce(
@@ -63,7 +59,7 @@ module.exports = {
             );
             return res.status(200).send({
                 total_order,
-                list: itemsResult,
+                list: orders,
                 pagination: {
                     current_page: parseInt(req.query.page),
                     limit: parseInt(req.query.limit),
