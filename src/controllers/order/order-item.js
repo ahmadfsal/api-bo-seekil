@@ -41,8 +41,8 @@ module.exports = {
         const lastDay = new Date(y, m + 1, 0);
 
         const format = 'YYYY-MM-DD';
-        const formattedFirstDay = moment(firstDay).format(format);
-        const formattedLastDay = moment(lastDay).format(format);
+        const formattedFirstDay = `${moment(firstDay).format(format)} 00:00:00`;
+        const formattedLastDay = `${moment(lastDay).format(format)} 23:59:59`;
 
         try {
             const itemsResult = await sequelize.query(
@@ -50,7 +50,11 @@ module.exports = {
                 { type: sequelize.QueryTypes.SELECT }
             );
             const orders = await sequelize.query(
-                "SELECT * FROM `order` WHERE order_date >= '" +formattedFirstDay + "' AND order_date <= '" +formattedLastDay+ "'",
+                "SELECT * FROM `order` WHERE order_date >= '" +
+                    formattedFirstDay +
+                    "' AND order_date <= '" +
+                    formattedLastDay +
+                    "'",
                 { type: sequelize.QueryTypes.SELECT }
             );
             const total_order = orders.reduce(
