@@ -27,7 +27,7 @@ module.exports = {
             })
             .catch((err) => console.log(err));
     },
-    customerLogin: async (req, res) => {
+    login: async (req, res) => {
         if (!req.body) {
             res.status(400).send({
                 message: 'Username or Passowrd cannot be empty'
@@ -35,7 +35,7 @@ module.exports = {
             return;
         }
 
-        Customer.findOne({
+        Auth.findOne({
             where: { username: req.body.username, password: req.body.password }
         })
             .then((data) => {

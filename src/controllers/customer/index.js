@@ -36,6 +36,37 @@ module.exports = {
             .then((data) => callback.single(200, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },
+    login: async (req, res) => {
+        if (!req.body) {
+            res.status(400).send({
+                message: 'Email or Passowrd cannot be empty'
+            });
+            return;
+        }
+
+        Customer.findOne({
+            where: { email: req.body.email, password: req.body.password }
+        })
+            .then((data) => {
+                if (data) {
+                    const token = generateAccessToken({
+                        data: data.dataValues
+                    });
+                    callback.single(200, res, {
+                        ...data.dataValues,
+                        token: token
+                    });
+                } else {
+                    callback.single(
+                        200,
+                        res,
+                        null,
+                        'Akun tidak ditemukan, periksa kembali email dan password Anda'
+                    );
+                }
+            })
+            .catch((err) => callback.error(500, res, err.message));
+    },
     update: (req, res) => {
         const id = req.params.id;
 
