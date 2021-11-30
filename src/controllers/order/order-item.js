@@ -66,7 +66,7 @@ module.exports = {
                     total_page:
                         (parseInt(req.query.page) - 1) *
                         parseInt(req.query.limit),
-                    total_row: itemsResult.length
+                    total_row: orders.length
                 },
                 meta: {
                     code: 200,
