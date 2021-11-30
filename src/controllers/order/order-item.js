@@ -2,6 +2,7 @@ const db = require('../../models/db');
 const { v4: uuidv4 } = require('uuid');
 const moment = require('moment');
 const OrderItem = db.order_item;
+const Order = db.order;
 const callback = require('../../presenter/callback');
 const sequelize = db.sequelize;
 
@@ -54,40 +55,38 @@ module.exports = {
                 // "SELECT * FROM `order` WHERE createdAt >= " + formattedFirstDay + " AND createdAt <= " + formattedLastDay,
                 { type: sequelize.QueryTypes.SELECT }
             );
-            const total_order = orders.reduce(
-                (acc, curr) => acc + curr['total'],
-                0
-            );
-            return res.status(200).send({
-                total_order,
-                list: orders,
-                pagination: {
-                    current_page: parseInt(req.query.page),
-                    limit: parseInt(req.query.limit),
-                    total_page:
-                        (parseInt(req.query.page) - 1) *
-                        parseInt(req.query.limit),
-                    total_row: orders.length
-                },
-                meta: {
-                    code: 200,
-                    status: 'OK'
+            Order.findAll({
+                where: {
+                    gte: formattedFirstDay,
+                    lte: formattedLastDay
                 }
-            });
+            })
+                .then((data) => {
+                    const total_order = data.reduce(
+                        (acc, curr) => acc + curr['total'],
+                        0
+                    );
+                    return res.status(200).send({
+                        total_order,
+                        list: data,
+                        pagination: {
+                            total_row: data.length,
+                            current_page: parseInt(req.query.page),
+                            limit: parseInt(req.query.limit),
+                            total_page:
+                                (parseInt(req.query.page) - 1) *
+                                parseInt(req.query.limit)
+                        },
+                        meta: {
+                            code: 200,
+                            status: 'OK'
+                        }
+                    });
+                })
+                .catch((err) => callback.error(500, res, err.message));
         } catch (error) {
             console.log(error);
         }
-
-        // OrderItem.findAndCountAll({
-        //     where: {
-        //         createdAt: {
-        //             gte: firstDay,
-        //             lte: lastDay
-        //         }
-        //     }
-        // })
-        //     .then((data) => callback.list(200, req, res, data))
-        //     .catch((err) => callback.error(500, res, err.message));
     },
 
     findByOrderId: (req, res) => {
