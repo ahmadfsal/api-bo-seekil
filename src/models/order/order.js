@@ -68,10 +68,10 @@ module.exports = (sequelize, Sequelize) => {
         total: {
             type: Sequelize.DOUBLE()
         },
-        start_date: {
+        createdAt: {
             type: Sequelize.DATE
         },
-        end_date: {
+        updatedAt: {
             type: Sequelize.DATE
         },
     });

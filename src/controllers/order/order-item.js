@@ -45,50 +45,30 @@ module.exports = {
         const formattedFirstDay = `${moment(firstDay).format(format)} 00:00:00`;
         const formattedLastDay = `${moment(lastDay).format(format)} 23:59:59`;
 
-        try {
-            const itemsResult = await sequelize.query(
-                `SELECT * FROM order_item WHERE createdAt >= '${formattedFirstDay}' AND createdAt <= '${formattedLastDay}'`,
-                { type: sequelize.QueryTypes.SELECT }
-            );
-            const orders = await sequelize.query(
-                `SELECT * FROM [order] WHERE createdAt >= '${formattedFirstDay}' AND createdAt <= '${formattedLastDay}'`,
-                // "SELECT * FROM `order` WHERE createdAt >= " + formattedFirstDay + " AND createdAt <= " + formattedLastDay,
-                { type: sequelize.QueryTypes.SELECT }
-            );
-            Order.findAll({
-                where: {
-                    createdAt: {
-                        $gte: formattedFirstDay,
-                        $lte: formattedLastDay
-                    }
+        Order.findAll({
+            where: {
+                order_date: {
+                    $gte: formattedFirstDay,
+                    $lte: formattedLastDay
                 }
+            }
+        })
+            .then((data) => {
+                console.log(data);
+                const total_order = data.reduce(
+                    (acc, curr) => acc + curr['total'],
+                    0
+                );
+                return res.status(200).send({
+                    total_order,
+                    list: data,
+                    meta: {
+                        code: 200,
+                        status: 'OK'
+                    }
+                });
             })
-                .then((data) => {
-                    const total_order = data.reduce(
-                        (acc, curr) => acc + curr['total'],
-                        0
-                    );
-                    return res.status(200).send({
-                        total_order,
-                        list: data,
-                        pagination: {
-                            total_row: data.length,
-                            current_page: parseInt(req.query.page),
-                            limit: parseInt(req.query.limit),
-                            total_page:
-                                (parseInt(req.query.page) - 1) *
-                                parseInt(req.query.limit)
-                        },
-                        meta: {
-                            code: 200,
-                            status: 'OK'
-                        }
-                    });
-                })
-                .catch((err) => callback.error(500, res, err.message));
-        } catch (error) {
-            console.log(error);
-        }
+            .catch((err) => callback.error(500, res, err.message));
     },
 
     findByOrderId: (req, res) => {
