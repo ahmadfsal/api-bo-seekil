@@ -15,6 +15,7 @@ const masterRoutes = require('./src/routes/master');
 const customerRoutes = require('./src/routes/customer');
 const authRoutes = require('./src/routes/auth');
 const orderRoutes = require('./src/routes/order');
+const spendingMoneyRoutes = require('./src/routes/spending_money');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -62,6 +63,7 @@ app.use(
 
 app.use('/customer', authenticateToken, customerRoutes.customer);
 app.use('/auth', authRoutes);
+app.use('/spending-money', spendingMoneyRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);

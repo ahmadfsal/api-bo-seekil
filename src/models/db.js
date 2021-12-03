@@ -59,11 +59,11 @@ db.master_payment_method = require('./master/master-payment-method')(
     sequelize,
     Sequileze
 );
-
 // Customer
 db.customer = require('./customer/customer')(sequelize, Sequileze);
-
-//Auth
+// Auth
 db.auth = require('./auth')(sequelize, Sequileze);
+// Spending Money = Table Pengeluaran
+db.store_spending_money = require('./spending_money')(sequelize, Sequileze);
 
 module.exports = db;
