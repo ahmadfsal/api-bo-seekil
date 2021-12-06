@@ -65,5 +65,7 @@ db.customer = require('./customer/customer')(sequelize, Sequileze);
 db.auth = require('./auth')(sequelize, Sequileze);
 // Spending Money = Table Pengeluaran
 db.store_spending_money = require('./spending_money')(sequelize, Sequileze);
+// Fixed Monthly Expenses = Table Pengeluaran tetap bulanan
+db.fixed_monthly_expenses = require('./fixed_monthly_expenses')(sequelize, Sequileze);
 
 module.exports = db;
