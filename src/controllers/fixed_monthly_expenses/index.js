@@ -63,12 +63,12 @@ module.exports = {
     },
     countAllIncomeAndExpenditure: async (req, res) => {
         try {
-            const firstDay = `${moment()
-                .startOf('month')
-                .format('YYYY-DD-MM')} 00:00:00`;
-            const lastDay = `${moment()
-                .endOf('month')
-                .format('YYYY-DD-MM')} 23:59:59`;
+            // const firstDay = `${moment()
+            //     .startOf('month')
+            //     .format('YYYY-DD-MM')} 00:00:00`;
+            // const lastDay = `${moment()
+            //     .endOf('month')
+            //     .format('YYYY-DD-MM')} 23:59:59`;
             // const orderItemsData = await OrderItems.findAll({
             //     where: {
             //         order_date: {
