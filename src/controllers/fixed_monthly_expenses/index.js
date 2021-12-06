@@ -9,6 +9,32 @@ const OrderItems = db.order_item;
 
 const firstDay = `${moment().startOf('month').format('YYYY-DD-MM')} 00:00:00`;
 const lastDay = `${moment().endOf('month').format('YYYY-DD-MM')} 23:59:59`;
+const objParam = {
+    where: {
+        order_date: {
+            [Op.gte]: firstDay,
+            [Op.lte]: lastDay
+        }
+    }
+};
+
+async function fetchOrderItems() {
+    try {
+        const orderItemsData = await OrderItems.findAll(objParam);
+        return orderItemsData;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function fetchSpendingMoney() {
+    try {
+        const spendingMoneyData = await SpendingMoney.findAll(objParam);
+        return spendingMoneyData;
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 module.exports = {
     create: (req, res) => {
@@ -65,21 +91,13 @@ module.exports = {
             .catch((err) => callback.error(500, res, err.message));
     },
     countAllIncomeAndExpenditure: async (req, res) => {
-        const objParam = {
-            where: {
-                order_date: {
-                    [Op.gte]: firstDay,
-                    [Op.lte]: lastDay
-                }
-            }
-        };
-        const orderItemsData = await OrderItems.findAll(objParam);
+        const orderItemsData = await fetchOrderItems();
+        const spendingMoneyData = await fetchSpendingMoney();
+        
         const totalOrderItems = orderItemsData.reduce(
             (acc, curr) => acc + curr['total'],
             0
         );
-
-        const spendingMoneyData = await SpendingMoney.findAll(objParam);
         const totalSpendingMoney = spendingMoneyData.reduce(
             (acc, curr) => acc + curr['price'],
             0
