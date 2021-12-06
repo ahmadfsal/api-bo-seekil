@@ -107,13 +107,13 @@ module.exports = {
 
             const totalExpenditure =
                 totalFixedMonthlyExpenses + totalSpendingMoney;
-                
+
             const totalIncoming = totalOrder - totalExpenditure;
 
             return res.status(200).send({
                 total,
                 incoming: {
-                    items: orderData?.length ?? 0,
+                    // items: orderData?.length ?? 0,
                     paid: totalOrderPaid,
                     unpaid: totalOrderUnpaid,
                     total_incoming: totalIncoming
