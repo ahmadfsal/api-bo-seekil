@@ -43,7 +43,7 @@ module.exports = {
             .endOf('month')
             .format('YYYY-DD-MM')} 23:59:59`;
 
-        StoreSpendingMoney.findAll({
+        StoreSpendingMoney.findAndCountAll({
             where: {
                 order_date: {
                     [Op.gte]: firstDay,
@@ -52,15 +52,15 @@ module.exports = {
             }
         })
             .then((data) => {
-                res.status(200).send({
-                    list: data,
+                return res.status(200).send({
+                    list: data.rows,
                     pagination: {
                         current_page: parseInt(req.query.page),
                         limit: parseInt(req.query.limit),
                         total_page:
                             (parseInt(req.query.page) - 1) *
                             parseInt(req.query.limit),
-                        total_row: data.length
+                        total_row: data.count
                     },
                     meta: {
                         code: 200,
