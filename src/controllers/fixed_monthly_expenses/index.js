@@ -113,6 +113,7 @@ module.exports = {
                 data: {
                     total,
                     incoming: {
+                        items: orderData.length,
                         paid: totalOrderPaid,
                         unpaid: totalOrderUnpaid,
                         total_incoming: totalIncoming
