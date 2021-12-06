@@ -110,16 +110,18 @@ module.exports = {
             const total = totalIncoming - totalExpenditure;
 
             return res.status(200).send({
-                total,
-                incoming: {
-                    paid: totalOrderPaid,
-                    unpaid: totalOrderUnpaid,
-                    total_incoming: totalIncoming
-                },
-                expenditure: {
-                    fixed_monthly_expenses: totalFixedMonthlyExpenses,
-                    spending_money: totalSpendingMoney,
-                    total_expenditure: totalExpenditure
+                data: {
+                    total,
+                    incoming: {
+                        paid: totalOrderPaid,
+                        unpaid: totalOrderUnpaid,
+                        total_incoming: totalIncoming
+                    },
+                    expenditure: {
+                        fixed_monthly_expenses: totalFixedMonthlyExpenses,
+                        spending_money: totalSpendingMoney,
+                        total_expenditure: totalExpenditure
+                    }
                 },
                 meta: {
                     code: 200,
