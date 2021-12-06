@@ -98,6 +98,10 @@ module.exports = {
                 (acc, curr) => acc + curr['total'],
                 0
             );
+            const orderQty = orderData.reduce(
+                (acc, curr) => acc + curr['qty'],
+                0
+            );
             const totalOrderPaid = orderData
                 .filter((e) => e['payment_status'] === 'lunas')
                 .reduce((acc, curr) => acc + curr['total'], 0);
@@ -113,7 +117,7 @@ module.exports = {
                 data: {
                     total,
                     incoming: {
-                        items: orderData.length,
+                        items: orderQty,
                         paid: totalOrderPaid,
                         unpaid: totalOrderUnpaid,
                         total_incoming: totalIncoming
