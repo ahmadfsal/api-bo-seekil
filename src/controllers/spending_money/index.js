@@ -1,6 +1,8 @@
+const { Sequileze } = require('../../models/db');
 const db = require('../../models/db');
 const StoreSpendingMoney = db.store_spending_money;
 const callback = require('../../presenter/callback');
+const Op = Sequileze.Op;
 
 module.exports = {
     create: (req, res) => {
@@ -43,7 +45,7 @@ module.exports = {
             .endOf('month')
             .format('YYYY-DD-MM')} 23:59:59`;
 
-        StoreSpendingMoney.findAndCountAll({
+        StoreSpendingMoney.findAll({
             where: {
                 createdAt: {
                     [Op.gte]: firstDay,
@@ -53,14 +55,14 @@ module.exports = {
         })
             .then((data) => {
                 return res.status(200).send({
-                    list: data.rows,
+                    list: data,
                     pagination: {
                         current_page: parseInt(req.query.page),
                         limit: parseInt(req.query.limit),
                         total_page:
                             (parseInt(req.query.page) - 1) *
                             parseInt(req.query.limit),
-                        total_row: data.count
+                        total_row: data.length
                     },
                     meta: {
                         code: 200,
