@@ -35,15 +35,36 @@ module.exports = {
             .then((data) => callback.single(200, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },
+    findCurrentMonth: async (req, res) => {
+        const firstDay = `${moment()
+            .startOf('month')
+            .format('YYYY-DD-MM')} 00:00:00`;
+        const lastDay = `${moment()
+            .endOf('month')
+            .format('YYYY-DD-MM')} 23:59:59`;
+
+        StoreSpendingMoney.findAll({
+            where: {
+                order_date: {
+                    [Op.gte]: firstDay,
+                    [Op.lte]: lastDay
+                }
+            }
+        })
+            .then((data) => callback.list(200, req, res, data))
+            .catch((err) => callback.error(500, res, err.message));
+    },
     update: (req, res) => {
         const id = req.params.id;
 
         StoreSpendingMoney.update(req.body, { where: { id: id } })
             .then((num) => {
                 if (num == 1) {
-                    StoreSpendingMoney.findOne({ where: { id: id } }).then((data) => {
-                        callback.single(200, res, data);
-                    });
+                    StoreSpendingMoney.findOne({ where: { id: id } }).then(
+                        (data) => {
+                            callback.single(200, res, data);
+                        }
+                    );
                 } else {
                     callback.update(200, res, 'failed', id);
                 }

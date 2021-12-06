@@ -5,6 +5,7 @@ router
     .post('/', storeSpendingMoney.create)
     .get('/', storeSpendingMoney.findAll)
     .get('/:id', storeSpendingMoney.findOne)
+    .get('/current-month', storeSpendingMoney.findCurrentMonth)
     .put('/:id', storeSpendingMoney.update)
     .delete('/:id', storeSpendingMoney.delete)
     .delete('/', storeSpendingMoney.deleteAll);
