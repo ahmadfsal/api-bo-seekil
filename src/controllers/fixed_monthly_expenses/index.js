@@ -105,10 +105,8 @@ module.exports = {
                 .filter((e) => e['payment_status'] === 'belum_lunas')
                 .reduce((acc, curr) => acc + curr['total'], 0);
 
-            const totalExpenditure =
-                totalFixedMonthlyExpenses + totalSpendingMoney;
-
-            const total = totalOrder - totalExpenditure;
+            const total =
+                totalOrder - (totalFixedMonthlyExpenses + totalSpendingMoney);
 
             return res.status(200).send({
                 total,
@@ -117,10 +115,10 @@ module.exports = {
                     paid: totalOrderPaid,
                     unpaid: totalOrderUnpaid,
                     total_incoming: totalIncoming
-                }, // total pemasukan
+                },
                 expenditure: {
                     fixed_monthly_expenses: totalFixedMonthlyExpenses,
-                    spending_money: totalSpendingMoney, // total pengeluarn,
+                    spending_money: totalSpendingMoney,
                     total_expenditure: totalExpenditure
                 },
                 meta: {
