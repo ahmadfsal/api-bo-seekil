@@ -45,7 +45,7 @@ module.exports = {
 
         StoreSpendingMoney.findAndCountAll({
             where: {
-                order_date: {
+                createdAt: {
                     [Op.gte]: firstDay,
                     [Op.lte]: lastDay
                 }
