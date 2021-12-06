@@ -64,42 +64,36 @@ module.exports = {
             .then((data) => callback.single(200, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },
-    countAllIncomeAndExpenditure: (req, res) => {
-        FixedMonthlyExpenses.belongsTo(SpendingMoney);
-        FixedMonthlyExpenses.belongsTo(OrderItems);
-        FixedMonthlyExpenses.findAll({
-            include: [
-                {
-                    model: SpendingMoney,
-                    where: {
-                        createdAt: {
-                            [Op.gte]: firstDay,
-                            [Op.lte]: lastDay
-                        }
-                    }
-                },
-                {
-                    model: OrderItems,
-                    where: {
-                        order_date: {
-                            [Op.gte]: firstDay,
-                            [Op.lte]: lastDay
-                        }
-                    }
+    countAllIncomeAndExpenditure: async (req, res) => {
+        const objParam = {
+            where: {
+                order_date: {
+                    [Op.gte]: firstDay,
+                    [Op.lte]: lastDay
                 }
-            ]
-        })
+            }
+        };
+        const totalOrderItems = await OrderItems.findAll(objParam).then(
+            (data) => data.reduce((acc, curr) => acc + curr['total'], 0)
+        );
+        const totalSpendingMoney = await SpendingMoney.findAll(objParam).then(
+            (data) => data.reduce((acc, curr) => acc + curr['price'], 0)
+        );
+
+        FixedMonthlyExpenses.findAll()
             .then((data) => {
+                const totalFixedMonthlyExpenses = data.reduce(
+                    (acc, curr) => acc + curr['price'],
+                    0
+                );
+                const total =
+                    totalOrderItems +
+                    (totalFixedMonthlyExpenses + totalSpendingMoney);
                 return res.status(200).send({
-                    list: data,
-                    pagination: {
-                        current_page: parseInt(req.query.page),
-                        limit: parseInt(req.query.limit),
-                        total_page:
-                            (parseInt(req.query.page) - 1) *
-                            parseInt(req.query.limit),
-                        total_row: data.length
-                    },
+                    total_income: totalOrderItems, // total pemasukan
+                    total_spending_money: totalSpendingMoney, // total pengeluarn
+                    total_fixed_monthly_expenses: totalFixedMonthlyExpenses,
+                    total,
                     meta: {
                         code: 200,
                         status: 'OK'
