@@ -7,17 +7,6 @@ const FixedMonthlyExpenses = db.fixed_monthly_expenses;
 const SpendingMoney = db.store_spending_money;
 const OrderItems = db.order_item;
 
-const firstDay = `${moment().startOf('month').format('YYYY-DD-MM')} 00:00:00`;
-const lastDay = `${moment().endOf('month').format('YYYY-DD-MM')} 23:59:59`;
-const objParam = {
-    where: {
-        order_date: {
-            [Op.gte]: firstDay,
-            [Op.lte]: lastDay
-        }
-    }
-};
-
 module.exports = {
     create: (req, res) => {
         if (!req.body) {
@@ -74,8 +63,28 @@ module.exports = {
     },
     countAllIncomeAndExpenditure: async (req, res) => {
         try {
-            const orderItemsData = await OrderItems.findAll(objParam);
-            const spendingMoneyData = await SpendingMoney.findAll(objParam);
+            const firstDay = `${moment()
+                .startOf('month')
+                .format('YYYY-DD-MM')} 00:00:00`;
+            const lastDay = `${moment()
+                .endOf('month')
+                .format('YYYY-DD-MM')} 23:59:59`;
+            const orderItemsData = await OrderItems.findAll({
+                where: {
+                    order_date: {
+                        [Op.gte]: firstDay,
+                        [Op.lte]: lastDay
+                    }
+                }
+            });
+            const spendingMoneyData = await SpendingMoney.findAll({
+                where: {
+                    createdAt: {
+                        [Op.gte]: firstDay,
+                        [Op.lte]: lastDay
+                    }
+                }
+            });
             const fixedMonthlyExpenses = await FixedMonthlyExpenses.findAll();
             // const totalOrderItems = orderItemsData.reduce(
             //     (acc, curr) => acc + curr['total'],
