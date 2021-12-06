@@ -77,14 +77,14 @@ module.exports = {
                     }
                 }
             });
-            const spendingMoneyData = await SpendingMoney.findAll({
-                where: {
-                    createdAt: {
-                        [Op.gte]: firstDay,
-                        [Op.lte]: lastDay
-                    }
-                }
-            });
+            // const spendingMoneyData = await SpendingMoney.findAll({
+            //     where: {
+            //         createdAt: {
+            //             [Op.gte]: firstDay,
+            //             [Op.lte]: lastDay
+            //         }
+            //     }
+            // });
             const fixedMonthlyExpenses = await FixedMonthlyExpenses.findAll();
             // const totalOrderItems = orderItemsData.reduce(
             //     (acc, curr) => acc + curr['total'],
@@ -109,7 +109,7 @@ module.exports = {
                 // total,
                 fixedMonthlyExpenses,
                 orderItemsData,
-                spendingMoneyData,
+                // spendingMoneyData,
                 meta: {
                     code: 200,
                     status: 'OK'
