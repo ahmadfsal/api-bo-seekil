@@ -80,30 +80,27 @@ module.exports = {
             const orderItemsData = await OrderItems.findAll(objParam);
             const spendingMoneyData = await SpendingMoney.findAll(objParam);
             const fixedMonthlyExpenses = await FixedMonthlyExpenses.findAll();
-            // const totalOrderItems = orderItemsData.reduce(
-            //     (acc, curr) => acc + curr['total'],
-            //     0
-            // );
-            // const totalSpendingMoney = spendingMoneyData.reduce((acc, curr) => {
-            //     return acc + curr['price'], 0;
-            // });
+            const totalOrderItems = orderItemsData.reduce(
+                (acc, curr) => acc + curr['total'],
+                0
+            );
+            const totalSpendingMoney = spendingMoneyData.reduce((acc, curr) => {
+                return acc + curr['price'], 0;
+            });
 
-            // const totalFixedMonthlyExpenses = data.reduce((acc, curr) => {
-            //     return acc + curr['price'], 0;
-            // });
+            const totalFixedMonthlyExpenses = data.reduce((acc, curr) => {
+                return acc + curr['price'], 0;
+            });
 
-            // const total =
-            //     totalOrderItems +
-            //     (totalFixedMonthlyExpenses + totalSpendingMoney);
+            const total =
+                totalOrderItems +
+                (totalFixedMonthlyExpenses + totalSpendingMoney);
 
             return res.status(200).send({
-                // total_income: totalOrderItems, // total pemasukan
-                // total_spending_money: totalSpendingMoney, // total pengeluarn
-                // total_fixed_monthly_expenses: totalFixedMonthlyExpenses,
-                // total,
-                fixedMonthlyExpenses,
-                orderItemsData,
-                spendingMoneyData,
+                total_income: totalOrderItems, // total pemasukan
+                total_spending_money: totalSpendingMoney, // total pengeluarn
+                total_fixed_monthly_expenses: totalFixedMonthlyExpenses,
+                total,
                 meta: {
                     code: 200,
                     status: 'OK'
