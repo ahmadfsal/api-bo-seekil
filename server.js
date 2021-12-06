@@ -1,8 +1,8 @@
-const path = require('path');
+// const path = require('path');
 
-require('dotenv').config({
-    path: path.resolve(__dirname, `.env.${process.env.NODE_ENV}`)
-});
+// require('dotenv').config({
+//     path: path.resolve(__dirname, `.env.${process.env.NODE_ENV}`)
+// });
 
 const express = require('express');
 const bodyParser = require('body-parser');

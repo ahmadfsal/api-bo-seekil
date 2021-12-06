@@ -5,8 +5,7 @@
     "main": "server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "NODE_ENV=development nodemon -r dotenv/config server.js",
-        "start": "NODE_ENV=production nodemon -r dotenv/config server.js"
+        "start": "nodemon server.js"
     },
     "author": "Ahmad Faisal",
     "license": "ISC",

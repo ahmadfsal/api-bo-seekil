@@ -18,24 +18,6 @@ const objParam = {
     }
 };
 
-async function fetchOrderItems() {
-    try {
-        const orderItemsData = await OrderItems.findAll(objParam);
-        return orderItemsData;
-    } catch (e) {
-        console.log(e);
-    }
-}
-
-async function fetchSpendingMoney() {
-    try {
-        const spendingMoneyData = await SpendingMoney.findAll(objParam);
-        return spendingMoneyData;
-    } catch (e) {
-        console.log(e);
-    }
-}
-
 module.exports = {
     create: (req, res) => {
         if (!req.body) {
@@ -91,40 +73,38 @@ module.exports = {
             .catch((err) => callback.error(500, res, err.message));
     },
     countAllIncomeAndExpenditure: async (req, res) => {
-        const orderItemsData = await fetchOrderItems();
-        const spendingMoneyData = await fetchSpendingMoney();
-        
-        const totalOrderItems = orderItemsData.reduce(
-            (acc, curr) => acc + curr['total'],
-            0
-        );
-        const totalSpendingMoney = spendingMoneyData.reduce(
-            (acc, curr) => acc + curr['price'],
-            0
-        );
+        try {
+            // const orderItemsData = await OrderItems.findAll(objParam);
+            // const spendingMoneyData = await SpendingMoney.findAll(objParam);
+            const fixedMonthlyExpenses = await FixedMonthlyExpenses.findAll();
+            // const totalOrderItems = orderItemsData.reduce(
+            //     (acc, curr) => acc + curr['total'],
+            //     0
+            // );
+            // const totalSpendingMoney = spendingMoneyData.reduce((acc, curr) => {
+            //     return acc + curr['price'], 0;
+            // });
 
-        FixedMonthlyExpenses.findAll()
-            .then((data) => {
-                const totalFixedMonthlyExpenses = data.reduce(
-                    (acc, curr) => acc + curr['price'],
-                    0
-                );
-                const total =
-                    totalOrderItems +
-                    (totalFixedMonthlyExpenses + totalSpendingMoney);
+            // const totalFixedMonthlyExpenses = data.reduce((acc, curr) => {
+            //     return acc + curr['price'], 0;
+            // });
 
-                return res.status(200).send({
-                    total_income: totalOrderItems, // total pemasukan
-                    total_spending_money: totalSpendingMoney, // total pengeluarn
-                    total_fixed_monthly_expenses: totalFixedMonthlyExpenses,
-                    total,
-                    meta: {
-                        code: 200,
-                        status: 'OK'
-                    }
-                });
-            })
-            .catch((err) => callback.error(500, res, err.message));
+            // const total =
+            //     totalOrderItems +
+            //     (totalFixedMonthlyExpenses + totalSpendingMoney);
+
+            return res.status(200).send({
+                // total_income: totalOrderItems, // total pemasukan
+                // total_spending_money: totalSpendingMoney, // total pengeluarn
+                // total_fixed_monthly_expenses: totalFixedMonthlyExpenses,
+                // total,
+                fixedMonthlyExpenses,
+                meta: {
+                    code: 200,
+                    status: 'OK'
+                }
+            });
+        } catch (e) {}
     },
     update: (req, res) => {
         const id = req.params.id;
