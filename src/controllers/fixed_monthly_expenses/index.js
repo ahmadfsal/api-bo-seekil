@@ -111,7 +111,6 @@ module.exports = {
             return res.status(200).send({
                 total,
                 incoming: {
-                    // items: orderData?.length ?? 0,
                     paid: totalOrderPaid,
                     unpaid: totalOrderUnpaid,
                     total_incoming: totalIncoming
@@ -119,7 +118,6 @@ module.exports = {
                 expenditure: {
                     fixed_monthly_expenses: totalFixedMonthlyExpenses,
                     spending_money: totalSpendingMoney,
-                    total_expenditure: totalExpenditure
                 },
                 meta: {
                     code: 200,
