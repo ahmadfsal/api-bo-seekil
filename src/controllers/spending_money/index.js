@@ -29,20 +29,20 @@ module.exports = {
             order: [['name', 'ASC']]
         })
             .then((data) => {
-                const total = data.reduce(
+                const total = data.rows.reduce(
                     (acc, curr) => acc + curr['price'],
                     0
                 );
                 return res.status(200).send({
                     total,
-                    list: data,
+                    list: data.rows,
                     pagination: {
                         current_page: parseInt(req.query.page),
                         limit: parseInt(req.query.limit),
                         total_page:
                             (parseInt(req.query.page) - 1) *
                             parseInt(req.query.limit),
-                        total_row: data.length
+                        total_row: data.count
                     },
                     meta: {
                         code: 200,
