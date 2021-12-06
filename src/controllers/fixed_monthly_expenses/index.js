@@ -5,7 +5,7 @@ const Op = Sequileze.Op;
 const moment = require('moment');
 const FixedMonthlyExpenses = db.fixed_monthly_expenses;
 const SpendingMoney = db.store_spending_money;
-const OrderItems = db.order_item;
+const Order = db.order;
 
 module.exports = {
     create: (req, res) => {
@@ -68,19 +68,26 @@ module.exports = {
         const lastDay = `${moment()
             .endOf('month')
             .format('YYYY-DD-MM')} 23:59:59`;
-        const objParam = {
-            where: {
-                createdAt: {
-                    [Op.gte]: firstDay,
-                    [Op.lte]: lastDay
-                }
-            }
-        };
         try {
-            const orderItemsData = await OrderItems.findAll(objParam);
-            const spendingMoneyData = await SpendingMoney.findAll(objParam);
+            const orderItemsData = await Order.findAll({
+                where: {
+                    order_date: {
+                        [Op.gte]: firstDay,
+                        [Op.lte]: lastDay
+                    }
+                }
+            });
+            const spendingMoneyData = await SpendingMoney.findAll({
+                where: {
+                    createdAt: {
+                        [Op.gte]: firstDay,
+                        [Op.lte]: lastDay
+                    }
+                }
+            });
             const fixedMonthlyExpenses = await FixedMonthlyExpenses.findAll();
-            const totalOrderItems = orderItemsData.reduce(
+
+            const totalOrder = orderItemsData.reduce(
                 (acc, curr) => acc + curr['total'],
                 0
             );
@@ -88,16 +95,17 @@ module.exports = {
                 return acc + curr['price'], 0;
             });
 
-            const totalFixedMonthlyExpenses = data.reduce((acc, curr) => {
-                return acc + curr['price'], 0;
-            });
+            const totalFixedMonthlyExpenses = fixedMonthlyExpenses.reduce(
+                (acc, curr) => {
+                    return acc + curr['price'], 0;
+                }
+            );
 
             const total =
-                totalOrderItems +
-                (totalFixedMonthlyExpenses + totalSpendingMoney);
+                totalOrder + (totalFixedMonthlyExpenses + totalSpendingMoney);
 
             return res.status(200).send({
-                total_income: totalOrderItems, // total pemasukan
+                total_income: totalOrder, // total pemasukan
                 total_spending_money: totalSpendingMoney, // total pengeluarn
                 total_fixed_monthly_expenses: totalFixedMonthlyExpenses,
                 total,
