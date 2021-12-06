@@ -106,7 +106,7 @@ module.exports = {
                 .reduce((acc, curr) => acc + curr['total'], 0);
 
             const total =
-                totalOrder - (totalFixedMonthlyExpenses + totalSpendingMoney);
+                totalIncoming - (totalFixedMonthlyExpenses + totalSpendingMoney);
 
             return res.status(200).send({
                 total,
