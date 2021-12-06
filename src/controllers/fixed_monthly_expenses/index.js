@@ -98,18 +98,12 @@ module.exports = {
                 (acc, curr) => acc + curr['total'],
                 0
             );
-            const totalOrderPaid = orderData.reduce((acc, curr) => {
-                if (curr['payment_status'] === 'lunas') {
-                    return acc + curr['total'];
-                }
-                return 0;
-            }, 0);
-            const totalOrderUnpaid = orderData.reduce((acc, curr) => {
-                if (curr['payment_status'] === 'belum lunas') {
-                    return acc + curr['total'];
-                }
-                return 0;
-            }, 0);
+            const totalOrderPaid = orderData
+                .filter((e) => e['payment_status'] === 'lunas')
+                .reduce((acc, curr) => acc + curr['total'], 0);
+            const totalOrderUnpaid = orderData
+                .filter((e) => e['payment_status'] === 'belum_lunas')
+                .reduce((acc, curr) => acc + curr['total'], 0);
 
             const total =
                 totalOrder - (totalFixedMonthlyExpenses + totalSpendingMoney);
