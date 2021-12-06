@@ -43,7 +43,7 @@ module.exports = {
             .endOf('month')
             .format('YYYY-DD-MM')} 23:59:59`;
 
-        StoreSpendingMoney.findAll({
+        StoreSpendingMoney.findAndCountAll({
             where: {
                 order_date: {
                     [Op.gte]: firstDay,
