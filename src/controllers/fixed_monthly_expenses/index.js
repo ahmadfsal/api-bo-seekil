@@ -64,7 +64,7 @@ module.exports = {
             .then((data) => callback.single(200, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },
-    countAllIncomeAndExpenditure: async (req, res) => {
+    countAllIncomeAndExpenditure: (req, res) => {
         const objParam = {
             where: {
                 order_date: {
@@ -73,12 +73,12 @@ module.exports = {
                 }
             }
         };
-        const totalOrderItems = await OrderItems.findAll(objParam).then(
-            (data) => data.reduce((acc, curr) => acc + curr['total'], 0)
-        );
-        const totalSpendingMoney = await SpendingMoney.findAll(objParam).then(
-            (data) => data.reduce((acc, curr) => acc + curr['price'], 0)
-        );
+        const totalOrderItems = OrderItems.findAll(objParam)
+            .then((data) => data.reduce((acc, curr) => acc + curr['total'], 0))
+            .catch((err) => console.log(err.message));
+        const totalSpendingMoney = SpendingMoney.findAll(objParam)
+            .then((data) => data.reduce((acc, curr) => acc + curr['price'], 0))
+            .catch((err) => console.log(err.message));
 
         FixedMonthlyExpenses.findAll()
             .then((data) => {
