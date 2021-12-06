@@ -71,7 +71,6 @@ module.exports = {
             include: [
                 {
                     model: SpendingMoney,
-                    as: 'spending_money',
                     where: {
                         createdAt: {
                             [Op.gte]: firstDay,
@@ -81,7 +80,6 @@ module.exports = {
                 },
                 {
                     model: OrderItems,
-                    as: 'order_items',
                     where: {
                         order_date: {
                             [Op.gte]: firstDay,
