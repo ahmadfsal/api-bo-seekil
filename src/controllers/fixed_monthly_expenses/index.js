@@ -69,22 +69,8 @@ module.exports = {
             .endOf('month')
             .format('YYYY-DD-MM')} 23:59:59`;
         try {
-            const orderItemsData = await OrderItems.findAll({
-                where: {
-                    order_date: {
-                        [Op.gte]: firstDay,
-                        [Op.lte]: lastDay
-                    }
-                }
-            });
-            const spendingMoneyData = await SpendingMoney.findAll({
-                where: {
-                    createdAt: {
-                        [Op.gte]: firstDay,
-                        [Op.lte]: lastDay
-                    }
-                }
-            });
+            const orderItemsData = await OrderItems.findAll();
+            const spendingMoneyData = await SpendingMoney.findAll();
             const fixedMonthlyExpenses = await FixedMonthlyExpenses.findAll();
             // const totalOrderItems = orderItemsData.reduce(
             //     (acc, curr) => acc + curr['total'],
