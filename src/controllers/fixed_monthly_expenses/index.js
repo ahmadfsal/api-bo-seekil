@@ -105,8 +105,9 @@ module.exports = {
                 .filter((e) => e['payment_status'] === 'belum_lunas')
                 .reduce((acc, curr) => acc + curr['total'], 0);
 
-            const total =
-                totalIncoming - (totalFixedMonthlyExpenses + totalSpendingMoney);
+            const totalExpenditure =
+                totalFixedMonthlyExpenses + totalSpendingMoney;
+            const total = totalIncoming - totalExpenditure;
 
             return res.status(200).send({
                 total,
@@ -118,6 +119,7 @@ module.exports = {
                 expenditure: {
                     fixed_monthly_expenses: totalFixedMonthlyExpenses,
                     spending_money: totalSpendingMoney,
+                    total_expenditure: totalExpenditure
                 },
                 meta: {
                     code: 200,
