@@ -65,6 +65,8 @@ module.exports = {
             .catch((err) => callback.error(500, res, err.message));
     },
     countAllIncomeAndExpenditure: (req, res) => {
+        FixedMonthlyExpenses.belongsTo(SpendingMoney);
+        FixedMonthlyExpenses.belongsTo(OrderItems);
         FixedMonthlyExpenses.findAll({
             include: [
                 {
