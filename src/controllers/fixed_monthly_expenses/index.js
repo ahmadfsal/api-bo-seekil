@@ -94,7 +94,6 @@ module.exports = {
             const totalSpendingMoney = spendingMoneyData.reduce((acc, curr) => {
                 return acc + curr['price'], 0;
             });
-
             const totalFixedMonthlyExpenses = fixedMonthlyExpenses.reduce(
                 (acc, curr) => {
                     return acc + curr['price'], 0;
@@ -109,6 +108,7 @@ module.exports = {
                 total_spending_money: totalSpendingMoney, // total pengeluarn
                 total_fixed_monthly_expenses: totalFixedMonthlyExpenses,
                 total,
+                fixedMonthlyExpenses,
                 meta: {
                     code: 200,
                     status: 'OK'
