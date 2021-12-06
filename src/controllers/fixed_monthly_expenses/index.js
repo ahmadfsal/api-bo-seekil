@@ -105,18 +105,23 @@ module.exports = {
                 .filter((e) => e['payment_status'] === 'belum_lunas')
                 .reduce((acc, curr) => acc + curr['total'], 0);
 
-            const total =
-                totalOrder - (totalFixedMonthlyExpenses + totalSpendingMoney);
+            const totalExpenditure =
+                totalFixedMonthlyExpenses + totalSpendingMoney;
+            const totalIncoming = totalOrder - totalExpenditure;
 
             return res.status(200).send({
-                order: {
+                total,
+                incoming: {
+                    items: orderData.length,
                     paid: totalOrderPaid,
                     unpaid: totalOrderUnpaid,
-                    total: totalOrder
+                    total_incoming: totalIncoming
                 }, // total pemasukan
-                total_spending_money: totalSpendingMoney, // total pengeluarn
-                total_fixed_monthly_expenses: totalFixedMonthlyExpenses,
-                total,
+                expenditure: {
+                    fixed_monthly_expenses: totalFixedMonthlyExpenses,
+                    spending_money: totalSpendingMoney, // total pengeluarn,
+                    total_expenditure: totalExpenditure
+                },
                 meta: {
                     code: 200,
                     status: 'OK'
