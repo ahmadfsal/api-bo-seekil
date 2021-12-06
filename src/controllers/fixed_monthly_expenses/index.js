@@ -73,17 +73,13 @@ module.exports = {
                 }
             }
         };
-        const orderItemsData = await OrderItems.findAll(objParam)
-            .then((data) => data)
-            .catch((err) => console.log(err.message));
+        const orderItemsData = await OrderItems.findAll(objParam);
         const totalOrderItems = orderItemsData.reduce(
             (acc, curr) => acc + curr['total'],
             0
         );
 
-        const spendingMoneyData = await SpendingMoney.findAll(objParam)
-            .then((data) => data)
-            .catch((err) => console.log(err.message));
+        const spendingMoneyData = await SpendingMoney.findAll(objParam);
         const totalSpendingMoney = spendingMoneyData.reduce(
             (acc, curr) => acc + curr['price'],
             0
