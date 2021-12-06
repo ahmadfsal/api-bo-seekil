@@ -87,6 +87,9 @@ module.exports = {
             });
             const fixedMonthlyExpenses = await FixedMonthlyExpenses.findAll();
 
+            const totalSpendingMoney = spendingMoneyData.reduce((acc, curr) => {
+                return acc + curr['price'], 0;
+            });
             const totalFixedMonthlyExpenses = fixedMonthlyExpenses.reduce(
                 (acc, curr) => acc + curr['price'],
                 0
@@ -95,19 +98,31 @@ module.exports = {
                 (acc, curr) => acc + curr['total'],
                 0
             );
-            const totalSpendingMoney = spendingMoneyData.reduce((acc, curr) => {
-                return acc + curr['price'], 0;
-            });
+            const totalOrderPaid = orderData.reduce((acc, curr) => {
+                if (curr['payment_status'] === 'lunas') {
+                    return acc + curr['total'];
+                }
+                return 0;
+            }, 0);
+            const totalOrderUnpaid = orderData.reduce((acc, curr) => {
+                if (curr['payment_status'] === 'belum lunas') {
+                    return acc + curr['total'];
+                }
+                return 0;
+            }, 0);
 
             const total =
-                totalOrder + (totalFixedMonthlyExpenses + totalSpendingMoney);
+                totalOrder - (totalFixedMonthlyExpenses + totalSpendingMoney);
 
             return res.status(200).send({
-                total_income: totalOrder, // total pemasukan
+                order: {
+                    paid: totalOrderPaid,
+                    unpaid: totalOrderUnpaid,
+                    total: totalOrder
+                }, // total pemasukan
                 total_spending_money: totalSpendingMoney, // total pengeluarn
                 total_fixed_monthly_expenses: totalFixedMonthlyExpenses,
                 total,
-                fixedMonthlyExpenses,
                 meta: {
                     code: 200,
                     status: 'OK'
