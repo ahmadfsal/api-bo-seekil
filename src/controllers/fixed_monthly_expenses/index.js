@@ -87,18 +87,20 @@ module.exports = {
             });
             const fixedMonthlyExpenses = await FixedMonthlyExpenses.findAll();
 
-            const totalSpendingMoney = spendingMoneyData.reduce((acc, curr) => {
-                return acc + curr['price'], 0;
-            });
-            const totalFixedMonthlyExpenses = fixedMonthlyExpenses.reduce(
+            const totalSpendingMoney = await spendingMoneyData.reduce(
+                (acc, curr) => {
+                    return acc + curr['price'], 0;
+                }
+            );
+            const totalFixedMonthlyExpenses = await fixedMonthlyExpenses.reduce(
                 (acc, curr) => acc + curr['price'],
                 0
             );
-            const totalIncoming = orderData.reduce(
+            const totalIncoming = await orderData.reduce(
                 (acc, curr) => acc + curr['total'],
                 0
             );
-            const orderQty = orderData.reduce(
+            const orderQty = await orderData.reduce(
                 (acc, curr) => acc + curr['qty'],
                 0
             );
