@@ -113,11 +113,11 @@ module.exports = {
 
             const totalExpenditure =
                 totalFixedMonthlyExpenses + totalSpendingMoney;
+            const total_current_month = totalIncoming - totalSpendingMoney;
             const total = totalIncoming - totalExpenditure;
 
             return res.status(200).send({
                 data: {
-                    total,
                     incoming: {
                         items: orderQty,
                         paid: totalOrderPaid,
@@ -128,7 +128,9 @@ module.exports = {
                         fixed_monthly_expenses: totalFixedMonthlyExpenses,
                         spending_money: totalSpendingMoney,
                         total_expenditure: totalExpenditure
-                    }
+                    },
+                    total_current_month,
+                    total
                 },
                 meta: {
                     code: 200,
