@@ -87,23 +87,22 @@ module.exports = {
             });
             const fixedMonthlyExpenses = await FixedMonthlyExpenses.findAll();
 
-            const totalSpendingMoney = await spendingMoneyData.reduce(
-                (acc, curr) => {
-                    return acc + curr['price'], 0;
-                }
-            );
-            const totalFixedMonthlyExpenses = await fixedMonthlyExpenses.reduce(
-                (acc, curr) => acc + curr['price'],
-                0
-            );
-            const totalIncoming = await orderData.reduce(
-                (acc, curr) => acc + curr['total'],
-                0
-            );
-            const orderQty = await orderData.reduce(
+            const orderQty = orderData.reduce(
                 (acc, curr) => acc + curr['qty'],
                 0
             );
+            const totalSpendingMoney = spendingMoneyData.reduce((acc, curr) => {
+                return acc + curr['price'], 0;
+            });
+            const totalFixedMonthlyExpenses = fixedMonthlyExpenses.reduce(
+                (acc, curr) => acc + curr['price'],
+                0
+            );
+            const totalIncoming = orderData.reduce(
+                (acc, curr) => acc + curr['total'],
+                0
+            );
+            
             const totalOrderPaid = orderData
                 .filter((e) => e['payment_status'] === 'lunas')
                 .reduce((acc, curr) => acc + curr['total'], 0);
@@ -117,7 +116,6 @@ module.exports = {
 
             return res.status(200).send({
                 data: {
-                    spendingMoneyData,
                     total,
                     incoming: {
                         items: orderQty,
