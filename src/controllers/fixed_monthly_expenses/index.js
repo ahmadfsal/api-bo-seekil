@@ -117,6 +117,7 @@ module.exports = {
 
             return res.status(200).send({
                 data: {
+                    spendingMoneyData,
                     total,
                     incoming: {
                         items: orderQty,
