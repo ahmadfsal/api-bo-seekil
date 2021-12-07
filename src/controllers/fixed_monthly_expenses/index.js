@@ -91,9 +91,10 @@ module.exports = {
                 (acc, curr) => acc + curr['qty'],
                 0
             );
-            const totalSpendingMoney = spendingMoneyData.reduce((acc, curr) => {
-                return acc + curr['price'], 0;
-            });
+            const totalSpendingMoney = spendingMoneyData.reduce(
+                (acc, curr) => acc + curr['price'],
+                0
+            );
             const totalFixedMonthlyExpenses = fixedMonthlyExpenses.reduce(
                 (acc, curr) => acc + curr['price'],
                 0
@@ -102,7 +103,7 @@ module.exports = {
                 (acc, curr) => acc + curr['total'],
                 0
             );
-            
+
             const totalOrderPaid = orderData
                 .filter((e) => e['payment_status'] === 'lunas')
                 .reduce((acc, curr) => acc + curr['total'], 0);
