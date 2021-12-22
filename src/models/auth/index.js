@@ -6,6 +6,9 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             unique: true
         },
+        user_id: {
+            type: Sequelize.STRING(100)
+        },
         username: {
             type: Sequelize.STRING(100)
         },

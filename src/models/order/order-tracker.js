@@ -16,6 +16,9 @@ module.exports = (sequelize, Sequelize) => {
                 key: 'id',
             }
         },
+        created_by: {
+            type: Sequelize.STRING(100)
+        }
     });
 
     return OrderTracker;

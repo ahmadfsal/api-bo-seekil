@@ -4,10 +4,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER(),
             primaryKey: true,
             autoIncrement: true,
-            unique: true,
+            unique: true
         },
         item_id: {
-            type: Sequelize.STRING(100),
+            type: Sequelize.STRING(100)
         },
         order_id: {
             type: Sequelize.STRING(100)
@@ -20,6 +20,9 @@ module.exports = (sequelize, Sequelize) => {
         },
         note: {
             type: Sequelize.STRING(255)
+        },
+        created_by: {
+            type: Sequelize.STRING(100)
         }
     });
 

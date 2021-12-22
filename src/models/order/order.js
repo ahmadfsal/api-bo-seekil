@@ -74,6 +74,9 @@ module.exports = (sequelize, Sequelize) => {
         updatedAt: {
             type: Sequelize.DATE
         },
+        created_by: {
+            type: Sequelize.STRING(100)
+        }
     });
 
     return Order;

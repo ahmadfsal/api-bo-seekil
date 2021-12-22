@@ -16,6 +16,9 @@ module.exports = (sequelize, Sequelize) => {
         service_id: {
             type: Sequelize.INTEGER(11)
         },
+        created_by: {
+            type: Sequelize.STRING(100)
+        }
     });
 
     return OrderItemServices;
