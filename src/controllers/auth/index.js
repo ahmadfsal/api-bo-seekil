@@ -15,7 +15,10 @@ module.exports = {
         }
 
         Auth.findOne({
-            where: { username: req.body.username }
+            where: { username: req.body.username },
+            attributes: {
+                exclude: ['password']
+            }
         })
             .then((data) => {
                 if (data) {
@@ -36,7 +39,10 @@ module.exports = {
         }
 
         Auth.findOne({
-            where: { username: req.body.username, password: req.body.password }
+            where: { username: req.body.username, password: req.body.password },
+            attributes: {
+                exclude: ['password']
+            }
         })
             .then((data) => {
                 if (data) {
