@@ -5,7 +5,6 @@ router
     .post('/', order.create)
     .get('/', order.findAll)
     .get('/:order_id', order.findByOrderId)
-    // .get('/period/current-month', order.findByCurrentMonth)
     .get('/customer/:customer_id', order.findByCustomerId)
     .get('/customer/s/top', order.findTopCustomers)
     .put('/:order_id', order.update)
