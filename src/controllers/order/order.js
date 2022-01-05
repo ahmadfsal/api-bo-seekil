@@ -1,11 +1,9 @@
 const db = require('../../models/db');
 const createOrder = require('../../helper/create-order');
 const callback = require('../../presenter/callback');
-const queryString = require('querystring');
-const url = require('url');
 const moment = require('moment');
 const { ORDER_STATUS_DONE } = require('../../constants/general.constant');
-const { Op } = require('sequelize');
+const Op = Sequileze.Op;
 
 const Order = db.order;
 const OrderItem = db.order_item;
@@ -79,6 +77,132 @@ module.exports = {
         Order.findAndCountAll({
             order: [['order_date', 'DESC']],
             where: { ...req.query },
+            include: [
+                {
+                    attributes: {
+                        exclude: ['id', 'createdAt', 'updatedAt']
+                    },
+                    model: MasterPaymentMethod,
+                    required: false
+                },
+                {
+                    attributes: {
+                        exclude: ['id', 'description', 'createdAt', 'updatedAt']
+                    },
+                    model: MasterType,
+                    required: false
+                },
+                {
+                    attributes: {
+                        exclude: ['id', 'createdAt', 'updatedAt']
+                    },
+                    model: MasterStore,
+                    required: false
+                },
+                {
+                    attributes: {
+                        exclude: ['id', 'description', 'createdAt', 'updatedAt']
+                    },
+                    model: MasterStatus,
+                    required: false
+                },
+                {
+                    attributes: {
+                        exclude: [
+                            'id',
+                            'whatsapp',
+                            'address',
+                            'latitude',
+                            'longitude',
+                            'potongan',
+                            'drop_zone',
+                            'start_date',
+                            'end_date',
+                            'createdAt',
+                            'updatedAt'
+                        ]
+                    },
+                    model: MasterPartnership,
+                    required: false
+                },
+                {
+                    attributes: {
+                        exclude: [
+                            'id',
+                            // 'name',
+                            'discount',
+                            // 'description',
+                            'status',
+                            'start_date',
+                            'end_date',
+                            'createdAt',
+                            'updatedAt'
+                        ]
+                    },
+                    model: MasterPromo,
+                    required: false
+                },
+                {
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    },
+                    model: Customer,
+                    required: false
+                }
+            ]
+        })
+            .then((data) => {
+                // callback.list(200, req, res, data)
+                const total_order = data.rows.reduce(
+                    (acc, curr) => acc + curr['total'],
+                    0
+                );
+                res.status(200).send({
+                    total_order,
+                    list: data.rows,
+                    pagination: {
+                        current_page: parseInt(req.query.page),
+                        limit: parseInt(req.query.limit),
+                        total_page:
+                            (parseInt(req.query.page) - 1) *
+                            parseInt(req.query.limit),
+                        total_row: data.count
+                    },
+                    meta: {
+                        code: 200,
+                        status: 'OK'
+                    }
+                });
+            })
+            .catch((err) => callback.error(500, res, err.message));
+    },
+
+    findByCurrentMonth: (req, res) => {
+        const firstDay = `${moment()
+            .startOf('month')
+            .format('YYYY-DD-MM')} 00:00:00`;
+        const lastDay = `${moment()
+            .endOf('month')
+            .format('YYYY-DD-MM')} 23:59:59`;
+
+        Order.belongsTo(MasterType, { foreignKey: 'order_type_id' });
+        Order.belongsTo(MasterStatus, { foreignKey: 'order_status_id' });
+        Order.belongsTo(MasterPartnership, { foreignKey: 'partnership_id' });
+        Order.belongsTo(MasterStore, { foreignKey: 'store_id' });
+        Order.belongsTo(MasterPromo, { foreignKey: 'promo_id' });
+        Order.belongsTo(MasterPaymentMethod, {
+            foreignKey: 'payment_method_id'
+        });
+        Order.belongsTo(Customer, { foreignKey: 'customer_id' });
+
+        Order.findAndCountAll({
+            order: [['order_date', 'DESC']],
+            where: {
+                createdAt: {
+                    [Op.gte]: firstDay,
+                    [Op.lte]: lastDay
+                }
+            },
             include: [
                 {
                     attributes: {
