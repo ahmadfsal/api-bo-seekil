@@ -19,6 +19,7 @@ const spendingMoneyRoutes = require('./src/routes/spending_money');
 const fixedMonthlyExpensesRoutes = require('./src/routes/fixed_monthly_expenses');
 
 const app = express();
+const PORT = process.env.PORT || 8080;
 
 let corsOptions = {
     origin: [
@@ -64,7 +65,7 @@ app.use('/auth', authRoutes);
 app.use('/spending-money', spendingMoneyRoutes);
 app.use('/fixed-monthly-expenses', fixedMonthlyExpensesRoutes);
 
-app.listen(process.env.PORT || 8080, async () => {
+app.listen(PORT, async () => {
     try {
         await db.sequelize.authenticate();
         db.sequelize.sync();
