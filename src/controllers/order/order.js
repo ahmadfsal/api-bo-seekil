@@ -305,7 +305,7 @@ module.exports = {
                 where: {
                     [Op.and]: [
                         {
-                            createdAt: {
+                            order_date: {
                                 [Op.gte]: `${start_date} 00:00:00`,
                                 [Op.lte]: `${end_date} 23:59:59`
                             }
