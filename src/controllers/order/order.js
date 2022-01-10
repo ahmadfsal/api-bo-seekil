@@ -289,12 +289,29 @@ module.exports = {
             });
             Order.belongsTo(Customer, { foreignKey: 'customer_id' });
 
+            // Remove null or undefined value in req.query
+            // Also remove start_date and end_date
+            // Cause start_date and end_date has defined in
+            // First index of [Op.and]
+            Object.keys(req.query).forEach((key) => {
+                delete req.query.start_date;
+                delete req.query.end_date;
+                if (req.query[key] === undefined) {
+                    delete req.query[key];
+                }
+            });
+
             const data = await Order.findAndCountAll({
                 where: {
-                    createdAt: {
-                        [Op.gte]: `${start_date} 00:00:00`,
-                        [Op.lte]: `${end_date} 23:59:59`
-                    }
+                    [Op.and]: [
+                        {
+                            createdAt: {
+                                [Op.gte]: `${start_date} 00:00:00`,
+                                [Op.lte]: `${end_date} 23:59:59`
+                            }
+                        },
+                        req.query
+                    ]
                 },
                 include: [
                     {
@@ -326,7 +343,7 @@ module.exports = {
                     {
                         attributes: {
                             exclude: [
-                                'id',
+                                // 'id',
                                 'description',
                                 'createdAt',
                                 'updatedAt'
