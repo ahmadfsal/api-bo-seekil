@@ -302,6 +302,7 @@ module.exports = {
             });
 
             const data = await Order.findAndCountAll({
+                order: [['order_date', 'DESC']],
                 where: {
                     [Op.and]: [
                         {
