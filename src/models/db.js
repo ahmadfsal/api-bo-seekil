@@ -1,35 +1,39 @@
-const dbConfig = require('../config/db.config');
 const Sequileze = require('sequelize');
 
-const sequelize = new Sequileze(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-    freezeTableName: true,
-    host: dbConfig.HOST,
-    dialect: dbConfig.dialect,
-    operatorsAliases: false,
-    define: {
+const sequelize = new Sequileze(
+    process.env.DB,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
+    {
         freezeTableName: true,
-        timestamps: true
-    },
-    dialectOptions: {
-        useUTC: false, // for reading from database
-        dateStrings: true,
-        timezone: 'local',
-        typeCast(field, next) {
-            // for reading from database
-            if (field.type === 'DATETIME') {
-                return field.string();
+        host: process.env.DB_HOST,
+        dialect: 'mysql',
+        operatorsAliases: false,
+        define: {
+            freezeTableName: true,
+            timestamps: true
+        },
+        dialectOptions: {
+            useUTC: false, // for reading from database
+            dateStrings: true,
+            timezone: 'local',
+            typeCast(field, next) {
+                // for reading from database
+                if (field.type === 'DATETIME') {
+                    return field.string();
+                }
+                return next();
             }
-            return next();
+        },
+        timezone: 'Asia/Jakarta',
+        pool: {
+            max: 5,
+            min: 0,
+            acquire: 30000,
+            idle: 10000
         }
-    },
-    timezone: 'Asia/Jakarta',
-    pool: {
-        max: dbConfig.pool.max,
-        min: dbConfig.pool.min,
-        idle: dbConfig.pool.idle,
-        acquire: dbConfig.pool.acquire
     }
-});
+);
 
 const db = {};
 
@@ -66,6 +70,9 @@ db.auth = require('./auth')(sequelize, Sequileze);
 // Spending Money = Table Pengeluaran
 db.store_spending_money = require('./spending_money')(sequelize, Sequileze);
 // Fixed Monthly Expenses = Table Pengeluaran tetap bulanan
-db.fixed_monthly_expenses = require('./fixed_monthly_expenses')(sequelize, Sequileze);
+db.fixed_monthly_expenses = require('./fixed_monthly_expenses')(
+    sequelize,
+    Sequileze
+);
 
 module.exports = db;
