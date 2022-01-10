@@ -64,7 +64,7 @@ app.use('/auth', authRoutes);
 app.use('/spending-money', spendingMoneyRoutes);
 app.use('/fixed-monthly-expenses', fixedMonthlyExpensesRoutes);
 
-app.listen(8080, async () => {
+app.listen(process.env.PORT || 8080, async () => {
     try {
         await db.sequelize.authenticate();
         db.sequelize.sync();
