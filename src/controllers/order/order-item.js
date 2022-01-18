@@ -127,12 +127,12 @@ module.exports = {
     },
 
     delete: (req, res) => {
-        const id = req.params.id;
+        const item_id = req.params.item_id;
 
-        OrderItem.destroy({ where: { id: id } })
+        OrderItem.destroy({ where: { item_id: item_id } })
             .then((num) => {
-                if (num == 1) callback.delete(200, res, 'success', id);
-                else callback.delete(200, res, 'failed', id);
+                if (num == 1) callback.delete(200, res, 'success', item_id);
+                else callback.delete(200, res, 'failed', item_id);
             })
             .catch((err) => callback.error(500, res, err.message));
     },
