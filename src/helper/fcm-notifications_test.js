@@ -14,7 +14,7 @@ admin.initializeApp({
 const payload = {
     data: {
         click_action: 'FLUTTER_NOTIFICATION_CLICK',
-        order_id: 'SO220117695EGI',
+        order_id: 'SO123456789',
     },
     notification: {
         title: 'FCM Push Notification',

@@ -1,12 +1,9 @@
 const db = require('../../models/db');
 const createOrder = require('../../helper/create-order');
 const callback = require('../../presenter/callback');
-const queryString = require('querystring');
-const url = require('url');
-const moment = require('moment');
 const { ORDER_STATUS_DONE } = require('../../constants/general.constant');
 const { Op } = require('sequelize');
-const { getPagination } = require('../../utils/pagination');
+const fcmSendNotification = require('../../helper/fcm-notifications');
 
 const Order = db.order;
 const OrderItem = db.order_item;
@@ -719,6 +716,11 @@ module.exports = {
                     await OrderTracker.destroy({
                         where: { order_id: order_id }
                     });
+                    fcmSendNotification(
+                        'Ada transaksi yang dihapus nih!'
+                        `${order_id} udah dihapus, sabar ya nanti dapet pelanggan lagi :)`,
+                        order_id
+                    );
 
                     return callback.delete(200, res, 'success', order_id);
                 } else {
