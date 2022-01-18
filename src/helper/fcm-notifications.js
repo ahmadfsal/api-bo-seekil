@@ -1,4 +1,4 @@
-module.exports = (title, body, orderId) => {
+module.exports = async (title, body, orderId) => {
     const admin = require('firebase-admin');
     const path = require('path');
     const serviceAccount = require(path.resolve(

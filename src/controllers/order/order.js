@@ -716,7 +716,8 @@ module.exports = {
                     await OrderTracker.destroy({
                         where: { order_id: order_id }
                     });
-                    fcmSendNotification(
+
+                    await fcmSendNotification(
                         'Ada transaksi yang dihapus nih!'
                         `${order_id} udah dihapus, sabar ya nanti dapet pelanggan lagi :)`,
                         order_id
