@@ -7,7 +7,7 @@ router
     .get('/item/current-month', orderItem.findCurrentMonth)
     .get('/item/:order_id', orderItem.findByOrderId)
     .put('/item/:id', orderItem.update)
-    .delete('/item/:item_id', orderItem.delete)
+    .delete('/item/:order_id', orderItem.delete)
     .delete('/delete-all/item', orderItem.deleteAll);
 
 module.exports = router;

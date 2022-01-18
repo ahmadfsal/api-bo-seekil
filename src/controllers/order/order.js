@@ -701,9 +701,29 @@ module.exports = {
         const order_id = req.params.order_id;
 
         Order.destroy({ where: { order_id: order_id } })
-            .then((num) => {
-                if (num == 1) callback.delete(200, res, 'success', order_id);
-                else callback.delete(200, res, 'failed', order_id);
+            .then(async (num) => {
+                if (num > 0) {
+                    // Get Order Item by order_id
+                    await OrderItem.findAll({
+                        where: { order_id: order_id }
+                    }).then((items) => {
+                        items.map(async (item) => {
+                            await OrderItemServices.destroy({
+                                where: { item_id: item.item_id }
+                            });
+                            await OrderItem.destroy({
+                                where: { order_id: order_id }
+                            });
+                        });
+                    });
+                    await OrderTracker.destroy({
+                        where: { order_id: order_id }
+                    });
+
+                    return callback.delete(200, res, 'success', order_id);
+                } else {
+                    callback.delete(200, res, 'failed', order_id);
+                }
             })
             .catch((err) => callback.error(500, res, err.message));
     },
