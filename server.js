@@ -7,6 +7,11 @@ require('dotenv').config({
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const admin = require('firebase-admin');
+const serviceAccount = require(path.resolve(
+    'tools',
+    './seekil-back-office-firebase-adminsdk-dxkpm-c25e521951'
+));
 
 const db = require('./src/models/db');
 const authenticateToken = require('./src/middleware/authenticate-token');
@@ -32,6 +37,13 @@ let corsOptions = {
         'Access-Control-Allow-Origin': '*'
     }
 };
+
+// initialize Firebase App
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL:
+        'https://seekil-back-office-default-rtdb.asia-southeast1.firebasedatabase.app/'
+});
 
 app.use(cors(corsOptions));
 

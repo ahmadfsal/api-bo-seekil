@@ -723,6 +723,7 @@ module.exports = {
                 }
             })
             .then(() => {
+                // Not working yet.
                 fcmSendNotification(
                     'Ada transaksi yang dihapus nih!',
                     `${order_id} udah dihapus, sabar ya nanti dapet pelanggan lagi :)`,
