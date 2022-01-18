@@ -2,6 +2,7 @@ const { v4: uuidv4 } = require('uuid');
 const callback = require('../presenter/callback');
 const moment = require('moment');
 const randomStringGenerator = require('../utils/random-string-generator');
+const fcmSendNotification = require('../helper/fcm-notifications');
 
 module.exports = (model, req, res, customerId) => {
     const { Order, OrderTracker, OrderItem, OrderItemServices } = model;
@@ -25,7 +26,7 @@ module.exports = (model, req, res, customerId) => {
         total: req.body.total
     };
 
-    Order.create(body).then((data) => {
+    Order.create(body).then(async (data) => {
         if (req.body.items && req.body.items.length > 0) {
             const arrItems = req.body.items.map((item) => {
                 return {
@@ -68,9 +69,14 @@ module.exports = (model, req, res, customerId) => {
         } else {
             callback.single(200, res, data);
         }
-        OrderTracker.create({
+        await OrderTracker.create({
             order_id: data.dataValues.order_id,
             order_status_id: data.dataValues.order_status_id
         });
+        fcmSendNotification(
+            'Ada transaksi baru nih!',
+            `${data.dataValues.order_id} berhasil dibuat. Cek sekarang!`,
+            data.dataValues.order_id
+        );
     });
 };
