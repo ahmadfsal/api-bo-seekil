@@ -717,16 +717,17 @@ module.exports = {
                         where: { order_id: order_id }
                     });
 
-                    await fcmSendNotification(
-                        'Ada transaksi yang dihapus nih!'
-                        `${order_id} udah dihapus, sabar ya nanti dapet pelanggan lagi :)`,
-                        order_id
-                    );
-
                     return callback.delete(200, res, 'success', order_id);
                 } else {
                     callback.delete(200, res, 'failed', order_id);
                 }
+            })
+            .then(() => {
+                fcmSendNotification(
+                    'Ada transaksi yang dihapus nih!',
+                    `${order_id} udah dihapus, sabar ya nanti dapet pelanggan lagi :)`,
+                    order_id
+                );
             })
             .catch((err) => callback.error(500, res, err.message));
     },
