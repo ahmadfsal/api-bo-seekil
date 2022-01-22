@@ -73,9 +73,10 @@ module.exports = (model, req, res, customerId) => {
             order_id: data.dataValues.order_id,
             order_status_id: data.dataValues.order_status_id
         });
+        
         fcmSendNotification(
-            'Ada transaksi baru nih!',
-            `${data.dataValues.order_id} berhasil dibuat. Cek sekarang!`,
+            'Transaksi Baru',
+            `Transaksi atas nama ${data.customer_name} berhasil dibuat. Cek sekarang!`,
             data.dataValues.order_id
         );
     });

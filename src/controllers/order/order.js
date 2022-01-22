@@ -669,6 +669,13 @@ module.exports = {
                                                 );
                                             }
                                         })
+                                        .then(() => {
+                                            fcmSendNotification(
+                                                'Transaksi Selesai',
+                                                `Transaksi atas nama ${resultOrder.customer_name} selesai. Rp${resultOrder.total} masuk ke laci, ya!`,
+                                                order_id
+                                            );
+                                        })
                                         .catch((err) =>
                                             callback.error(
                                                 500,
@@ -766,10 +773,9 @@ module.exports = {
                 }
             })
             .then(() => {
-                // Not working yet.
                 fcmSendNotification(
-                    'Ada transaksi yang dihapus nih!',
-                    `${order_id} udah dihapus, sabar ya nanti dapet pelanggan lagi :)`,
+                    'Transaksi Dihapus',
+                    `${order_id} udah dihapus. Yuk tingkatkan lagi usahamu!`,
                     order_id
                 );
             })
