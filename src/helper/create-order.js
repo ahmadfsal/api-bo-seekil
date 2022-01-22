@@ -73,6 +73,9 @@ module.exports = (model, req, res, customerId) => {
             order_id: data.dataValues.order_id,
             order_status_id: data.dataValues.order_status_id
         });
+
+        console.log(JSON.stringify(data.dataValues, null, 4));
+        
         
         fcmSendNotification(
             'Transaksi Baru',
