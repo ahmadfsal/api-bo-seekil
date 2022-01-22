@@ -672,7 +672,7 @@ module.exports = {
                                         .then(() => {
                                             fcmSendNotification(
                                                 'Transaksi Selesai',
-                                                `Transaksi atas nama ${resultOrder.customer_name} selesai. Rp${resultOrder.total} masuk ke laci, ya!`,
+                                                `Transaksi atas nama ${resultOrder.dataValues.customer_name} selesai. Rp${resultOrder.dataValues.total} masuk ke laci, ya!`,
                                                 order_id
                                             );
                                         })
@@ -747,39 +747,43 @@ module.exports = {
     delete: (req, res) => {
         const order_id = req.params.order_id;
 
-        Order.destroy({ where: { order_id: order_id } })
-            .then(async (num) => {
-                if (num > 0) {
-                    // Get Order Item by order_id
-                    await OrderItem.findAll({
-                        where: { order_id: order_id }
-                    }).then((items) => {
-                        items.map(async (item) => {
-                            await OrderItemServices.destroy({
-                                where: { item_id: item.item_id }
-                            });
-                            await OrderItem.destroy({
-                                where: { order_id: order_id }
+        Order.findOne({
+            where: {
+                order_id: order_id
+            }
+        }).then((data) => {
+            Order.destroy({ where: { order_id: order_id } })
+                .then(async (num) => {
+                    if (num > 0) {
+                        // Get Order Item by order_id
+                        await OrderItem.findAll({
+                            where: { order_id: order_id }
+                        }).then((items) => {
+                            items.map(async (item) => {
+                                await OrderItemServices.destroy({
+                                    where: { item_id: item.item_id }
+                                });
+                                await OrderItem.destroy({
+                                    where: { order_id: order_id }
+                                });
                             });
                         });
-                    });
-                    await OrderTracker.destroy({
-                        where: { order_id: order_id }
-                    });
+                        await OrderTracker.destroy({
+                            where: { order_id: order_id }
+                        });
+                        fcmSendNotification(
+                            'Transaksi Dihapus',
+                            `Transaksi atas nama ${data.dataValues.customer_name} udah dihapus. Yuk tingkatkan lagi usahamu!`,
+                            order_id
+                        );
 
-                    return callback.delete(200, res, 'success', order_id);
-                } else {
-                    callback.delete(200, res, 'failed', order_id);
-                }
-            })
-            .then(() => {
-                fcmSendNotification(
-                    'Transaksi Dihapus',
-                    `${order_id} udah dihapus. Yuk tingkatkan lagi usahamu!`,
-                    order_id
-                );
-            })
-            .catch((err) => callback.error(500, res, err.message));
+                        return callback.delete(200, res, 'success', order_id);
+                    } else {
+                        callback.delete(200, res, 'failed', order_id);
+                    }
+                })
+                .catch((err) => callback.error(500, res, err.message));
+        });
     },
 
     deleteAll: (req, res) => {
