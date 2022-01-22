@@ -766,7 +766,7 @@ module.exports = {
                         });
                         fcmSendNotification(
                             'Transaksi Dihapus',
-                            `Transaksi ${data.dataValues.customer_name} udah dihapus. Yuk tingkatkan lagi usahamu!`,
+                            `Transaksi ${data.dataValues.order_id} udah dihapus. Yuk tingkatkan lagi usahamu!`,
                             order_id
                         );
 
