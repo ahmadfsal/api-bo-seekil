@@ -672,7 +672,7 @@ module.exports = {
                                         .then(() => {
                                             fcmSendNotification(
                                                 'Transaksi Selesai',
-                                                `Transaksi atas nama ${resultOrder.dataValues.customer_name} selesai. Rp${resultOrder.dataValues.total} masuk ke laci, ya!`,
+                                                `Transaksi ${resultOrder.dataValues.order_id} selesai. Rp${resultOrder.dataValues.total} masuk ke laci, ya!`,
                                                 order_id
                                             );
                                         })
