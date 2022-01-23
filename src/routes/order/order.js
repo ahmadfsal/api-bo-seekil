@@ -4,7 +4,6 @@ const router = require('express').Router();
 router
     .post('/', order.create)
     .get('/', order.findAll)
-    .get('/period', order.findAllByPeriod)
     .get('/:order_id', order.findByOrderId)
     .get('/customer/:customer_id', order.findByCustomerId)
     .get('/customer/s/top', order.findTopCustomers)

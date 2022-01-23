@@ -1,9 +1,10 @@
 const db = require('../../models/db');
 const createOrder = require('../../helper/create-order');
 const callback = require('../../presenter/callback');
+const fcmSendNotification = require('../../helper/fcm-notifications');
 const { ORDER_STATUS_DONE } = require('../../constants/general.constant');
 const { Op } = require('sequelize');
-const fcmSendNotification = require('../../helper/fcm-notifications');
+const { getPagination, getPagingData } = require('../../utils/pagination');
 
 const Order = db.order;
 const OrderItem = db.order_item;
@@ -64,7 +65,8 @@ module.exports = {
     },
 
     findAll: async (req, res) => {
-        const { customer_name, start_date, end_date } = req.query;
+        const { customer_name, start_date, end_date, page, size } = req.query;
+        const { limit, offset } = getPagination(page, size);
         try {
             Order.belongsTo(MasterType, { foreignKey: 'order_type_id' });
             Order.belongsTo(MasterStatus, { foreignKey: 'order_status_id' });
@@ -81,9 +83,13 @@ module.exports = {
             delete req.query.customer_name;
             delete req.query.start_date;
             delete req.query.end_date;
+            delete req.query.page;
+            delete req.query.size;
 
             const data = await Order.findAndCountAll({
                 order: [['order_date', 'DESC']],
+                limit,
+                offset,
                 where: {
                     [Op.and]: [
                         req.query,
@@ -202,14 +208,7 @@ module.exports = {
             return res.status(200).send({
                 total_order,
                 list: data.rows,
-                pagination: {
-                    current_page: parseInt(req.query.page),
-                    limit: parseInt(req.query.limit),
-                    total_page:
-                        (parseInt(req.query.page) - 1) *
-                        parseInt(req.query.limit),
-                    total_row: data.count
-                },
+                pagination: getPagingData(data, page, limit),
                 meta: {
                     code: 200,
                     status: 'OK'
@@ -311,161 +310,6 @@ module.exports = {
         })
             .then((data) => callback.single(200, res, data))
             .catch((err) => callback.error(500, res, err.message));
-    },
-
-    findAllByPeriod: async (req, res) => {
-        const { start_date, end_date } = req.query;
-
-        try {
-            Order.belongsTo(MasterType, { foreignKey: 'order_type_id' });
-            Order.belongsTo(MasterStatus, { foreignKey: 'order_status_id' });
-            Order.belongsTo(MasterPartnership, {
-                foreignKey: 'partnership_id'
-            });
-            Order.belongsTo(MasterStore, { foreignKey: 'store_id' });
-            Order.belongsTo(MasterPromo, { foreignKey: 'promo_id' });
-            Order.belongsTo(MasterPaymentMethod, {
-                foreignKey: 'payment_method_id'
-            });
-            Order.belongsTo(Customer, { foreignKey: 'customer_id' });
-
-            // Remove null or undefined value in req.query
-            // Also remove start_date and end_date
-            // Cause start_date and end_date has defined in
-            // First index of [Op.and]
-            Object.keys(req.query).forEach((key) => {
-                delete req.query.start_date;
-                delete req.query.end_date;
-                if (req.query[key] === undefined) {
-                    delete req.query[key];
-                }
-            });
-
-            const data = await Order.findAndCountAll({
-                order: [['order_date', 'DESC']],
-                where: {
-                    [Op.and]: [
-                        {
-                            order_date: {
-                                [Op.gte]: `${start_date} 00:00:00`,
-                                [Op.lte]: `${end_date} 23:59:59`
-                            }
-                        },
-                        req.query
-                    ]
-                },
-                include: [
-                    {
-                        attributes: {
-                            exclude: ['id', 'createdAt', 'updatedAt']
-                        },
-                        model: MasterPaymentMethod,
-                        required: false
-                    },
-                    {
-                        attributes: {
-                            exclude: [
-                                'id',
-                                'description',
-                                'createdAt',
-                                'updatedAt'
-                            ]
-                        },
-                        model: MasterType,
-                        required: false
-                    },
-                    {
-                        attributes: {
-                            exclude: ['id', 'createdAt', 'updatedAt']
-                        },
-                        model: MasterStore,
-                        required: false
-                    },
-                    {
-                        attributes: {
-                            exclude: [
-                                // 'id',
-                                'description',
-                                'createdAt',
-                                'updatedAt'
-                            ]
-                        },
-                        model: MasterStatus,
-                        required: false
-                    },
-                    {
-                        attributes: {
-                            exclude: [
-                                'id',
-                                'whatsapp',
-                                'address',
-                                'latitude',
-                                'longitude',
-                                'potongan',
-                                'drop_zone',
-                                'start_date',
-                                'end_date',
-                                'createdAt',
-                                'updatedAt'
-                            ]
-                        },
-                        model: MasterPartnership,
-                        required: false
-                    },
-                    {
-                        attributes: {
-                            exclude: [
-                                'id',
-                                // 'name',
-                                'discount',
-                                // 'description',
-                                'status',
-                                'start_date',
-                                'end_date',
-                                'createdAt',
-                                'updatedAt'
-                            ]
-                        },
-                        model: MasterPromo,
-                        required: false
-                    },
-                    {
-                        attributes: {
-                            exclude: [
-                                'id',
-                                'password',
-                                'createdAt',
-                                'updatedAt'
-                            ]
-                        },
-                        model: Customer,
-                        required: false
-                    }
-                ]
-            });
-            const total_order = data.rows.reduce(
-                (acc, curr) => acc + curr['total'],
-                0
-            );
-            return res.status(200).send({
-                total_order,
-                list: data.rows,
-                pagination: {
-                    current_page: parseInt(req.query.page),
-                    limit: parseInt(req.query.limit),
-                    total_page:
-                        (parseInt(req.query.page) - 1) *
-                        parseInt(req.query.limit),
-                    total_row: data.count
-                },
-                meta: {
-                    code: 200,
-                    status: 'OK'
-                }
-            });
-        } catch (error) {
-            return callback.error(500, res, error.message);
-        }
     },
 
     findByCustomerId: (req, res) => {

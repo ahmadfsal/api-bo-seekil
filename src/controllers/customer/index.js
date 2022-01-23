@@ -2,6 +2,7 @@ const db = require('../../models/db');
 const Customer = db.customer;
 const callback = require('../../presenter/callback');
 const generateAccessToken = require('../../middleware/generate-access-token');
+const { Op } = require('sequelize');
 
 module.exports = {
     create: (req, res) => {
@@ -23,8 +24,14 @@ module.exports = {
             .catch((err) => callback.error(500, res, err.message));
     },
     findAll: (req, res) => {
+        const { name } = req.query;
         Customer.findAndCountAll({
-            order: [['name', 'ASC']]
+            order: [['name', 'ASC']],
+            where: {
+                name: {
+                    [Op.like]: `%${name}%`
+                }
+            }
         })
             .then((data) => callback.list(200, req, res, data))
             .catch((err) => callback.error(500, res, err.message));
