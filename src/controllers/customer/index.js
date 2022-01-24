@@ -23,19 +23,22 @@ module.exports = {
             .then((data) => callback.single(200, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },
+
     findAll: (req, res) => {
         const { name } = req.query;
         Customer.findAndCountAll({
             order: [['name', 'ASC']],
             where: {
-                name: {
-                    [Op.like]: `%${name}%`
-                }
+                [Op.and]: [
+                    name ? { name: { [Op.like]: `%${name}%` } } : {},
+                    req.query
+                ]
             }
         })
             .then((data) => callback.list(200, req, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },
+
     findOne: (req, res) => {
         const { id } = req.params;
 
@@ -74,6 +77,7 @@ module.exports = {
             })
             .catch((err) => callback.error(500, res, err.message));
     },
+
     update: (req, res) => {
         const id = req.params.id;
 
@@ -89,6 +93,7 @@ module.exports = {
             })
             .catch((err) => callback.error(500, res, err.message));
     },
+
     delete: (req, res) => {
         const id = req.params.id;
 
@@ -99,6 +104,7 @@ module.exports = {
             })
             .catch((err) => callback.error(500, res, err.message));
     },
+
     deleteAll: (req, res) => {
         Customer.destroy({
             where: {},
