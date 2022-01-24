@@ -5,6 +5,7 @@ const fcmSendNotification = require('../../helper/fcm-notifications');
 const { ORDER_STATUS_DONE } = require('../../constants/general.constant');
 const { Op } = require('sequelize');
 const { getPagination, getPagingData } = require('../../utils/pagination');
+const { currencyFormat } = require('../../utils/word-transformation');
 
 const Order = db.order;
 const OrderItem = db.order_item;
@@ -476,109 +477,76 @@ module.exports = {
             .catch((err) => callback.error(500, res, err.message));
     },
 
-    update: (req, res) => {
+    update: async (req, res) => {
         const order_id = req.params.order_id;
 
-        Promise.all([
-            Order.findOne({ where: { order_id: order_id } })
-                .then((res) => res)
-                .catch((err) => console.log(err)),
-            OrderItem.findOne({ where: { order_id: order_id } })
-                .then((res) => res)
-                .catch((err) => console.log(err))
-        ])
-            .then((result) => {
-                const dataOrder = result[0];
-                const dataOrderItem = result[1];
+        try {
+            const result = await Promise.all([
+                Order.findOne({ where: { order_id: order_id } })
+                    .then((res) => res)
+                    .catch((err) => console.log(err)),
+                OrderItem.findOne({ where: { order_id: order_id } })
+                    .then((res) => res)
+                    .catch((err) => console.log(err))
+            ]);
+            const dataOrder = result[0];
+            const dataOrderItem = result[1];
 
-                if (dataOrderItem && dataOrderItem.dataValues) {
-                    if (dataOrder && dataOrder.dataValues) {
-                        Order.update(req.body, {
+            if (dataOrderItem && dataOrderItem.dataValues) {
+                if (dataOrder && dataOrder.dataValues) {
+                    try {
+                        const resultOrder = await Order.update(req.body, {
                             where: { order_id: order_id }
-                        })
-                            .then((resultOrder) => {
-                                if (resultOrder[0] === 1) {
-                                    OrderTracker.create({
+                        });
+                        if (resultOrder[0] === 1) {
+                            try {
+                                const resultOrderTracker =
+                                    await OrderTracker.create({
                                         order_id: order_id,
                                         order_status_id:
                                             req.body.order_status_id
-                                    })
-                                        .then((resultOrderTracker) => {
-                                            if (resultOrderTracker.dataValues) {
-                                                callback.update(
-                                                    200,
-                                                    res,
-                                                    'success',
-                                                    order_id
-                                                );
-                                            }
-                                        })
-                                        .catch((err) =>
-                                            callback.error(
-                                                500,
-                                                res,
-                                                err.message
-                                            )
+                                    });
+                                if (resultOrderTracker.dataValues) {
+                                    if (
+                                        resultOrderTracker.dataValues
+                                            .order_status_id === 7
+                                    ) {
+                                        const { order_id, total } =
+                                            dataOrder.dataValues;
+                                        fcmSendNotification(
+                                            'Transaksi Selesai',
+                                            `Transaksi ${order_id} selesai. Rp${currencyFormat(parseInt(total))} masuk ke laci, ya!`,
+                                            order_id
                                         );
-                                    // const bodyItems = req.body.items;
-                                    // const arr = bodyItems.map((item) => {
-                                    //     return {
-                                    //         id: item.id,
-                                    //         item_id: item.item_id
-                                    //             ? item.item_id
-                                    //             : uuidv4(),
-                                    //         order_id: order_id,
-                                    //         item_name: item.item_name,
-                                    //         subtotal: item.subtotal,
-                                    //         note: item.note
-                                    //     },
-                                    // });
-
-                                    // OrderItem.bulkCreate(arr, {
-                                    //     updateOnDuplicate: ['item_name', 'subtotal', 'note']
-                                    // }).then(resultOrderItem => {
-                                    //     if (resultOrderItem) {
-
-                                    //         const arrServices = bodyItems.reduce((acc, curr) => {
-                                    //             const appended = curr.services_id.map(item => {
-                                    //                 return {
-                                    //                     id: item.id,
-                                    //                     item_id: item.item_id,
-                                    //                     service_id: item.service_id
-                                    //                 }
-                                    //             })
-                                    //             return [...acc, ...appended]
-                                    //         }, [])
-
-                                    //         OrderItemServices.bulkCreate(arrServices, {
-                                    //             updateOnDuplicate: ['item_id', 'service_id']
-                                    //         }).then(resultOrderItemService => {
-                                    //             if (resultOrderItemService) {
-                                    //                 res.status(200).send({
-                                    //                     message: 'Yeayyyyy'
-                                    //                 })
-                                    //             }
-                                    //         })
-                                    //     }
-                                    // })
+                                    }
+                                    callback.update(
+                                        200,
+                                        res,
+                                        'success',
+                                        order_id
+                                    );
                                 }
-                            })
-                            .catch((err) =>
-                                callback.update(200, res, 'failed', order_id)
-                            );
-                    } else {
-                        res.send(404).send({
-                            message: `Order Item with order_id = ${order_id} is not found`
-                        });
+                            } catch (err) {
+                                callback.error(500, res, err.message);
+                            }
+                        }
+                    } catch (err) {
+                        callback.update(200, res, 'failed', order_id);
                     }
                 } else {
-                    callback.error(
-                        404,
-                        `Order Item with order_id = ${order_id} is not found`
-                    );
+                    res.send(404).send({
+                        message: `Order Item with order_id = ${order_id} is not found`
+                    });
                 }
-            })
-            .catch((err) => callback.error(500, res, err.message));
+            } else {
+                callback.error(
+                    404,
+                    `Order Item with order_id = ${order_id} is not found`
+                );
+            }
+        } catch (err) {
+            callback.error(500, res, err.message);
+        }
     },
 
     delete: (req, res) => {
