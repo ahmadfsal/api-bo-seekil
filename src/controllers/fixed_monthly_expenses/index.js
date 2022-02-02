@@ -64,10 +64,11 @@ module.exports = {
     countAllIncomeAndExpenditure: async (req, res) => {
         const firstDay = `${moment()
             .startOf('month')
-            .format('YYYY-DD-MM')} 00:00:00`;
+            .format('YYYY-MM-DD')} 00:00:00`;
         const lastDay = `${moment()
             .endOf('month')
-            .format('YYYY-DD-MM')} 23:59:59`;
+            .format('YYYY-MM-DD')} 23:59:59`;
+
         try {
             const orderData = await Order.findAll({
                 where: {
