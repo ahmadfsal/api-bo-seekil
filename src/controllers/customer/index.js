@@ -3,6 +3,7 @@ const Customer = db.customer;
 const callback = require('../../presenter/callback');
 const generateAccessToken = require('../../middleware/generate-access-token');
 const { Op } = require('sequelize');
+const { getPagination, getPagingData } = require('../../utils/pagination');
 
 module.exports = {
     create: (req, res) => {
@@ -24,19 +25,40 @@ module.exports = {
             .catch((err) => callback.error(500, res, err.message));
     },
 
-    findAll: (req, res) => {
-        const { name } = req.query;
-        Customer.findAndCountAll({
-            order: [['name', 'ASC']],
-            where: {
-                [Op.and]: [
-                    name ? { name: { [Op.like]: `%${name}%` } } : {},
-                    req.query
-                ]
-            }
-        })
-            .then((data) => callback.list(200, req, res, data))
-            .catch((err) => callback.error(500, res, err.message));
+    findAll: async (req, res) => {
+        const { name, page, size } = req.query;
+        const { limit, offset } = getPagination(page, size);
+
+        try {
+            delete req.query.customer_name;
+            delete req.query.start_date;
+            delete req.query.end_date;
+            delete req.query.page;
+            delete req.query.size;
+
+            const data = await Customer.findAndCountAll({
+                order: [['name', 'ASC']],
+                limit,
+                offset,
+                where: {
+                    [Op.and]: [
+                        req.query,
+                        name ? { name: { [Op.like]: `%${name}%` } } : {}
+                    ]
+                }
+            });
+
+            return res.status(200).send({
+                list: data.rows,
+                pagination: getPagingData(data, page, limit),
+                meta: {
+                    code: 200,
+                    status: 'OK'
+                }
+            });
+        } catch (err) {
+            callback.error(500, res, err.message);
+        }
     },
 
     findOne: (req, res) => {
