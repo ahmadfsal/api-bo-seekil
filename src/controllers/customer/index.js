@@ -1,5 +1,6 @@
 const db = require('../../models/db');
 const Customer = db.customer;
+const CustomerMember = db.customer_member;
 const callback = require('../../presenter/callback');
 const generateAccessToken = require('../../middleware/generate-access-token');
 const { Op } = require('sequelize');
@@ -34,6 +35,8 @@ module.exports = {
             delete req.query.page;
             delete req.query.size;
 
+            Customer.belongsTo(CustomerMember, { foreignKey: 'id' });
+
             const data = await Customer.findAndCountAll({
                 order: [['name', 'ASC']],
                 limit,
@@ -43,7 +46,15 @@ module.exports = {
                         req.query,
                         name ? { name: { [Op.substring]: name } } : {}
                     ]
-                }
+                },
+                include: [
+                    {
+                        model: CustomerMember,
+                        attributes: {
+                            exclude: ['id', 'createdAt', 'updatedAt']
+                        }
+                    }
+                ]
             });
 
             return res.status(200).send({

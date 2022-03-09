@@ -4,7 +4,11 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: true
+            unique: true,
+            references: {
+                model: 'customer_member',
+                key: 'customer_id'
+            }
         },
         name: {
             type: Sequelize.STRING(100)

@@ -1,6 +1,5 @@
 const db = require('../../models/db');
 const CustomerMember = db.customer_member;
-const Customer = db.customer;
 const callback = require('../../presenter/callback');
 const generateAccessToken = require('../../middleware/generate-access-token');
 const { Op } = require('sequelize');
@@ -35,8 +34,6 @@ module.exports = {
             delete req.query.member_id;
             delete req.query.page;
             delete req.query.size;
-
-            CustomerMember.belongsTo(Customer, { foreignKey: 'customer_id' });
 
             const data = await CustomerMember.findAndCountAll({
                 limit,
