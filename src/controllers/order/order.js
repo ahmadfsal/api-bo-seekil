@@ -6,6 +6,7 @@ const { ORDER_STATUS_DONE } = require('../../constants/general.constant');
 const { Op } = require('sequelize');
 const { getPagination, getPagingData } = require('../../utils/pagination');
 const { currencyFormat } = require('../../utils/word-transformation');
+const { v4 } = require('uuid');
 
 const Order = db.order;
 const OrderItem = db.order_item;
@@ -27,7 +28,7 @@ module.exports = {
         }
 
         const customerBody = {
-            id: req.body.customer_id,
+            customer_id: v4(),
             name: req.body.customer_name,
             whatsapp: req.body.whatsapp,
             gender: req.body.gender,
@@ -515,7 +516,9 @@ module.exports = {
                                             dataOrder.dataValues;
                                         fcmSendNotification(
                                             'Transaksi Selesai',
-                                            `Transaksi ${order_id} selesai. Rp${currencyFormat(parseInt(total))} masuk ke laci, ya!`,
+                                            `Transaksi ${order_id} selesai. Rp${currencyFormat(
+                                                parseInt(total)
+                                            )} masuk ke laci, ya!`,
                                             order_id
                                         );
                                     }
