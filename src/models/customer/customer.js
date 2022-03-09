@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
             unique: true
         },
         customer_id: {
-            type: Sequelize.STRING(100),
+            type: Sequelize.STRING(255),
             references: {
                 model: 'customer_member',
                 key: 'customer_id'

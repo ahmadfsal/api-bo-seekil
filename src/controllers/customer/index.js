@@ -5,6 +5,7 @@ const callback = require('../../presenter/callback');
 const generateAccessToken = require('../../middleware/generate-access-token');
 const { Op } = require('sequelize');
 const { getPagination, getPagingData } = require('../../utils/pagination');
+const { v4 } = require('uuid');
 
 module.exports = {
     create: (req, res) => {
@@ -16,6 +17,7 @@ module.exports = {
         }
 
         const body = {
+            customer_id: req.body.customer_id,
             name: req.body.name,
             email: req.body.email,
             password: req.body.password
