@@ -43,7 +43,7 @@ module.exports = {
                     [Op.and]: [
                         req.query,
                         member_id
-                            ? { member_id: { [Op.all]: `%${member_id}%` } }
+                            ? { member_id: { [Op.substring]: member_id } }
                             : {}
                     ]
                 }

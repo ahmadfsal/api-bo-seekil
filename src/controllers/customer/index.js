@@ -41,7 +41,7 @@ module.exports = {
                 where: {
                     [Op.and]: [
                         req.query,
-                        name ? { name: { [Op.all]: `%${name}%` } } : {}
+                        name ? { name: { [Op.substring]: name } } : {}
                     ]
                 }
             });
