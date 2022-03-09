@@ -72,6 +72,7 @@ app.use(
     masterRoutes.paymentMethod
 );
 
+app.use('/customer/member', authenticateToken, customerRoutes.customerMember);
 app.use('/customer', authenticateToken, customerRoutes.customer);
 app.use('/auth', authRoutes);
 app.use('/spending-money', spendingMoneyRoutes);

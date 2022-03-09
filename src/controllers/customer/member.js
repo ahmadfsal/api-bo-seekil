@@ -1,5 +1,5 @@
 const db = require('../../models/db');
-const Customer = db.customer;
+const CustomerMember = db.customer_member;
 const callback = require('../../presenter/callback');
 const generateAccessToken = require('../../middleware/generate-access-token');
 const { Op } = require('sequelize');
@@ -15,33 +15,36 @@ module.exports = {
         }
 
         const body = {
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password
+            member_id: req.body.member_id,
+            customer_id: req.body.customer_id,
+            member_join_date: req.body.member_join_date,
+            expired_date: req.body.member_join_date
         };
 
-        Customer.create(body)
+        CustomerMember.create(body)
             .then((data) => callback.single(200, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },
 
     findAll: async (req, res) => {
-        const { name, page, size } = req.query;
+        const { member_id, page, size } = req.query;
         const { limit, offset } = getPagination(page, size);
 
         try {
-            delete req.query.name;
+            delete req.query.member_id;
             delete req.query.page;
             delete req.query.size;
 
-            const data = await Customer.findAndCountAll({
+            const data = await CustomerMember.findAndCountAll({
                 order: [['name', 'ASC']],
                 limit,
                 offset,
                 where: {
                     [Op.and]: [
                         req.query,
-                        name ? { name: { [Op.all]: `%${name}%` } } : {}
+                        member_id
+                            ? { member_id: { [Op.all]: `%${member_id}%` } }
+                            : {}
                     ]
                 }
             });
@@ -60,12 +63,13 @@ module.exports = {
     },
 
     findOne: (req, res) => {
-        const { id } = req.params;
+        const { member_id } = req.params;
 
-        Customer.findOne({ where: { id: id } })
+        CustomerMember.findOne({ where: { member_id } })
             .then((data) => callback.single(200, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },
+
     login: async (req, res) => {
         if (!req.body) {
             res.status(400).send({
@@ -74,9 +78,7 @@ module.exports = {
             return;
         }
 
-        Customer.findOne({
-            where: { email: req.body.email, password: req.body.password }
-        })
+        CustomerMember.findOne({ where: { member_id } })
             .then((data) => {
                 if (data) {
                     const token = generateAccessToken({
@@ -91,7 +93,7 @@ module.exports = {
                         200,
                         res,
                         null,
-                        'Akun tidak ditemukan, periksa kembali email dan password Anda'
+                        'Akun tidak ditemukan, periksa kembali ID Member Anda'
                     );
                 }
             })
@@ -99,34 +101,34 @@ module.exports = {
     },
 
     update: (req, res) => {
-        const id = req.params.id;
+        const member_id = req.params.member_id;
 
-        Customer.update(req.body, { where: { id: id } })
+        CustomerMember.update(req.body, { where: { member_id } })
             .then((num) => {
                 if (num == 1) {
-                    Customer.findOne({ where: { id: id } }).then((data) => {
-                        callback.single(200, res, data);
-                    });
+                    CustomerMember.findOne({ where: { member_id } }).then(
+                        (data) => callback.single(200, res, data)
+                    );
                 } else {
-                    callback.update(200, res, 'failed', id);
+                    callback.update(200, res, 'failed', member_id);
                 }
             })
             .catch((err) => callback.error(500, res, err.message));
     },
 
     delete: (req, res) => {
-        const id = req.params.id;
+        const member_id = req.params.member_id;
 
-        Customer.destroy({ where: { id: id } })
+        CustomerMember.destroy({ where: { member_id: member_id } })
             .then((num) => {
-                if (num == 1) callback.delete(200, res, 'success', id);
-                else callback.delete(200, res, 'failed', id);
+                if (num == 1) callback.delete(200, res, 'success', member_id);
+                else callback.delete(200, res, 'failed', member_id);
             })
             .catch((err) => callback.error(500, res, err.message));
     },
 
     deleteAll: (req, res) => {
-        Customer.destroy({
+        CustomerMember.destroy({
             where: {},
             truncate: false
         })
