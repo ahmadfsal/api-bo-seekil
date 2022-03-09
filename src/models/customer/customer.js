@@ -10,6 +10,9 @@ module.exports = (sequelize, Sequelize) => {
                 key: 'customer_id'
             }
         },
+        customer_id: {
+            type: Sequelize.STRING(100)
+        },
         name: {
             type: Sequelize.STRING(100)
         },

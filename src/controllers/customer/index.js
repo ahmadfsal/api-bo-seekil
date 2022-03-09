@@ -35,7 +35,7 @@ module.exports = {
             delete req.query.page;
             delete req.query.size;
 
-            Customer.belongsTo(CustomerMember, { foreignKey: 'id' });
+            Customer.belongsTo(CustomerMember, { foreignKey: 'customer_id' });
 
             const data = await Customer.findAndCountAll({
                 order: [['name', 'ASC']],
