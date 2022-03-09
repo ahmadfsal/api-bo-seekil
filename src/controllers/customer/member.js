@@ -36,7 +36,7 @@ module.exports = {
             delete req.query.size;
 
             const data = await CustomerMember.findAndCountAll({
-                order: [['join_member_date', 'ASC']],
+                // order: [['member_join_date', 'ASC']],
                 limit,
                 offset,
                 where: {
