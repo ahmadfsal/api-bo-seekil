@@ -73,12 +73,13 @@ module.exports = {
     },
 
     findOne: (req, res) => {
-        const { id } = req.params;
+        const { customer_id } = req.params;
 
-        Customer.findOne({ where: { id: id } })
+        Customer.findOne({ where: { customer_id } })
             .then((data) => callback.single(200, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },
+
     login: async (req, res) => {
         if (!req.body) {
             res.status(400).send({
@@ -112,28 +113,30 @@ module.exports = {
     },
 
     update: (req, res) => {
-        const id = req.params.id;
+        const customer_id = req.params.customer_id;
 
-        Customer.update(req.body, { where: { id: id } })
+        Customer.update(req.body, { where: { customer_id } })
             .then((num) => {
                 if (num == 1) {
-                    Customer.findOne({ where: { id: id } }).then((data) => {
-                        callback.single(200, res, data);
-                    });
+                    Customer.findOne({ where: { customer_id } }).then(
+                        (data) => {
+                            callback.single(200, res, data);
+                        }
+                    );
                 } else {
-                    callback.update(200, res, 'failed', id);
+                    callback.update(200, res, 'failed', customer_id);
                 }
             })
             .catch((err) => callback.error(500, res, err.message));
     },
 
     delete: (req, res) => {
-        const id = req.params.id;
+        const customer_id = req.params.customer_id;
 
-        Customer.destroy({ where: { id: id } })
+        Customer.destroy({ where: { customer_id } })
             .then((num) => {
-                if (num == 1) callback.delete(200, res, 'success', id);
-                else callback.delete(200, res, 'failed', id);
+                if (num == 1) callback.delete(200, res, 'success', customer_id);
+                else callback.delete(200, res, 'failed', customer_id);
             })
             .catch((err) => callback.error(500, res, err.message));
     },
