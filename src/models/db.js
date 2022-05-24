@@ -65,7 +65,9 @@ db.master_payment_method = require('./master/master-payment-method')(
 );
 // Customer
 db.customer = require('./customer/customer')(sequelize, Sequileze);
-db.customer_member = require('./customer/member')(sequelize, Sequileze);
+// Member
+db.customer_member = require('./member/member')(sequelize, Sequileze);
+db.member_points = require('./member/points')(sequelize, Sequileze);
 // Auth
 db.auth = require('./auth')(sequelize, Sequileze);
 // Spending Money = Table Pengeluaran

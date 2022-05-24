@@ -18,6 +18,7 @@ const authenticateToken = require('./src/middleware/authenticate-token');
 // Routes
 const masterRoutes = require('./src/routes/master');
 const customerRoutes = require('./src/routes/customer');
+const memberRoutes = require('./src/routes/member')
 const authRoutes = require('./src/routes/auth');
 const orderRoutes = require('./src/routes/order');
 const spendingMoneyRoutes = require('./src/routes/spending_money');
@@ -72,7 +73,7 @@ app.use(
     masterRoutes.paymentMethod
 );
 
-app.use('/customer/member', authenticateToken, customerRoutes.customerMember);
+app.use('/member', authenticateToken, memberRoutes.member);
 app.use('/customer', authenticateToken, customerRoutes.customer);
 app.use('/auth', authRoutes);
 app.use('/spending-money', spendingMoneyRoutes);

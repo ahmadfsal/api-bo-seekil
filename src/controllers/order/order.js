@@ -7,6 +7,7 @@ const { Op } = require('sequelize');
 const { getPagination, getPagingData } = require('../../utils/pagination');
 const { currencyFormat } = require('../../utils/word-transformation');
 const { v4 } = require('uuid');
+const cashbackPoint = require('../../helper/cashback-point');
 
 const Order = db.order;
 const OrderItem = db.order_item;
@@ -21,14 +22,13 @@ const MasterPaymentMethod = db.master_payment_method;
 const Customer = db.customer;
 
 module.exports = {
-    create: (req, res) => {
+    create: async (req, res) => {
         if (!req.body) {
             callback.error(400, res, 'Content can not be empty!');
             return;
         }
 
         const customerBody = {
-            customer_id: v4(),
             name: req.body.customer_name,
             whatsapp: req.body.whatsapp,
             gender: req.body.gender,
@@ -51,18 +51,25 @@ module.exports = {
             );
         };
 
-        if (customerBody.id) {
-            Customer.update(customerBody, { where: { id: customerBody.id } })
-                .then(() => {
-                    Customer.findOne({ where: { id: customerBody.id } }).then(
-                        ({ id }) => doCreate(id)
-                    );
-                })
-                .catch((err) => callback.error(500, res, err.message));
+        if (req.body.customer_id) {
+            try {
+                await Customer.update(customerBody, {
+                    where: { customer_id: req.body.customer_id }
+                });
+                doCreate(req.body.customer_id);
+            } catch (err) {
+                return callback.error(500, res, err.message);
+            }
         } else {
-            Customer.create(customerBody)
-                .then(({ id }) => doCreate(id))
-                .catch((err) => callback.error(500, res, err.message));
+            try {
+                const dataCustomer = await Customer.create({
+                    ...customerBody,
+                    customer_id: v4(),
+                });
+                doCreate(dataCustomer.customer_id);
+            } catch (err) {
+                return callback.error(500, res, err.message);
+            }
         }
     },
 
@@ -500,6 +507,7 @@ module.exports = {
                             where: { order_id: order_id }
                         });
                         if (resultOrder[0] === 1) {
+                            cashbackPoint(req, res, dataOrder.dataValues);
                             try {
                                 const resultOrderTracker =
                                     await OrderTracker.create({

@@ -3,6 +3,7 @@ const callback = require('../presenter/callback');
 const moment = require('moment');
 const randomStringGenerator = require('../utils/random-string-generator');
 const fcmSendNotification = require('../helper/fcm-notifications');
+const cashbackPoint = require('./cashback-point');
 
 module.exports = (model, req, res, customerId) => {
     const { Order, OrderTracker, OrderItem, OrderItemServices } = model;
@@ -73,6 +74,9 @@ module.exports = (model, req, res, customerId) => {
             order_id: data.dataValues.order_id,
             order_status_id: data.dataValues.order_status_id
         });
+
+        // this function will called if payment_status = lunas
+        cashbackPoint(req, res, data.dataValues);
 
         fcmSendNotification(
             'Transaksi Baru',

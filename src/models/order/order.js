@@ -10,7 +10,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING(100)
         },
         customer_id: {
-            type: Sequelize.INTEGER()
+            type: Sequelize.STRING(255)
         },
         order_type_id: {
             type: Sequelize.INTEGER(11),
