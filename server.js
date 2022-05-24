@@ -79,8 +79,6 @@ app.use('/auth', authRoutes);
 app.use('/spending-money', spendingMoneyRoutes);
 app.use('/fixed-monthly-expenses', fixedMonthlyExpensesRoutes);
 
-// app.use('/statistik/',authenticateToken,statictisRoutes);
-
 app.listen(PORT, async () => {
     try {
         await db.sequelize.authenticate();
