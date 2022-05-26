@@ -10,7 +10,11 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING(100)
         },
         customer_id: {
-            type: Sequelize.STRING(255)
+            type: Sequelize.STRING(255),
+            references: {
+                model: 'customer',
+                key: 'customer_id'
+            }
         },
         order_type_id: {
             type: Sequelize.INTEGER(11),
