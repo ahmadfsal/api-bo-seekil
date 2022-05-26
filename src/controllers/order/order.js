@@ -239,7 +239,7 @@ module.exports = {
         Order.belongsTo(MasterPaymentMethod, {
             foreignKey: 'payment_method_id'
         });
-        Order.belongsTo(Customer, { foreignKey: 'customer_id' });
+        Order.belongsTo(Customer, { foreignKey: 'customer_id', targetKey: 'customer_id' });
 
         Order.findOne({
             where: { order_id: order_id },
@@ -330,7 +330,7 @@ module.exports = {
         Order.belongsTo(MasterPaymentMethod, {
             foreignKey: 'payment_method_id'
         });
-        Order.belongsTo(Customer, { foreignKey: 'customer_id' });
+        Order.belongsTo(Customer, { foreignKey: 'customer_id', targetKey: 'customer_id' });
 
         const { customer_id } = req.params;
 
@@ -445,7 +445,7 @@ module.exports = {
     },
 
     findTopCustomers: (req, res) => {
-        Order.belongsTo(Customer, { foreignKey: 'customer_id' });
+        Order.belongsTo(Customer, { foreignKey: 'customer_id', targetKey: 'customer_id' });
         Order.findAll({
             limit: 3,
             raw: true,
