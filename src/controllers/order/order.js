@@ -87,7 +87,7 @@ module.exports = {
             Order.belongsTo(MasterPaymentMethod, {
                 foreignKey: 'payment_method_id'
             });
-            Order.belongsTo(Customer, { foreignKey: 'customer_id' });
+            // Order.belongsTo(Customer, { foreignKey: 'customer_id' });
 
             delete req.query.customer_name;
             delete req.query.start_date;
@@ -194,18 +194,18 @@ module.exports = {
                         model: MasterPromo,
                         required: false
                     },
-                    {
-                        attributes: {
-                            exclude: [
-                                'id',
-                                'password',
-                                'createdAt',
-                                'updatedAt'
-                            ]
-                        },
-                        model: Customer,
-                        required: false
-                    }
+                    // {
+                    //     attributes: {
+                    //         exclude: [
+                    //             'id',
+                    //             'password',
+                    //             'createdAt',
+                    //             'updatedAt'
+                    //         ]
+                    //     },
+                    //     model: Customer,
+                    //     required: false
+                    // }
                 ]
             });
 
