@@ -87,7 +87,7 @@ module.exports = {
             Order.belongsTo(MasterPaymentMethod, {
                 foreignKey: 'payment_method_id'
             });
-            Order.belongsTo(Customer, { foreignKey: 'customer_id' });
+            Order.belongsTo(Customer, { foreignKey: 'customer_id', targetKey: 'customer_id' });
 
             delete req.query.customer_name;
             delete req.query.start_date;
