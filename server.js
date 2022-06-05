@@ -23,6 +23,7 @@ const authRoutes = require('./src/routes/auth');
 const orderRoutes = require('./src/routes/order');
 const spendingMoneyRoutes = require('./src/routes/spending_money');
 const fixedMonthlyExpensesRoutes = require('./src/routes/fixed_monthly_expenses');
+const statisticRoutes = require('./src/routes/statistics')
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -78,6 +79,7 @@ app.use('/customer', authenticateToken, customerRoutes.customer);
 app.use('/auth', authRoutes);
 app.use('/spending-money', spendingMoneyRoutes);
 app.use('/fixed-monthly-expenses', fixedMonthlyExpensesRoutes);
+app.use('/statistic', authenticateToken, statisticRoutes);
 
 app.listen(PORT, async () => {
     try {

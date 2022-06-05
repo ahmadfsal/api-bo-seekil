@@ -27,7 +27,9 @@ module.exports = (model, req, res, customerId) => {
         total: req.body.total
     };
 
-    Order.create(body).then(async (data) => {
+    try {
+        const data = await Order.create(body);
+
         if (req.body.items && req.body.items.length > 0) {
             const arrItems = req.body.items.map((item) => {
                 return {
@@ -40,48 +42,60 @@ module.exports = (model, req, res, customerId) => {
                 };
             });
 
-            OrderItem.bulkCreate(arrItems)
-                .then((dataItems) => {
-                    const arrServices = arrItems.reduce((prev, item) => {
-                        const appended = item.services_id.map((service_id) => {
+            try {
+                const dataItems = await OrderItem.bulkCreate(arrItems);
+                const arrServices = arrItems.reduce((prev, item) => {
+                    const appended = item.services_id.map((service_id) => {
+                        return {
+                            item_id: item.item_id,
+                            service_id: service_id
+                        };
+                    });
+                    return [...prev, ...appended];
+                }, []);
+
+                try {
+                    const dataServices = await OrderItemServices.bulkCreate(arrServices);
+                    return callback.single(200, res, {
+                        ...data.dataValues,
+                        item: dataItems.map((item) => {
                             return {
-                                item_id: item.item_id,
-                                service_id: service_id
+                                ...item.dataValues,
+                                service: dataServices
                             };
-                        });
-                        return [...prev, ...appended];
-                    }, []);
-
-                    OrderItemServices.bulkCreate(arrServices)
-                        .then((dataServices) => {
-                            callback.single(200, res, {
-                                ...data.dataValues,
-                                item: dataItems.map((item) => {
-                                    return {
-                                        ...item.dataValues,
-                                        service: dataServices
-                                    };
-                                })
-                            });
                         })
-                        .catch((err) => callback.error(500, err.message));
-                })
-                .catch((err) => callback.error(500, err.message));
-        } else {
-            callback.single(200, res, data);
+                    });
+                } catch (err) {
+                    callback.error(500, err.message);
+                }
+            } catch (err) {
+                callback.error(500, err.message);
+            }
+
+            await OrderTracker.create({
+                order_id: data.dataValues.order_id,
+                order_status_id: data.dataValues.order_status_id
+            });
+
+            // this function will called if payment_status = lunas
+            cashbackPoint(req, res, data.dataValues);
+
+            try {
+                const dataCustomer = await Customer.findOne({
+                    where: { customer_id: customerId }
+                });
+                const orderId = data.dataValues.order_id;
+                const customerName = dataCustomer.dataValues.name;
+                fcmSendNotification(
+                    'Transaksi Baru',
+                    `Transaksi ${orderId} atas nama ${customerName.toUpperCase()} berhasil dibuat. Cek sekarang!`,
+                    orderId
+                );
+            } catch (error) {
+                callback.error(500, res, err.message)
+            }
         }
-        await OrderTracker.create({
-            order_id: data.dataValues.order_id,
-            order_status_id: data.dataValues.order_status_id
-        });
-
-        // this function will called if payment_status = lunas
-        cashbackPoint(req, res, data.dataValues);
-
-        fcmSendNotification(
-            'Transaksi Baru',
-            `Transaksi ${data.dataValues.order_id} berhasil dibuat. Cek sekarang!`,
-            data.dataValues.order_id
-        );
-    });
+    } catch (err) {
+        callback.error(500, res, err.message)
+    }
 };

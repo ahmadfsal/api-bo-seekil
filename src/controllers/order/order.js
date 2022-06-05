@@ -43,7 +43,7 @@ module.exports = {
                     Order,
                     OrderTracker,
                     OrderItem,
-                    OrderItemServices
+                    OrderItemServices,
                 },
                 req,
                 res,
@@ -109,11 +109,11 @@ module.exports = {
                                     : {},
                                 start_date && end_date
                                     ? {
-                                          order_date: {
-                                              [Op.gte]: `${start_date} 00:00:00`,
-                                              [Op.lte]: `${end_date} 23:59:59`
-                                          }
-                                      }
+                                        order_date: {
+                                            [Op.gte]: `${start_date} 00:00:00`,
+                                            [Op.lte]: `${end_date} 23:59:59`
+                                        }
+                                    }
                                     : {}
                             ]
                         }
@@ -206,7 +206,7 @@ module.exports = {
                         model: Customer,
                         required: false
                     }
-                ]
+                ],
             });
 
             const total_order = data.rows.reduce(
@@ -520,15 +520,24 @@ module.exports = {
                                         resultOrderTracker.dataValues
                                             .order_status_id === 7
                                     ) {
-                                        const { order_id, total } =
+                                        const { order_id, total, customer_id } =
                                             dataOrder.dataValues;
-                                        fcmSendNotification(
-                                            'Transaksi Selesai',
-                                            `Transaksi ${order_id} selesai. Rp${currencyFormat(
-                                                parseInt(total)
-                                            )} masuk ke laci, ya!`,
-                                            order_id
-                                        );
+
+                                        try {
+                                            const dataCustomer = await Customer.findOne({
+                                                where: { customer_id }
+                                            });
+                                            const customerName = dataCustomer.dataValues.name;
+                                            fcmSendNotification(
+                                                'Transaksi Selesai',
+                                                `Transaksi ${order_id} atas nama ${customerName.toUpperCase()} selesai. Rp${currencyFormat(
+                                                    parseInt(total)
+                                                )} masuk ke laci, ya!`,
+                                                order_id
+                                            );
+                                        } catch (error) {
+                                            callback.error(500, res, err.message)
+                                        }
                                     }
                                     callback.update(
                                         200,
@@ -585,13 +594,22 @@ module.exports = {
                             });
                         });
                         await OrderTracker.destroy({
-                            where: { order_id: order_id }
+                            where: { order_id }
                         });
-                        fcmSendNotification(
-                            'Transaksi Dihapus',
-                            `Transaksi ${data.dataValues.order_id} udah dihapus. Yuk tingkatkan lagi usahamu!`,
-                            order_id
-                        );
+
+                        try {
+                            const dataCustomer = await Customer.findOne({
+                                where: { customer_id }
+                            });
+                            const customerName = dataCustomer.dataValues.name;
+                            fcmSendNotification(
+                                'Transaksi Dihapus',
+                                `Transaksi ${order_id} atas nama ${customerName.toUpperCase()} udah dihapus. Yuk tingkatkan lagi usahamu!`,
+                                order_id
+                            );
+                        } catch (error) {
+                            callback.error(500, res, err.message)
+                        }
 
                         return callback.delete(200, res, 'success', order_id);
                     } else {

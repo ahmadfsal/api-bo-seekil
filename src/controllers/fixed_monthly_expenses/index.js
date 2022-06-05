@@ -1,8 +1,9 @@
-const { Sequileze } = require('../../models/db');
+const { Sequileze, sequelize } = require('../../models/db');
 const db = require('../../models/db');
 const callback = require('../../presenter/callback');
 const Op = Sequileze.Op;
 const moment = require('moment');
+const { PAYMENT_METHOD_CASH, PAYMENT_PAID, PAYMENT_METHOD_DANA, PAYMENT_METHOD_SHOPEEPAY, PAYMENT_UNPAID } = require('../../constants/general.constant');
 const FixedMonthlyExpenses = db.fixed_monthly_expenses;
 const SpendingMoney = db.store_spending_money;
 const Order = db.order;
@@ -26,6 +27,7 @@ module.exports = {
             .then((data) => callback.single(200, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },
+
     findAll: (req, res) => {
         FixedMonthlyExpenses.findAndCountAll({
             order: [['name', 'ASC']]
@@ -54,6 +56,7 @@ module.exports = {
             })
             .catch((err) => callback.error(500, res, err.message));
     },
+
     findOne: (req, res) => {
         const { id } = req.params;
 
@@ -61,6 +64,7 @@ module.exports = {
             .then((data) => callback.single(200, res, data))
             .catch((err) => callback.error(500, res, err.message));
     },
+
     countAllIncomeAndExpenditure: async (req, res) => {
         const firstDay = `${moment()
             .startOf('month')
@@ -76,8 +80,9 @@ module.exports = {
                         [Op.gte]: firstDay,
                         [Op.lte]: lastDay
                     }
-                }
+                },
             });
+
             const spendingMoneyData = await SpendingMoney.findAll({
                 where: {
                     createdAt: {
@@ -105,11 +110,24 @@ module.exports = {
                 0
             );
 
-            const totalOrderPaid = orderData
-                .filter((e) => e['payment_status'] === 'lunas')
+            const orderPaidCash = orderData
+                .filter((e) => e['payment_method_id'] === PAYMENT_METHOD_CASH && e['payment_status'] === PAYMENT_PAID)
                 .reduce((acc, curr) => acc + curr['total'], 0);
+
+            const orderPaidDana = orderData
+                .filter((e) => e['payment_method_id'] === PAYMENT_METHOD_DANA && e['payment_status'] === PAYMENT_PAID)
+                .reduce((acc, curr) => acc + curr['total'], 0);
+
+            const orderPaidShopeepay = orderData
+                .filter((e) => e['payment_method_id'] === PAYMENT_METHOD_SHOPEEPAY && e['payment_status'] === PAYMENT_PAID)
+                .reduce((acc, curr) => acc + curr['total'], 0);
+
+            const totalOrderPaid = orderData
+                .filter((e) => e['payment_status'] === PAYMENT_PAID)
+                .reduce((acc, curr) => acc + curr['total'], 0);
+
             const totalOrderUnpaid = orderData
-                .filter((e) => e['payment_status'] === 'belum_lunas')
+                .filter((e) => e['payment_status'] === PAYMENT_UNPAID)
                 .reduce((acc, curr) => acc + curr['total'], 0);
 
             const totalExpenditure =
@@ -121,7 +139,12 @@ module.exports = {
                 data: {
                     incoming: {
                         items: orderQty,
-                        paid: totalOrderPaid,
+                        paid: {
+                            total_paid: totalOrderPaid,
+                            cash: orderPaidCash,
+                            dana: orderPaidDana,
+                            shopeepay: orderPaidShopeepay,
+                        },
                         unpaid: totalOrderUnpaid,
                         total_incoming: totalIncoming
                     },
@@ -138,8 +161,9 @@ module.exports = {
                     status: 'OK'
                 }
             });
-        } catch (e) {}
+        } catch (e) { }
     },
+
     update: (req, res) => {
         const id = req.params.id;
 
@@ -157,6 +181,7 @@ module.exports = {
             })
             .catch((err) => callback.error(500, res, err.message));
     },
+
     delete: (req, res) => {
         const id = req.params.id;
 
@@ -167,6 +192,7 @@ module.exports = {
             })
             .catch((err) => callback.error(500, res, err.message));
     },
+    
     deleteAll: (req, res) => {
         FixedMonthlyExpenses.destroy({
             where: {},
