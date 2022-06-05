@@ -5,7 +5,7 @@ const randomStringGenerator = require('../utils/random-string-generator');
 const fcmSendNotification = require('../helper/fcm-notifications');
 const cashbackPoint = require('./cashback-point');
 
-module.exports = (model, req, res, customerId) => {
+module.exports = async (model, req, res, customerId) => {
     const { Order, OrderTracker, OrderItem, OrderItemServices } = model;
 
     const body = {
