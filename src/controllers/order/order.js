@@ -531,7 +531,7 @@ module.exports = {
                                             const customerName = dataCustomer.dataValues.name;
                                             fcmSendNotification(
                                                 'Transaksi Selesai',
-                                                `Transaksi ${order_id} atas nama ${customerName.toUpperCase()} selesai. Rp${currencyFormat(
+                                                `Transaksi atas nama ${customerName.toUpperCase()} selesai. Rp${currencyFormat(
                                                     parseInt(total)
                                                 )} masuk ke laci, ya!`,
                                                 order_id
@@ -594,23 +594,16 @@ module.exports = {
                                 });
                             });
                         });
-                        await OrderTracker.destroy({
-                            where: { order_id }
-                        });
 
-                        try {
-                            const dataCustomer = await Customer.findOne({
-                                where: { customer_id }
-                            });
-                            const customerName = dataCustomer.dataValues.name;
-                            fcmSendNotification(
-                                'Transaksi Dihapus',
-                                `Transaksi ${order_id} atas nama ${customerName.toUpperCase()} udah dihapus. Yuk tingkatkan lagi usahamu!`,
-                                order_id
-                            );
-                        } catch (error) {
-                            callback.error(500, res, err.message)
-                        }
+                        await OrderTracker.destroy({ where: { order_id } });
+                        
+                        const dataCustomer = await Customer.findOne({ where: { customer_id } });
+                        const customerName = dataCustomer.dataValues.name;
+                        fcmSendNotification(
+                            'Transaksi Dihapus',
+                            `Transaksi atas nama ${customerName.toUpperCase()} udah dihapus. Yuk tingkatkan lagi usahamu!`,
+                            order_id
+                        );
 
                         return callback.delete(200, res, 'success', order_id);
                     } else {

@@ -73,7 +73,7 @@ module.exports = async (model, req, res, customerId) => {
                         const customerName = dataCustomer.dataValues.name;
                         fcmSendNotification(
                             'Transaksi Baru',
-                            `Transaksi ${orderId} atas nama ${customerName.toUpperCase()} berhasil dibuat. Cek sekarang!`,
+                            `Transaksi atas nama ${customerName.toUpperCase()} berhasil dibuat. Cek sekarang!`,
                             orderId
                         );
                     } catch (error) {
