@@ -44,6 +44,7 @@ module.exports = {
                     OrderTracker,
                     OrderItem,
                     OrderItemServices,
+                    Customer
                 },
                 req,
                 res,

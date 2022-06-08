@@ -6,7 +6,7 @@ const fcmSendNotification = require('../helper/fcm-notifications');
 const cashbackPoint = require('./cashback-point');
 
 module.exports = async (model, req, res, customerId) => {
-    const { Order, OrderTracker, OrderItem, OrderItemServices } = model;
+    const { Order, OrderTracker, OrderItem, OrderItemServices, Customer } = model;
 
     const body = {
         order_id: `SO${moment
