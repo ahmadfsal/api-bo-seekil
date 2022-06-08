@@ -76,24 +76,24 @@ module.exports = async (model, req, res, customerId) => {
                 order_id: data.dataValues.order_id,
                 order_status_id: data.dataValues.order_status_id
             });
+        }
 
-            // this function will called if payment_status = lunas
-            cashbackPoint(req, res, data.dataValues);
+        // this function will called if payment_status = lunas
+        cashbackPoint(req, res, data.dataValues);
 
-            try {
-                const dataCustomer = await Customer.findOne({
-                    where: { customer_id: customerId }
-                });
-                const orderId = data.dataValues.order_id;
-                const customerName = dataCustomer.dataValues.name;
-                fcmSendNotification(
-                    'Transaksi Baru',
-                    `Transaksi ${orderId} atas nama ${customerName.toUpperCase()} berhasil dibuat. Cek sekarang!`,
-                    orderId
-                );
-            } catch (error) {
-                callback.error(500, res, err.message)
-            }
+        try {
+            const dataCustomer = await Customer.findOne({
+                where: { customer_id: customerId }
+            });
+            const orderId = data.dataValues.order_id;
+            const customerName = dataCustomer.dataValues.name;
+            fcmSendNotification(
+                'Transaksi Baru',
+                `Transaksi ${orderId} atas nama ${customerName.toUpperCase()} berhasil dibuat. Cek sekarang!`,
+                orderId
+            );
+        } catch (error) {
+            callback.error(500, res, err.message)
         }
     } catch (err) {
         callback.error(500, res, err.message)
