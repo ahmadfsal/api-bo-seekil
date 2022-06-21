@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const db = require('../../models/db');
 const Services = db.master_services;
 const callback = require('../../presenter/callback');
@@ -17,24 +18,28 @@ module.exports = {
             .catch((err) => callback.create(200, res, 'failed', data));
     },
 
-    findAll: (req, res) => {
-        Services.belongsTo(MasterServiceCategory, { foreignKey: 'category_id' });
-        Services.findAndCountAll({
-            // limit: 10,
-            // offset: 1,
-            order: [['name', 'ASC']],
-            include: [
-                {
-                    attributes: {
-                        exclude: ['id', 'createdAt', 'updatedAt']
+    findAll: async (req, res) => {
+        const { category_id } = req.query;
+
+        try {
+            Services.belongsTo(MasterServiceCategory, { foreignKey: 'category_id' });
+            const data = await Services.findAndCountAll({
+                order: [['name', 'ASC']],
+                where: req.query,
+                include: [
+                    {
+                        attributes: {
+                            exclude: ['id', 'createdAt', 'updatedAt']
+                        },
+                        model: MasterServiceCategory,
+                        required: false
                     },
-                    model: MasterServiceCategory,
-                    required: false
-                },
-            ]
-        })
-            .then((data) => callback.list(200, req, res, data))
-            .catch((err) => callback.error(500, res, err.message));
+                ]
+            })
+            return callback.list(200, req, res, data);
+        } catch (err) {
+            callback.error(500, res, err.message);
+        }
     },
 
     findOne: (req, res) => {
