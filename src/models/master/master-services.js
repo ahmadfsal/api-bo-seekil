@@ -17,6 +17,13 @@ module.exports = (sequelize, Sequelize) => {
         description: {
             type: Sequelize.STRING(255)
         },
+        category_id: {
+            type: Sequelize.INTEGER(),
+            references: {
+                model: 'master_service_category',
+                key: 'id'
+            }
+        }
     })
 
     return MasterService

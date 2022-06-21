@@ -77,5 +77,7 @@ db.fixed_monthly_expenses = require('./fixed_monthly_expenses')(
     sequelize,
     Sequileze
 );
+// Category
+db.master_service_category = require('./master_service_category')(sequelize, Sequileze);
 
 module.exports = db;

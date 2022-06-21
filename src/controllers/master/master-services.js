@@ -1,6 +1,7 @@
 const db = require('../../models/db');
 const Services = db.master_services;
 const callback = require('../../presenter/callback');
+const MasterServiceCategory = db.master_service_category;
 
 module.exports = {
     create: (req, res) => {
@@ -17,10 +18,20 @@ module.exports = {
     },
 
     findAll: (req, res) => {
+        Services.belongsTo(MasterServiceCategory, { foreignKey: 'category_id' });
         Services.findAndCountAll({
             // limit: 10,
             // offset: 1,
-            order: [['name', 'ASC']]
+            order: [['name', 'ASC']],
+            include: [
+                {
+                    attributes: {
+                        exclude: ['id', 'createdAt', 'updatedAt']
+                    },
+                    model: MasterServiceCategory,
+                    required: false
+                },
+            ]
         })
             .then((data) => callback.list(200, req, res, data))
             .catch((err) => callback.error(500, res, err.message));
