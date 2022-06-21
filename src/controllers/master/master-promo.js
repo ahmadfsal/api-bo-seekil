@@ -16,10 +16,15 @@ module.exports = {
             .catch((err) => callback.create(200, res, 'failed', data));
     },
 
-    findAll: (req, res) => {
-        MasterPromo.findAndCountAll()
-            .then((data) => callback.list(200, req, res, data))
-            .catch((err) => callback.error(500, res, err.message));
+    findAll: async (req, res) => {
+        try {
+            const data = await MasterPromo.findAndCountAll({
+                where: req.query,
+            });
+            return callback.list(200, req, res, data);
+        } catch (error) {
+            callback.error(500, res, error.message);
+        }
     },
 
     findOne: (req, res) => {

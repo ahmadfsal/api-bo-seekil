@@ -19,8 +19,6 @@ module.exports = {
     },
 
     findAll: async (req, res) => {
-        const { category_id } = req.query;
-
         try {
             Services.belongsTo(MasterServiceCategory, { foreignKey: 'category_id' });
             const data = await Services.findAndCountAll({
